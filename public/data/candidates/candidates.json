@@ -89,7 +89,7 @@
                         "visibility":  "internal",
                         "status":  "active",
                         "created_by":  "u-admin",
-                        "updated_by":  "u-writer",
+                        "updated_by":  "u-assistant",
                         "timestamps":  {
                                            "created_at":  "2025-08-01T09:15:00.000Z",
                                            "updated_at":  "2026-03-05T12:00:00.000Z"
@@ -99,7 +99,7 @@
                                                       "id":  "n-rahul-1",
                                                       "text":  "Dataset collection is pending department approval.",
                                                       "visibility":  "internal",
-                                                      "created_by":  "u-writer",
+                                                      "created_by":  "u-assistant",
                                                       "created_at":  "2026-03-05T12:00:00.000Z"
                                                   }
                                               ],
@@ -298,7 +298,7 @@
                         "visibility":  "sanitized_external",
                         "status":  "active",
                         "created_by":  "u-admin",
-                        "updated_by":  "u-writer",
+                        "updated_by":  "u-assistant",
                         "timestamps":  {
                                            "created_at":  "2026-01-05T09:00:00.000Z",
                                            "updated_at":  "2026-03-20T14:00:00.000Z"
@@ -308,7 +308,7 @@
                                                       "id":  "n-nina-1",
                                                       "text":  "Share sanitized reading list only.",
                                                       "visibility":  "sanitized_external",
-                                                      "created_by":  "u-writer",
+                                                      "created_by":  "u-assistant",
                                                       "created_at":  "2026-03-20T14:00:00.000Z"
                                                   }
                                               ],

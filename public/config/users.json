@@ -16,25 +16,11 @@
       "note": "Optional assistant role for data entry, daily logs, deadlines, follow-up notes, meeting details, attendees, and action items."
     },
     {
-      "id": "u-writer",
-      "name": "Research Associate",
-      "role": "WRITER",
-      "email": "writer@example.edu",
-      "note": "Can prepare append-only JSON changes for commit."
-    },
-    {
       "id": "u-viewer",
       "name": "Department Viewer",
       "role": "VIEWER",
       "email": "viewer@example.edu",
       "note": "Read-only portal role."
-    },
-    {
-      "id": "u-external",
-      "name": "External Intern",
-      "role": "RESTRICTED_EXTERNAL",
-      "email": "intern@example.edu",
-      "note": "Sees only sanitized content."
     }
   ]
 }

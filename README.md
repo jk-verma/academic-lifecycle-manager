@@ -1,6 +1,6 @@
-# Academic Lifecycle Manager (ALM)
+# Academic Lifecycle Manager
 
-Academic Lifecycle Manager (ALM) is a GitHub Pages-friendly academic research lifecycle portal for a faculty supervisor. It is designed as a static React + Vite application using repository JSON files as the data source.
+Academic Lifecycle Manager is a GitHub Pages-friendly academic life management portal for Dr. Jitendra Kumar Verma and trusted assistants. It is designed as a static React + Vite application using repository JSON files as the data source.
 
 The app supports two working areas:
 
@@ -8,7 +8,7 @@ The app supports two working areas:
 - Faculty Academic Workbench for publications, books, chapters, conference papers, projects, consultancy, MOOCs, and custom academic activities
 - Daily Planner for teaching, research, supervision, projects, administration, external engagements, and custom work
 - Deadline Calendar for submissions, revisions, follow-ups, project reports, meetings, milestones, teaching deliverables, consultancy, and MOOC milestones
-- Teaching, Admin Work, External Engagements, Projects & Sponsored Work, Research, and Reports pages
+- Teaching, Admin Work, External Engagements, Career Mobility, Projects & Sponsored Work, Research, and Reports pages
 - Academic Year views for past-year tracking and carry-forward work
 
 ## GitHub Pages Architecture
@@ -30,11 +30,9 @@ Roles are logical UI modes loaded from `public/config/users.json` and `public/co
 
 - `ADMIN`: full UI access, can archive records in local browser state, can manage visibility labels by editing config files
 - `ASSISTANT`: can create entries, update permitted records, add daily logs, deadlines, follow-up notes, meeting details, attendees, and action items
-- `WRITER`: can append notes and prepare exportable JSON changes, but deletion is disabled
 - `VIEWER`: read-only mode
-- `RESTRICTED_EXTERNAL`: sees only sanitized content
 
-Writing rights in the static UI are available to `ADMIN`, `ASSISTANT`, and legacy `WRITER`. `VIEWER` and `RESTRICTED_EXTERNAL` do not receive local editor/export controls for prepared writing changes. Archive/correction/close controls remain admin-oriented.
+Writing rights in the static UI are available to `ADMIN` and `ASSISTANT` only. `VIEWER` does not receive local editor/export controls for prepared writing changes. Archive/correction/close controls remain admin-oriented.
 
 These roles are not secure authentication. They are data and UI policies for a static trusted-user portal. The code is structured so these roles can later map to real backend auth.
 
@@ -111,6 +109,8 @@ Hash routes are GitHub Pages safe:
 - `#/admin-work/<record_id>`
 - `#/external`
 - `#/external/<record_id>`
+- `#/career-mobility`
+- `#/career-mobility/<record_id>`
 - `#/reports`
 - `#/activities`
 - `#/activities/<activity_id>`
@@ -177,7 +177,7 @@ For simple edits:
 For UI-assisted edits:
 
 1. Open the app.
-2. Choose `ADMIN` or `WRITER` logical role.
+2. Choose `ADMIN` or `ASSISTANT` logical role.
 3. Append notes from meeting or workbench detail pages, or prepare a structured draft on the Data page.
 4. Preview the local draft and JSON diff-style summary.
 5. Export a record-specific JSON draft or full JSON bundle.

@@ -29,7 +29,6 @@ export function maskRecord(store, role, record, fields) {
 
 export function visibleByRole(store, role, records, fields) {
   return records
-    .filter((record) => role !== 'RESTRICTED_EXTERNAL' || canSee(store, role, record.visibility))
     .map((record) => maskRecord(store, role, record, fields));
 }
 

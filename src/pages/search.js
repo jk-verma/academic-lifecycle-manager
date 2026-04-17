@@ -25,5 +25,6 @@ export function searchPage(ctx) {
 function routeName(module) {
   if (module === 'admin_work') return 'admin-work';
   if (module === 'external_engagements') return 'external';
+  if (module === 'career_mobility') return 'career-mobility';
   return module;
 }

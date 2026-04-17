@@ -6,7 +6,7 @@ export function activitiesPage(ctx) {
   const activities = structuredFilter(ctx.visibleActivities(), ctx.filters);
   return `${pageHeader('Daily Planner', 'Daily academic, research, supervision, administration, and engagement logs.')}
     ${ctx.renderFilters()}
-    ${ctx.canWrite() ? activityForm(ctx) : '<p class="notice">Daily activity writing is available only to ADMIN, ASSISTANT, and WRITER roles.</p>'}
+    ${ctx.canWrite() ? activityForm(ctx) : '<p class="notice">Daily activity writing is available only to ADMIN and ASSISTANT roles.</p>'}
     <div class="grid">${activities.map((activity) => recordCard({
       title: activity.title,
       meta: `${activity.date} | ${activity.category} | ${activity.priority}`,

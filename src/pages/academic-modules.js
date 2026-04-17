@@ -39,6 +39,10 @@ export function externalEngagementsPage(ctx) {
   return academicModulePage(ctx, 'external_engagements', 'External Engagements', 'Visiting faculty, talks, workshops, and consultancy engagements.');
 }
 
+export function careerMobilityPage(ctx) {
+  return academicModulePage(ctx, 'career_mobility', 'Career Mobility', 'Job applications, deputation, lien, extraordinary leave movement, and contractual opportunities.');
+}
+
 export function academicModulePage(ctx, module, title, subtitle) {
   const items = ctx.visibleAcademicLife().filter((item) => item.module === module);
   const form = ctx.canWrite() ? academicRecordForm(module, title, ctx) : '<p class="notice">This role is read-only for local data entry.</p>';
@@ -84,14 +88,35 @@ function academicRecordForm(module, title, ctx) {
     <form class="record-form" data-academic-module="${escapeHtml(module)}">
       <input name="title" required placeholder="Title" />
       <input name="sub_type" placeholder="Subtype" />
+      ${moduleSpecificFields(module)}
       <input name="notes" placeholder="Initial append-only note" />
       <input name="academic_year_current" placeholder="Academic year" value="2025-2026" />
-      <select name="status"><option>active</option><option>in_progress</option><option>planned</option><option>completed</option></select>
+      <select name="status">${statusOptions(module)}</select>
       <select name="priority"><option>low</option><option>medium</option><option>high</option></select>
       <select name="visibility">${ctx.store.permissions.visibility_levels.map((item) => `<option>${escapeHtml(item)}</option>`).join('')}</select>
       <button>Add local record</button>
     </form>
   </section>`;
+}
+
+function moduleSpecificFields(module) {
+  if (module !== 'career_mobility') return '';
+  return `<input name="institution_name" placeholder="Institution name" />
+      <input name="role_title" placeholder="Role title" />
+      <select name="opportunity_type">
+        <option>job_application</option>
+        <option>deputation</option>
+        <option>lien</option>
+        <option>extraordinary_leave</option>
+        <option>contractual_role</option>
+        <option>visiting_position</option>
+        <option>other</option>
+      </select>
+      <input name="employment_basis" placeholder="Employment basis" />
+      <input name="place_city" placeholder="City" />
+      <input name="place_country" placeholder="Country" />
+      <input name="application_deadline" type="date" />
+      <input name="application_date" type="date" />`;
 }
 
 function firstVisibleNote(item) {
@@ -107,5 +132,13 @@ function stripLargeArrays(item) {
 function routeName(module) {
   if (module === 'admin_work') return 'admin-work';
   if (module === 'external_engagements') return 'external';
+  if (module === 'career_mobility') return 'career-mobility';
   return module;
+}
+
+function statusOptions(module) {
+  const statuses = module === 'career_mobility'
+    ? ['planned', 'applied', 'no_shortlisting', 'shortlisted', 'noc_required', 'noc_from_employer', 'interview', 'no_selection', 'selected', 'technical_resignation', 'joined', 'closed']
+    : ['active', 'in_progress', 'planned', 'completed'];
+  return statuses.map((status) => `<option>${escapeHtml(status)}</option>`).join('');
 }

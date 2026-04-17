@@ -3,7 +3,7 @@ import { MASK } from '../utils/visibility.js';
 
 export function pageHeader(title, subtitle, meta = '') {
   return `<section class="page-title">
-    <p class="eyebrow">Academic Lifecycle Manager (ALM)</p>
+    <p class="eyebrow">Academic Lifecycle Manager</p>
     <h2>${escapeHtml(title)}</h2>
     <p>${escapeHtml(subtitle)}</p>
     ${meta ? `<p class="data-updated">${escapeHtml(meta)}</p>` : ''}

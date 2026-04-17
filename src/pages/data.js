@@ -14,11 +14,11 @@ export function dataPage(ctx) {
         <select name="visibility">${ctx.store.permissions.visibility_levels.map((item) => `<option>${escapeHtml(item)}</option>`).join('')}</select>
         <button>Preview draft</button>
       </form>
-    </section>` : `<section class="panel"><h3>Read-only role</h3><p>Writing tools are available only to ADMIN and WRITER.</p></section>`;
+    </section>` : `<section class="panel"><h3>Read-only role</h3><p>Writing tools are available only to ADMIN and ASSISTANT.</p></section>`;
   const exchange = ctx.canWrite() ? `
       <section class="panel"><h3>Export current data</h3><p>Download all loaded JSON data for review or backup.</p><button id="export-json">Export JSON bundle</button></section>
       <section class="panel"><h3>Import JSON bundle</h3><p>Load a previously exported bundle into local browser state.</p><label class="upload">Import JSON<input id="import-json" type="file" accept="application/json" /></label></section>` : `
-      <section class="panel"><h3>Import/export unavailable</h3><p>Import and export writing tools are available only to ADMIN and WRITER.</p></section>`;
+      <section class="panel"><h3>Import/export unavailable</h3><p>Import and export writing tools are available only to ADMIN and ASSISTANT.</p></section>`;
   return `${pageHeader('Data / Import-Export', 'Static JSON authoring workflow with preview before export.')}
     <div class="grid two">
       ${editor}

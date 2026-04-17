@@ -5,7 +5,7 @@ import { calendarDetailPage, calendarPage } from './pages/calendar.js';
 import { candidateDetailPage, candidatePhasePage, candidatesListPage } from './pages/candidates.js';
 import { dashboardPage } from './pages/dashboard.js';
 import { dataPage } from './pages/data.js';
-import { academicModuleDetailPage, academicModulePage, adminWorkPage, externalEngagementsPage, researchPage, projectsPage, supervisionPage, teachingPage } from './pages/academic-modules.js';
+import { academicModuleDetailPage, academicModulePage, adminWorkPage, careerMobilityPage, externalEngagementsPage, researchPage, projectsPage, supervisionPage, teachingPage } from './pages/academic-modules.js';
 import { meetingDetailPage, meetingsListPage } from './pages/meetings.js';
 import { reportsPage } from './pages/reports.js';
 import { searchPage } from './pages/search.js';
@@ -78,7 +78,7 @@ function renderFilters(options = {}) {
     programmes: [...new Set(store.candidates.records.map((item) => item.programme_type))],
     candidates: store.candidates.records,
     phases: [...new Set(store.meetings.records.map((item) => item.phase))],
-    modules: Object.keys(moduleLabels),
+    modules: [...new Set([...Object.keys(moduleLabels), ...Object.keys(store.academicLife.modules)])],
     visibilities: store.permissions.visibility_levels,
     academicYears: [...new Set(allRecords().flatMap((item) => [item.academic_year_start, item.academic_year_current]).filter(Boolean))].sort().reverse(),
     ...options
@@ -131,6 +131,7 @@ function shell(content) {
     ['projects', 'Projects & Sponsored Work'],
     ['admin-work', 'Admin Work'],
     ['external', 'External Engagements'],
+    ['career-mobility', 'Career Mobility'],
     ['reports', 'Reports'],
     ['years', 'Academic Years'],
     ['search', 'Search'],
@@ -141,7 +142,7 @@ function shell(content) {
   const roles = Object.keys(store.permissions.roles).map((item) => `<option ${item === role ? 'selected' : ''}>${item}</option>`).join('');
   root.innerHTML = `<div class="app-shell">
     <aside class="sidebar">
-      <div><p class="brand">Academic Lifecycle Manager (ALM)</p><nav>${nav}</nav></div>
+      <div><p class="brand">Academic Lifecycle Manager</p><nav>${nav}</nav></div>
       <p class="sidebar-note">Static GitHub Pages portal. Roles are logical views, not login sessions.</p>
     </aside>
     <main class="content">
@@ -180,6 +181,8 @@ function render() {
   else if (parts[0] === 'admin-work') content = adminWorkPage(c);
   else if (parts[0] === 'external' && parts[1]) content = academicModuleDetailPage(c, 'external_engagements', parts[1]);
   else if (parts[0] === 'external') content = externalEngagementsPage(c);
+  else if (parts[0] === 'career-mobility' && parts[1]) content = academicModuleDetailPage(c, 'career_mobility', parts[1]);
+  else if (parts[0] === 'career-mobility') content = careerMobilityPage(c);
   else if (parts[0] === 'activities' && parts[1]) content = activityDetailPage(c, parts[1]);
   else if (parts[0] === 'activities') content = activitiesPage(c);
   else if (parts[0] === 'calendar' && parts[1]) content = calendarDetailPage(c, parts[1]);
@@ -412,6 +415,9 @@ function addAcademicLifeRecord(module, formData) {
     timestamps: { created_at: nowIso(), updated_at: nowIso() },
     visibility: formData.get('visibility')
   };
+  ['institution_name', 'role_title', 'opportunity_type', 'employment_basis', 'place_city', 'place_country', 'application_deadline', 'application_date'].forEach((field) => {
+    if (formData.has(field) && formData.get(field)) record[field] = formData.get(field);
+  });
   store.academicLife.modules[module].unshift(record);
   error = 'Academic life record added locally. Export JSON to commit it.';
   render();
@@ -420,6 +426,7 @@ function addAcademicLifeRecord(module, formData) {
 function academicRoute(module) {
   if (module === 'admin_work') return 'admin-work';
   if (module === 'external_engagements') return 'external';
+  if (module === 'career_mobility') return 'career-mobility';
   return module;
 }
 
@@ -451,5 +458,5 @@ loadStore()
     render();
   })
   .catch((err) => {
-    root.innerHTML = `<main class="boot"><h1>Academic Lifecycle Manager (ALM)</h1><p>${escapeHtml(err.message)}</p></main>`;
+    root.innerHTML = `<main class="boot"><h1>Academic Lifecycle Manager</h1><p>${escapeHtml(err.message)}</p></main>`;
   });

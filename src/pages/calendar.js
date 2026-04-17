@@ -13,7 +13,7 @@ export function calendarPage(ctx) {
   const upcoming30 = items.filter((item) => item.due_date >= today && item.due_date <= plus30);
   return `${pageHeader('Deadline Calendar', 'Monthly, weekly, overdue, and upcoming deadline management.')}
     ${ctx.renderFilters()}
-    ${ctx.canWrite() ? calendarForm(ctx) : '<p class="notice">Calendar writing is available only to ADMIN, ASSISTANT, and WRITER roles.</p>'}
+    ${ctx.canWrite() ? calendarForm(ctx) : '<p class="notice">Calendar writing is available only to ADMIN and ASSISTANT roles.</p>'}
     <div class="grid">
       ${calendarSection('Overdue', overdue)}
       ${calendarSection('Upcoming 7 days', upcoming7)}

@@ -201,8 +201,8 @@
                         "next_meeting_date":  "2026-03-27",
                         "visibility":  "sanitized_external",
                         "status":  "completed",
-                        "created_by":  "u-writer",
-                        "updated_by":  "u-writer",
+                        "created_by":  "u-assistant",
+                        "updated_by":  "u-assistant",
                         "timestamps":  {
                                            "created_at":  "2026-03-20T14:25:00.000Z",
                                            "updated_at":  "2026-03-20T14:25:00.000Z"
@@ -212,7 +212,7 @@
                                                          "id":  "c-nina-1",
                                                          "text":  "Use sanitized bibliography export.",
                                                          "visibility":  "sanitized_external",
-                                                         "created_by":  "u-writer",
+                                                         "created_by":  "u-assistant",
                                                          "created_at":  "2026-03-20T14:25:00.000Z"
                                                      }
                                                  ],
@@ -223,7 +223,7 @@
                                                  {
                                                      "version":  1,
                                                      "summary":  "Intern checkpoint created",
-                                                     "updated_by":  "u-writer",
+                                                     "updated_by":  "u-assistant",
                                                      "updated_at":  "2026-03-20T14:25:00.000Z"
                                                  }
                                              ],

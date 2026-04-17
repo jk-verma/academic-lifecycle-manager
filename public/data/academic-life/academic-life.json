@@ -115,6 +115,50 @@
         },
         "visibility": "internal"
       }
+    ],
+    "career_mobility": [
+      {
+        "id": "career-visiting-position-2026",
+        "title": "Visiting faculty opportunity application",
+        "category": "career_mobility",
+        "sub_type": "visiting_position",
+        "academic_year_start": "2025-2026",
+        "academic_year_current": "2025-2026",
+        "status": "planned",
+        "priority": "medium",
+        "carry_forward": true,
+        "institution_name": "National Institute of Advanced Computing",
+        "role_title": "Visiting Faculty",
+        "opportunity_type": "visiting_position",
+        "employment_basis": "short_term_contract",
+        "place_city": "Bengaluru",
+        "place_country": "India",
+        "application_deadline": "2026-05-20",
+        "application_date": "",
+        "notes": [
+          {
+            "id": "career-note-1",
+            "text": "Collect eligibility details, NOC requirements, and application documents before the deadline.",
+            "created_by": "u-admin",
+            "created_at": "2026-04-17T11:00:00.000Z",
+            "visibility": "internal"
+          }
+        ],
+        "history": [
+          {
+            "version": 1,
+            "summary": "Career mobility opportunity created",
+            "updated_by": "u-admin",
+            "updated_at": "2026-04-17T11:00:00.000Z"
+          }
+        ],
+        "created_by": "u-admin",
+        "timestamps": {
+          "created_at": "2026-04-17T11:00:00.000Z",
+          "updated_at": "2026-04-17T11:00:00.000Z"
+        },
+        "visibility": "internal"
+      }
     ]
   }
 }
