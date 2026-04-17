@@ -30,7 +30,7 @@ export function activityDetailPage(ctx, id) {
 
 function activityForm(ctx) {
   return `<section class="panel">
-    <h3>Assistant/Admin daily log</h3>
+    <h3>Add Task</h3>
     <form class="record-form" id="activity-form">
       <input name="title" required placeholder="Activity title" />
       <input name="date" type="date" required />
@@ -40,7 +40,7 @@ function activityForm(ctx) {
       <input name="short_notes" placeholder="Short notes" />
       <select name="priority"><option>low</option><option>medium</option><option>high</option></select>
       <select name="visibility">${ctx.store.permissions.visibility_levels.map((item) => `<option>${escapeHtml(item)}</option>`).join('')}</select>
-      <button>Add local activity</button>
+      <button>Add Task</button>
     </form>
   </section>`;
 }

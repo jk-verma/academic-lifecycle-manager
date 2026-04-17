@@ -23,7 +23,7 @@ export function candidatesListPage(ctx) {
 
 function candidateForm(ctx) {
   return `<section class="panel">
-    <h3>Add student / candidate</h3>
+    <h3>Add Candidate</h3>
     <form class="record-form" id="candidate-form">
       <input name="name" required placeholder="Candidate name" />
       <select name="programme_type"><option>PhD</option><option>Masters</option><option>Intern</option><option>UG</option></select>
@@ -36,7 +36,7 @@ function candidateForm(ctx) {
       <select name="priority"><option>medium</option><option>high</option><option>low</option></select>
       <select name="visibility">${ctx.store.permissions.visibility_levels.map((item) => `<option>${escapeHtml(item)}</option>`).join('')}</select>
       <input name="note" placeholder="Initial append-only note" />
-      <button>Add local candidate</button>
+      <button>Add Candidate</button>
     </form>
   </section>`;
 }

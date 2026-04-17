@@ -58,8 +58,13 @@ export function workbenchDetailPage(ctx, module, id) {
 }
 
 function workbenchRecordForm(module, title, ctx) {
+  const actionLabel = module === 'projects'
+    ? 'Add Project'
+    : ['journal_articles', 'conference_papers', 'authored_books', 'book_chapters'].includes(module)
+      ? 'Add Publication'
+      : `Add ${title} activity`;
   return `<section class="panel">
-    <h3>Add ${escapeHtml(title)} activity</h3>
+    <h3>${escapeHtml(actionLabel)}</h3>
     <form class="record-form" data-workbench-module="${escapeHtml(module)}">
       <input name="title" required placeholder="Title" />
       <input name="description_or_abstract" placeholder="Description / abstract / purpose" />
@@ -70,7 +75,7 @@ function workbenchRecordForm(module, title, ctx) {
       <select name="priority"><option>low</option><option>medium</option><option>high</option></select>
       <select name="visibility">${ctx.store.permissions.visibility_levels.map((item) => `<option>${escapeHtml(item)}</option>`).join('')}</select>
       <input name="note" placeholder="Initial append-only note" />
-      <button>Add local activity</button>
+      <button>${escapeHtml(actionLabel)}</button>
     </form>
   </section>`;
 }

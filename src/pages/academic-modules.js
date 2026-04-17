@@ -7,7 +7,9 @@ const projectModules = ['projects', 'consultancy'];
 
 export function researchPage(ctx) {
   const items = ctx.visibleWorkbench().filter((item) => researchModules.includes(item.module));
-  return moduleList('Research', 'Journal articles, conference papers, books, and book chapters.', items, (item) => `#/workbench/${item.module}/${item.id}`);
+  return `${pageHeader('Research', 'Journal articles, conference papers, books, and book chapters.')}
+    <div class="quick-actions">${actionLink('Add Publication', '#/workbench/journal_articles')}</div>
+    ${moduleListContent(items, (item) => `#/workbench/${item.module}/${item.id}`)}`;
 }
 
 export function teachingPage(ctx) {
@@ -28,7 +30,9 @@ export function supervisionPage(ctx) {
 
 export function projectsPage(ctx) {
   const items = ctx.visibleWorkbench().filter((item) => projectModules.includes(item.module));
-  return moduleList('Projects & Sponsored Work', 'Sponsored projects, consultancy, and research projects.', items, (item) => `#/workbench/${item.module}/${item.id}`);
+  return `${pageHeader('Projects & Sponsored Work', 'Sponsored projects, consultancy, and research projects.')}
+    <div class="quick-actions">${actionLink('Add Project', '#/workbench/projects')}</div>
+    ${moduleListContent(items, (item) => `#/workbench/${item.module}/${item.id}`)}`;
 }
 
 export function adminWorkPage(ctx) {
@@ -75,6 +79,11 @@ export function academicModuleDetailPage(ctx, module, id) {
 
 function moduleList(title, subtitle, items, hrefFor) {
   return `${pageHeader(title, subtitle)}
+    ${moduleListContent(items, hrefFor)}`;
+}
+
+function moduleListContent(items, hrefFor) {
+  return `
     <div class="grid">${items.map((item) => recordCard({
       title: item.title,
       meta: `${item.module} | ${item.status} | final deadline: ${item.final_deadline || 'not set'}`,
@@ -82,6 +91,10 @@ function moduleList(title, subtitle, items, hrefFor) {
       badges: `${statusBadge(item.status)} ${visibilityBadge(item.visibility)} ${item.carry_forward ? statusBadge('carry_forward') : ''}`,
       href: hrefFor(item)
     })).join('') || emptyState('No records', 'No records are visible for this role.')}</div>`;
+}
+
+function actionLink(label, href) {
+  return `<a class="quick-action" href="${escapeHtml(href)}">${escapeHtml(label)}</a>`;
 }
 
 function academicRecordForm(module, title, ctx) {

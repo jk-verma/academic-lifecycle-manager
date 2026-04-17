@@ -36,13 +36,6 @@ export function dashboardPage(ctx) {
     .slice(0, 6);
 
   return `${pageHeader('Home', 'Your academic command center for today, this week, and the current academic year.', `Data updated ${store.candidates.updated_at?.slice(0, 10) || 'unknown'}`)}
-    <div class="quick-actions">
-      ${quickAction('Add Task', '#/planner')}
-      ${quickAction('Add Deadline', '#/calendar')}
-      ${quickAction('Add Candidate', '#/data')}
-      ${quickAction('Add Publication', '#/workbench/journal_articles')}
-      ${quickAction('Add Project', '#/workbench/projects')}
-    </div>
     <div class="metrics">
       ${metric('Total candidates', candidates.length)}
       ${metric('Masters / PhD / Intern', `${masters} / ${phd} / ${interns}`)}
@@ -93,10 +86,6 @@ export function dashboardPage(ctx) {
 
 function metric(label, value, tone = '') {
   return `<article class="metric ${tone}"><strong>${value}</strong><span>${label}</span></article>`;
-}
-
-function quickAction(label, href) {
-  return `<a class="quick-action" href="${href}">${label}</a>`;
 }
 
 function summaryCards(items, route) {

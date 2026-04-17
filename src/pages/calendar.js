@@ -46,7 +46,7 @@ function calendarSection(title, items) {
 
 function calendarForm(ctx) {
   return `<section class="panel">
-    <h3>Assistant/Admin calendar entry</h3>
+    <h3>Add Deadline</h3>
     <form class="record-form" id="calendar-form">
       <input name="title" required placeholder="Deadline title" />
       <input name="due_date" type="date" required />
@@ -56,7 +56,7 @@ function calendarForm(ctx) {
       <input name="linked_record_id" placeholder="Linked record ID" />
       <select name="priority"><option>low</option><option>medium</option><option>high</option></select>
       <select name="visibility">${ctx.store.permissions.visibility_levels.map((item) => `<option>${escapeHtml(item)}</option>`).join('')}</select>
-      <button>Add local deadline</button>
+      <button>Add Deadline</button>
     </form>
   </section>`;
 }
