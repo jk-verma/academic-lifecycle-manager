@@ -4,7 +4,12 @@ import { escapeHtml } from '../utils/html.js';
 import { structuredFilter } from '../utils/search.js';
 
 export function calendarPage(ctx) {
-  const items = structuredFilter(ctx.visibleCalendar(), ctx.filters).sort((a, b) => a.due_date.localeCompare(b.due_date));
+  const derivedSubtasks = subtaskDeadlineItems([
+    ...ctx.visibleWorkbench(),
+    ...ctx.visibleAcademicLife(),
+    ...ctx.visibleCandidates()
+  ]);
+  const items = structuredFilter([...ctx.visibleCalendar(), ...derivedSubtasks], ctx.filters).sort((a, b) => a.due_date.localeCompare(b.due_date));
   const today = todayIso();
   const plus7 = offsetDate(7);
   const plus30 = offsetDate(30);
@@ -40,7 +45,7 @@ function calendarSection(title, items) {
     meta: `${item.due_date} | ${item.category} | ${item.priority}`,
     body: item.notes,
     badges: `${statusBadge(item.status)} ${visibilityBadge(item.visibility)} ${isOverdue(item.due_date, item.status) ? statusBadge('overdue') : ''}`,
-    href: `#/calendar/${item.id}`
+    href: item.route || `#/calendar/${item.id}`
   })).join('') || emptyState('Nothing here', 'No calendar items in this view.')}</section>`;
 }
 
@@ -65,4 +70,39 @@ function offsetDate(days) {
   const date = new Date();
   date.setDate(date.getDate() + days);
   return date.toISOString().slice(0, 10);
+}
+
+function subtaskDeadlineItems(records) {
+  return records.flatMap((record) => (record.subtasks || [])
+    .filter((subtask) => !['completed', 'cancelled'].includes(String(subtask.status).toLowerCase()) && (subtask.due_datetime || subtask.due_date))
+    .map((subtask) => {
+      const due = subtask.due_datetime || subtask.due_date;
+      return {
+        id: subtask.id,
+        title: subtask.title,
+        linked_record_id: record.id,
+        category: record.category || record.module || record.programme_type || 'subtask',
+        sub_type: subtask.subtask_type,
+        due_date: due.slice(0, 10),
+        reminder_date: '',
+        status: subtask.status,
+        priority: record.priority || 'medium',
+        visibility: record.visibility || 'internal',
+        notes: `Parent: ${record.name || record.title}. Responsible: ${subtask.responsible_person || 'not assigned'}.`,
+        academic_year_start: record.academic_year_start,
+        academic_year_current: record.academic_year_current,
+        carry_forward: record.carry_forward,
+        route: routeForParent(record)
+      };
+    }));
+}
+
+function routeForParent(record) {
+  if (record.programme_type && !record.candidate_id) return `#/candidates/${record.id}`;
+  if (record.module && ['journal_articles', 'authored_books', 'book_chapters', 'conference_papers', 'projects', 'consultancy', 'custom_activities'].includes(record.module)) return `#/workbench/${record.module}/${record.id}`;
+  if (record.module === 'teaching') return `#/teaching/${record.id}`;
+  if (record.module === 'admin_work') return `#/admin-work/${record.id}`;
+  if (record.module === 'external_engagements') return `#/external/${record.id}`;
+  if (record.module === 'career_mobility') return `#/career-mobility/${record.id}`;
+  return '#/calendar';
 }

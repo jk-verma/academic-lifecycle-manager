@@ -28,10 +28,11 @@ export function dashboardPage(ctx) {
   const academic = ctx.visibleAcademicLife();
   const teaching = academic.filter((item) => item.module === 'teaching');
   const career = academic.filter((item) => item.module === 'career_mobility');
-  const upcomingDeadlines = [...calendar, ...workbench, ...academic, ...candidates]
+  const subtaskDeadlines = flattenSubtaskDeadlines([...workbench, ...academic, ...candidates]);
+  const upcomingDeadlines = [...calendar, ...workbench, ...academic, ...candidates, ...subtaskDeadlines]
     .filter((item) => item.due_date || item.final_deadline || item.application_deadline)
     .sort((a, b) => String(a.due_date || a.final_deadline || a.application_deadline).localeCompare(String(b.due_date || b.final_deadline || b.application_deadline)))
-    .slice(0, 6);
+    .slice(0, 10);
   const recent = [...candidates, ...meetings, ...workbench, ...activities, ...calendar]
     .sort((a, b) => String(b.timestamps?.updated_at || '').localeCompare(String(a.timestamps?.updated_at || '')))
     .slice(0, 6);
@@ -100,6 +101,7 @@ function summaryCards(items, route) {
 }
 
 function recordRoute(item, route = '') {
+  if (item.route) return item.route;
   if (item.programme_type && !item.candidate_id) return `#/students/${item.id}`;
   if (item.candidate_id) return `#/meetings/${item.id}`;
   if (item.module && ['journal_articles', 'authored_books', 'book_chapters', 'conference_papers', 'projects', 'consultancy', 'moocs', 'custom_activities'].includes(item.module)) return `#/workbench/${item.module}/${item.id}`;
@@ -108,4 +110,22 @@ function recordRoute(item, route = '') {
   if (item.due_date) return `#/calendar/${item.id}`;
   if (item.date) return `#/planner/${item.id}`;
   return route ? `#/${route}` : '#/search';
+}
+
+function flattenSubtaskDeadlines(records) {
+  return records.flatMap((record) => (record.subtasks || [])
+    .filter((subtask) => !['completed', 'cancelled'].includes(String(subtask.status).toLowerCase()) && (subtask.due_datetime || subtask.due_date))
+    .map((subtask) => ({
+      id: subtask.id,
+      title: subtask.title,
+      due_date: subtask.due_datetime || subtask.due_date,
+      status: subtask.status,
+      visibility: record.visibility,
+      priority: record.priority,
+      category: record.category || record.module || record.programme_type,
+      module: record.module,
+      route: recordRoute(record),
+      notes: `Parent: ${record.name || record.title}. Responsible: ${subtask.responsible_person || 'not assigned'}.`,
+      subtasks: []
+    })));
 }
