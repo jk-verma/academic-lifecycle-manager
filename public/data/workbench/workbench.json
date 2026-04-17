@@ -1037,7 +1037,7 @@
                                       "updated_by":  "u-admin",
                                       "timestamps":  {
                                                          "created_at":  "2026-04-17T14:00:00.000Z",
-                                                         "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                         "updated_at":  "2026-04-17T15:00:00.000Z"
                                                      },
                                       "notes_append_only":  [
                                                                 {
@@ -1057,6 +1057,12 @@
                                                                    "summary":  "MOOC deadline timeline created from July 2026 course development email",
                                                                    "updated_by":  "u-admin",
                                                                    "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                               },
+                                                               {
+                                                                   "version":  2,
+                                                                   "summary":  "Provision added for concerned person mobile or extension on MOOC subtasks",
+                                                                   "updated_by":  "u-admin",
+                                                                   "updated_at":  "2026-04-17T15:00:00.000Z"
                                                                }
                                                            ],
                                       "academic_year_start":  "2025-2026",
@@ -1082,6 +1088,12 @@
                                                           "summary":  "MOOC deadline timeline created from July 2026 course development email",
                                                           "updated_by":  "u-admin",
                                                           "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                      },
+                                                      {
+                                                          "version":  2,
+                                                          "summary":  "Provision added for concerned person mobile or extension on MOOC subtasks",
+                                                          "updated_by":  "u-admin",
+                                                          "updated_at":  "2026-04-17T15:00:00.000Z"
                                                       }
                                                   ],
                                       "subtasks":  [
@@ -1113,7 +1125,8 @@
                                                                                "updated_at":  "2026-04-17T14:00:00.000Z"
                                                                            }
                                                                        ],
-                                                           "sequence_order":  1
+                                                           "sequence_order":  1,
+                                                           "responsible_contact":  ""
                                                        },
                                                        {
                                                            "id":  "sub-excel-week-1-final-videos",
@@ -1137,7 +1150,8 @@
                                                                                "updated_at":  "2026-04-17T14:00:00.000Z"
                                                                            }
                                                                        ],
-                                                           "sequence_order":  2
+                                                           "sequence_order":  2,
+                                                           "responsible_contact":  ""
                                                        },
                                                        {
                                                            "id":  "sub-excel-week-2-review",
@@ -1167,7 +1181,8 @@
                                                                                "updated_at":  "2026-04-17T14:00:00.000Z"
                                                                            }
                                                                        ],
-                                                           "sequence_order":  3
+                                                           "sequence_order":  3,
+                                                           "responsible_contact":  ""
                                                        },
                                                        {
                                                            "id":  "sub-excel-week-2-final-videos",
@@ -1191,7 +1206,8 @@
                                                                                "updated_at":  "2026-04-17T14:00:00.000Z"
                                                                            }
                                                                        ],
-                                                           "sequence_order":  4
+                                                           "sequence_order":  4,
+                                                           "responsible_contact":  ""
                                                        },
                                                        {
                                                            "id":  "sub-excel-week-3-final-videos",
@@ -1221,7 +1237,8 @@
                                                                                "updated_at":  "2026-04-17T14:00:00.000Z"
                                                                            }
                                                                        ],
-                                                           "sequence_order":  5
+                                                           "sequence_order":  5,
+                                                           "responsible_contact":  ""
                                                        },
                                                        {
                                                            "id":  "sub-excel-week-4-final-videos",
@@ -1245,7 +1262,8 @@
                                                                                "updated_at":  "2026-04-17T14:00:00.000Z"
                                                                            }
                                                                        ],
-                                                           "sequence_order":  6
+                                                           "sequence_order":  6,
+                                                           "responsible_contact":  ""
                                                        },
                                                        {
                                                            "id":  "sub-excel-week-5-final-videos",
@@ -1269,7 +1287,8 @@
                                                                                "updated_at":  "2026-04-17T14:00:00.000Z"
                                                                            }
                                                                        ],
-                                                           "sequence_order":  7
+                                                           "sequence_order":  7,
+                                                           "responsible_contact":  ""
                                                        },
                                                        {
                                                            "id":  "sub-excel-week-6-final-videos",
@@ -1293,7 +1312,8 @@
                                                                                "updated_at":  "2026-04-17T14:00:00.000Z"
                                                                            }
                                                                        ],
-                                                           "sequence_order":  8
+                                                           "sequence_order":  8,
+                                                           "responsible_contact":  ""
                                                        },
                                                        {
                                                            "id":  "sub-excel-week-7-final-videos",
@@ -1317,7 +1337,8 @@
                                                                                "updated_at":  "2026-04-17T14:00:00.000Z"
                                                                            }
                                                                        ],
-                                                           "sequence_order":  9
+                                                           "sequence_order":  9,
+                                                           "responsible_contact":  ""
                                                        },
                                                        {
                                                            "id":  "sub-excel-week-8-final-videos",
@@ -1341,7 +1362,8 @@
                                                                                "updated_at":  "2026-04-17T14:00:00.000Z"
                                                                            }
                                                                        ],
-                                                           "sequence_order":  10
+                                                           "sequence_order":  10,
+                                                           "responsible_contact":  ""
                                                        },
                                                        {
                                                            "id":  "sub-excel-week-9-final-videos",
@@ -1365,7 +1387,8 @@
                                                                                "updated_at":  "2026-04-17T14:00:00.000Z"
                                                                            }
                                                                        ],
-                                                           "sequence_order":  11
+                                                           "sequence_order":  11,
+                                                           "responsible_contact":  ""
                                                        },
                                                        {
                                                            "id":  "sub-excel-assessments-all-weeks",
@@ -1395,7 +1418,8 @@
                                                                                "updated_at":  "2026-04-17T14:00:00.000Z"
                                                                            }
                                                                        ],
-                                                           "sequence_order":  12
+                                                           "sequence_order":  12,
+                                                           "responsible_contact":  ""
                                                        },
                                                        {
                                                            "id":  "sub-excel-additional-reading",
@@ -1425,7 +1449,8 @@
                                                                                "updated_at":  "2026-04-17T14:00:00.000Z"
                                                                            }
                                                                        ],
-                                                           "sequence_order":  13
+                                                           "sequence_order":  13,
+                                                           "responsible_contact":  ""
                                                        },
                                                        {
                                                            "id":  "sub-excel-week-10-final-videos",
@@ -1449,7 +1474,8 @@
                                                                                "updated_at":  "2026-04-17T14:00:00.000Z"
                                                                            }
                                                                        ],
-                                                           "sequence_order":  14
+                                                           "sequence_order":  14,
+                                                           "responsible_contact":  ""
                                                        }
                                                    ]
                                   }

@@ -366,6 +366,7 @@ function addSubtask(kind, id, formData, module = '') {
     completed_date: completedDatetime ? completedDatetime.slice(0, 10) : '',
     status: formData.get('status'),
     responsible_person: formData.get('responsible_person'),
+    responsible_contact: formData.get('responsible_contact'),
     notes: formData.get('notes') ? [{
       id: uid('note'),
       text: formData.get('notes'),

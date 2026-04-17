@@ -70,6 +70,7 @@ export function templateDetailPage(ctx, id) {
       completed_datetime: '',
       status: 'pending',
       responsible_person: 'Assign when used',
+      responsible_contact: 'Add mobile or extension when used',
       notes: [],
       history: [{ version: 1, summary: 'Template step', updated_by: 'template', updated_at: '' }]
     }))

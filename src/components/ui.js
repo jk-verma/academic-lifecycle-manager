@@ -95,6 +95,7 @@ export function subtaskTimeline(record = {}, options = {}) {
         <div class="card-head"><strong>${escapeHtml(subtask.title)}</strong>${statusBadge(subtask.status)}</div>
         <p class="muted">${escapeHtml(slugLabel(subtask.subtask_type || 'subtask'))} | due ${escapeHtml(due || 'not set')} ${completed ? `| completed ${escapeHtml(completed)}` : ''}</p>
         <p><strong>Responsible:</strong> ${escapeHtml(subtask.responsible_person || 'not assigned')}</p>
+        <p><strong>Mobile / extension:</strong> ${escapeHtml(subtask.responsible_contact || subtask.contact_number || subtask.mobile_extension || 'not provided')}</p>
         ${notesPanel(subtask.notes || [])}
         ${timelinePanel(subtask.history || [])}
       </div>
@@ -111,6 +112,7 @@ export function subtaskForm(kind, id, module = '') {
       <input name="due_datetime" type="datetime-local" required />
       <input name="completed_datetime" type="datetime-local" />
       <input name="responsible_person" placeholder="Responsible person" />
+      <input name="responsible_contact" placeholder="Mobile or extension number" />
       <input name="insert_after_order" type="number" min="0" step="1" placeholder="Insert after sequence no." />
       <select name="status"><option>pending</option><option>ongoing</option><option>completed</option><option>deferred</option><option>cancelled</option></select>
       <input name="notes" placeholder="Append-only note" />
