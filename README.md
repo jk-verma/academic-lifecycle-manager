@@ -85,7 +85,7 @@ Main records can carry one overall task deadline plus an append-only subtask tim
 
 Each subtask belongs to its parent record through `parent_record_id` and includes `title`, `subtask_type`, `due_datetime`, `due_date`, `completed_datetime`, `completed_date`, `status`, `responsible_person`, append-only `notes`, append-only `history`, and `sequence_order`.
 
-Cards show the final deadline and completed-subtasks summary. Detail pages show subtasks as a vertical timeline with overdue highlighting and an ADMIN/ASSISTANT-only local form for adding new subtasks. The form supports exact due date/time, optional completed date/time, pending/ongoing/completed/deferred/cancelled status, responsible person, and insertion after an existing sequence number. Existing subtasks are not deleted by the UI; updates should append history entries and be exported as JSON for commit.
+Cards show the final deadline and completed-subtasks summary. Detail pages show subtasks as a vertical timeline with overdue highlighting and an ADMIN/ASSISTANT-only local form for adding new subtasks. The form supports exact due date/time, optional completed date/time, pending/ongoing/completed/deferred/cancelled status, responsible person, and insertion after an existing sequence number. Timeline items can also be drag-dropped to reorder them locally; the reordered sequence is saved as an append-only history update when exported. Existing subtasks are not deleted by the UI; updates should append history entries and be exported as JSON for commit.
 
 ## Workflow Templates
 

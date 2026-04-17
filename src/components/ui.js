@@ -81,14 +81,15 @@ export function taskCardBody(record = {}, fallback = '') {
   return `Deadline: ${deadline} | ${progress.label} | Next: ${nextText}${overdue ? ' | Overdue' : ''}${fallback ? ` | ${fallback}` : ''}`;
 }
 
-export function subtaskTimeline(record = {}) {
+export function subtaskTimeline(record = {}, options = {}) {
   const subtasks = [...(record.subtasks || [])].sort((a, b) => Number(a.sequence_order || 0) - Number(b.sequence_order || 0));
   if (!subtasks.length) return emptyState('No subtasks', 'Subtasks can be added over time without deleting earlier work.');
   return `<div class="subtask-timeline">${subtasks.map((subtask) => {
     const due = subtask.due_datetime || subtask.due_date;
     const completed = subtask.completed_datetime || subtask.completed_date;
     const overdue = isOverdue(due, subtask.status);
-    return `<article class="${overdue ? 'overdue-card' : ''}">
+    const dragAttrs = options.kind ? `draggable="true" data-reorder-subtask="true" data-kind="${escapeHtml(options.kind)}" data-id="${escapeHtml(options.id || record.id || '')}" data-module="${escapeHtml(options.module || record.module || '')}" data-subtask-id="${escapeHtml(subtask.id)}"` : '';
+    return `<article class="${overdue ? 'overdue-card' : ''} ${options.kind ? 'draggable-subtask' : ''}" ${dragAttrs}>
       <div class="subtask-marker">${escapeHtml(subtask.sequence_order || '')}</div>
       <div>
         <div class="card-head"><strong>${escapeHtml(subtask.title)}</strong>${statusBadge(subtask.status)}</div>
@@ -103,10 +104,10 @@ export function subtaskTimeline(record = {}) {
 
 export function subtaskForm(kind, id, module = '') {
   return `<section class="append-panel">
-    <h4>Add subtask</h4>
+    <h4>Add activity / sub-activity</h4>
     <form class="record-form" data-add-subtask="${escapeHtml(kind)}" data-id="${escapeHtml(id)}" data-module="${escapeHtml(module)}">
-      <input name="title" required placeholder="Subtask title" />
-      <input name="subtask_type" placeholder="Subtask type" />
+      <input name="title" required placeholder="Activity or sub-activity title" />
+      <input name="subtask_type" placeholder="Activity type" />
       <input name="due_datetime" type="datetime-local" required />
       <input name="completed_datetime" type="datetime-local" />
       <input name="responsible_person" placeholder="Responsible person" />

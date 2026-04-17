@@ -33,7 +33,7 @@ export function candidateDetailPage(ctx, id) {
     <section class="detail printable">
       <div class="metadata">${statusBadge(candidate.status)} ${visibilityBadge(candidate.visibility)} <span class="programme-badge">${escapeHtml(candidate.programme_type)}</span></div>
       ${detailSection('Overall task', taskSummary(candidate))}
-      ${detailSection('Subtask timeline', subtaskTimeline(candidate))}
+      ${detailSection('Activity / sub-activity timeline', subtaskTimeline(candidate, { kind: 'candidate', id: candidate.id }))}
       ${ctx.canWrite() ? ctx.subtaskForm('candidate', candidate.id) : ''}
       <div class="grid two">
         ${detailSection('Profile summary', `<p><strong>Supervisor:</strong> ${escapeHtml(candidate.supervisor)}</p><p><strong>Start date:</strong> ${escapeHtml(candidate.start_date)}</p>`)}

@@ -447,6 +447,19 @@ nav a:hover {
   background: #fff;
 }
 
+.draggable-subtask {
+  cursor: grab;
+}
+
+.draggable-subtask:active {
+  cursor: grabbing;
+}
+
+.draggable-subtask.drag-over {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(23, 109, 114, 0.14);
+}
+
 .subtask-marker {
   z-index: 1;
   display: grid;

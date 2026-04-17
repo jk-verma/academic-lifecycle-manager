@@ -28,6 +28,7 @@ let filters = {};
 let draft = null;
 let diff = [];
 let error = '';
+let draggedSubtask = null;
 
 function parseRoute() {
   return (location.hash.replace('#/', '') || 'dashboard').split('/').filter(Boolean);
@@ -244,6 +245,23 @@ function bindEvents() {
     });
   });
 
+  document.querySelectorAll('[data-reorder-subtask]').forEach((item) => {
+    item.addEventListener('dragstart', () => {
+      draggedSubtask = { kind: item.dataset.kind, id: item.dataset.id, module: item.dataset.module || '', subtaskId: item.dataset.subtaskId };
+    });
+    item.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      item.classList.add('drag-over');
+    });
+    item.addEventListener('dragleave', () => item.classList.remove('drag-over'));
+    item.addEventListener('drop', (event) => {
+      event.preventDefault();
+      item.classList.remove('drag-over');
+      if (draggedSubtask) reorderSubtask(draggedSubtask, item.dataset.subtaskId);
+      draggedSubtask = null;
+    });
+  });
+
   const exportJson = document.getElementById('export-json');
   if (exportJson) exportJson.addEventListener('click', () => downloadJson('academic-lifecycle-manager-data-export.json', store));
 
@@ -281,6 +299,13 @@ function bindEvents() {
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       addAcademicLifeRecord(form.dataset.academicModule, new FormData(form));
+    });
+  });
+
+  document.querySelectorAll('[data-workbench-module]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      addWorkbenchRecord(form.dataset.workbenchModule, new FormData(form));
     });
   });
 }
@@ -373,6 +398,31 @@ function addSubtask(kind, id, formData, module = '') {
   record.timestamps.updated_at = nowIso();
   record.updated_by = actor;
   error = 'Subtask added locally. Export JSON to commit it.';
+  render();
+}
+
+function reorderSubtask(source, targetSubtaskId) {
+  if (!canWrite(store, role)) return;
+  const record = findTaskRecord(source.kind, source.id, source.module);
+  if (!record || source.subtaskId === targetSubtaskId) return;
+  const subtasks = [...(record.subtasks || [])].sort((a, b) => Number(a.sequence_order || 0) - Number(b.sequence_order || 0));
+  const movingIndex = subtasks.findIndex((item) => item.id === source.subtaskId);
+  const targetIndex = subtasks.findIndex((item) => item.id === targetSubtaskId);
+  if (movingIndex < 0 || targetIndex < 0) return;
+  const [moving] = subtasks.splice(movingIndex, 1);
+  subtasks.splice(targetIndex, 0, moving);
+  record.subtasks = subtasks.map((item, index) => ({ ...item, sequence_order: index + 1 }));
+  const actor = `local-${role.toLowerCase()}`;
+  const summary = `Subtask reordered: ${moving.title}`;
+  record.history = record.history || record.revision_history || [];
+  record.history.push({ version: record.history.length + 1, summary, updated_by: actor, updated_at: nowIso() });
+  if (record.revision_history && record.revision_history !== record.history) {
+    record.revision_history.push({ version: record.revision_history.length + 1, summary, updated_by: actor, updated_at: nowIso() });
+  }
+  record.timestamps = record.timestamps || {};
+  record.timestamps.updated_at = nowIso();
+  record.updated_by = actor;
+  error = 'Subtask order changed locally. Export JSON to commit it.';
   render();
 }
 
@@ -506,6 +556,50 @@ function addAcademicLifeRecord(module, formData) {
   });
   store.academicLife.modules[module].unshift(record);
   error = 'Academic life record added locally. Export JSON to commit it.';
+  render();
+}
+
+function addWorkbenchRecord(module, formData) {
+  if (!canWrite(store, role)) return;
+  const deadline = formData.get('final_deadline_datetime');
+  const year = formData.get('academic_year_current') || academicYearForDate(deadline ? deadline.slice(0, 10) : undefined);
+  const actor = `local-${role.toLowerCase()}`;
+  const record = {
+    id: uid(module),
+    title: formData.get('title'),
+    category: module,
+    sub_type: formData.get('sub_type') || formData.get('type') || module,
+    collaborators: [],
+    organization_or_publisher: formData.get('funding_agency') || formData.get('organization') || formData.get('publisher') || formData.get('journal') || formData.get('conference_name') || formData.get('platform') || '',
+    description_or_abstract: formData.get('description_or_abstract'),
+    final_deadline_datetime: deadline,
+    final_deadline: deadline ? deadline.slice(0, 10) : '',
+    academic_year_start: year,
+    academic_year_current: year,
+    status: formData.get('status'),
+    priority: formData.get('priority'),
+    carry_forward: formData.get('status') !== 'completed',
+    visibility: formData.get('visibility'),
+    created_by: actor,
+    updated_by: actor,
+    timestamps: { created_at: nowIso(), updated_at: nowIso() },
+    notes_append_only: formData.get('note') ? [{ id: uid('note'), text: formData.get('note'), visibility: formData.get('visibility'), created_by: actor, created_at: nowIso() }] : [],
+    attachments: [],
+    revision_history: [{ version: 1, summary: `${module} activity created locally`, updated_by: actor, updated_at: nowIso() }],
+    notes: [],
+    history: [{ version: 1, summary: `${module} activity created locally`, updated_by: actor, updated_at: nowIso() }],
+    subtasks: []
+  };
+  ['type', 'funding_agency', 'PI', 'budget', 'journal', 'conference_name', 'publisher', 'book_title', 'organization', 'platform'].forEach((field) => {
+    if (formData.has(field) && formData.get(field)) record[field] = formData.get(field);
+  });
+  record.co_investigators = [];
+  record.team = [];
+  record.reporting_deadlines = [];
+  record.deliverables = [];
+  store.workbench.modules[module] = store.workbench.modules[module] || [];
+  store.workbench.modules[module].unshift(record);
+  error = 'Workbench activity added locally. Export JSON to commit it.';
   render();
 }
 

@@ -27,6 +27,7 @@ export function workbenchModulePage(ctx, module) {
   const items = structuredFilter(ctx.visibleWorkbench().filter((item) => item.module === module), ctx.filters);
   return `${pageHeader(moduleLabels[module] || slugLabel(module), 'Filtered module list with status, visibility, and detail drill-down.')}
     ${ctx.renderFilters({ moduleLocked: module })}
+    ${ctx.canWrite() ? workbenchRecordForm(module, moduleLabels[module] || slugLabel(module), ctx) : '<p class="notice">This role is read-only for adding records.</p>'}
     <div class="grid">${items.map((item) => recordCard({
       title: item.title,
       meta: `${slugLabel(item.module)} | ${item.status} | final deadline: ${item.final_deadline || 'not set'}`,
@@ -45,7 +46,7 @@ export function workbenchDetailPage(ctx, module, id) {
     <section class="detail printable">
       <div class="metadata">${statusBadge(item.status)} ${visibilityBadge(item.visibility)} ${module === 'projects' && hasOverdueReporting(item) ? statusBadge('overdue_reporting') : ''}</div>
       ${detailSection('Overall task', taskSummary(item))}
-      ${detailSection('Subtask timeline', subtaskTimeline(item))}
+      ${detailSection('Activity / sub-activity timeline', subtaskTimeline(item, { kind: 'workbench', id: item.id, module }))}
       ${projectBody}
       ${detailSection('Append-only notes', notesPanel(ctx.maskNotes(item.notes_append_only)))}
       ${detailSection('Timeline / history', timelinePanel(item.revision_history))}
@@ -54,6 +55,40 @@ export function workbenchDetailPage(ctx, module, id) {
       ${ctx.canWrite() ? ctx.appendNoteForm('workbench', item.id, module) : ''}
       ${ctx.canArchive() && item.status !== 'archived' ? `<button class="secondary" data-archive-kind="workbench" data-archive-module="${escapeHtml(module)}" data-archive-id="${escapeHtml(item.id)}">Archive record</button>` : ''}
     </section>`;
+}
+
+function workbenchRecordForm(module, title, ctx) {
+  return `<section class="panel">
+    <h3>Add ${escapeHtml(title)} activity</h3>
+    <form class="record-form" data-workbench-module="${escapeHtml(module)}">
+      <input name="title" required placeholder="Title" />
+      <input name="description_or_abstract" placeholder="Description / abstract / purpose" />
+      ${workbenchSpecificFields(module)}
+      <input name="final_deadline_datetime" type="datetime-local" />
+      <input name="academic_year_current" placeholder="Academic year" value="2025-2026" />
+      <select name="status"><option>idea</option><option>drafting</option><option>proposal</option><option>submitted</option><option>under_review</option><option>revision</option><option>followup</option><option>execution</option><option>completed</option></select>
+      <select name="priority"><option>low</option><option>medium</option><option>high</option></select>
+      <select name="visibility">${ctx.store.permissions.visibility_levels.map((item) => `<option>${escapeHtml(item)}</option>`).join('')}</select>
+      <input name="note" placeholder="Initial append-only note" />
+      <button>Add local activity</button>
+    </form>
+  </section>`;
+}
+
+function workbenchSpecificFields(module) {
+  if (module === 'projects') {
+    return `<select name="type"><option>sponsored_project</option><option>research_project</option><option>consultancy_project</option><option>grant_in_aid_project</option><option>collaborative_project</option><option>institutional_project</option><option>minor_project</option><option>major_project</option><option>industry_project</option><option>internal_seed_project</option><option>custom</option></select>
+      <input name="funding_agency" placeholder="Funding agency" />
+      <input name="PI" placeholder="PI" />
+      <input name="budget" placeholder="Budget" />`;
+  }
+  if (module === 'journal_articles') return '<input name="journal" placeholder="Journal" />';
+  if (module === 'conference_papers') return '<input name="conference_name" placeholder="Conference name" />';
+  if (module === 'authored_books') return '<input name="publisher" placeholder="Publisher" />';
+  if (module === 'book_chapters') return '<input name="book_title" placeholder="Book title" />';
+  if (module === 'consultancy') return '<input name="organization" placeholder="Organization" />';
+  if (module === 'moocs') return '<input name="platform" placeholder="Platform" />';
+  return '<input name="sub_type" placeholder="Subtype" />';
 }
 
 function genericDetails(item) {

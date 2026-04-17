@@ -65,7 +65,7 @@ export function academicModuleDetailPage(ctx, module, id) {
     <section class="detail printable">
       <div class="metadata">${statusBadge(item.status)} ${statusBadge(item.priority)} ${visibilityBadge(item.visibility)} ${item.carry_forward ? statusBadge('carry_forward') : ''}</div>
       ${detailSection('Overall task', `${taskSummary(item)}<p><strong>Academic year:</strong> ${escapeHtml(item.academic_year_current)}</p><p><strong>Carry forward:</strong> ${escapeHtml(item.carry_forward)}</p><p><strong>Created by:</strong> ${escapeHtml(item.created_by)}</p>`)}
-      ${detailSection('Subtask timeline', subtaskTimeline(item))}
+      ${detailSection('Activity / sub-activity timeline', subtaskTimeline(item, { kind: 'academic', id: item.id, module }))}
       ${ctx.canWrite() ? ctx.subtaskForm('academic', item.id, module) : ''}
       ${detailSection('Details', `<pre>${escapeHtml(JSON.stringify(stripLargeArrays(item), null, 2))}</pre>`)}
       ${detailSection('Append-only notes', notesPanel(ctx.maskNotes(item.notes || [])))}
