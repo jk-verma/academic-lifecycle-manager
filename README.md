@@ -1,6 +1,6 @@
-# Research Lifecycle Manager
+# Academic Lifecycle Manager (ALM)
 
-Research Lifecycle Manager is a GitHub Pages-friendly academic research lifecycle portal for a faculty supervisor. It is designed as a static React + Vite application using repository JSON files as the data source.
+Academic Lifecycle Manager (ALM) is a GitHub Pages-friendly academic research lifecycle portal for a faculty supervisor. It is designed as a static React + Vite application using repository JSON files as the data source.
 
 The app supports two working areas:
 
@@ -193,13 +193,13 @@ The workflow `.github/workflows/pages.yml` builds and deploys the site from `mai
 Repository name expected by default:
 
 ```text
-research-lifecycle-manager
+academic-lifecycle-manager
 ```
 
 Expected Pages URL:
 
 ```text
-https://<username>.github.io/research-lifecycle-manager/
+https://<username>.github.io/academic-lifecycle-manager/
 ```
 
 The workflow sets the Vite base path from the actual GitHub repository name:
@@ -208,7 +208,7 @@ The workflow sets the Vite base path from the actual GitHub repository name:
 VITE_BASE_PATH=/${{ github.event.repository.name }}/
 ```
 
-For local production builds, `vite.config.js` defaults to `/research-lifecycle-manager/`. If your repository name differs and you are building locally, set `VITE_BASE_PATH` before running `npm run build`.
+For local production builds, `vite.config.js` defaults to `/academic-lifecycle-manager/`. If your repository name differs and you are building locally, set `VITE_BASE_PATH` before running `npm run build`.
 
 In GitHub:
 

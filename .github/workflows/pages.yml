@@ -33,7 +33,7 @@ jobs:
       - name: Build static site
         run: npm run build
         env:
-          VITE_BASE_PATH: /${{ github.event.repository.name }}/
+          VITE_BASE_PATH: /academic-lifecycle-manager/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

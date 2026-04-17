@@ -1,6 +1,6 @@
 # Static Architecture
 
-Research Lifecycle Manager is currently a static GitHub Pages application.
+Academic Lifecycle Manager (ALM) is currently a static GitHub Pages application.
 
 ## Runtime
 
