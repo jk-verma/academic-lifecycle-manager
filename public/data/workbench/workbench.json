@@ -1015,6 +1015,443 @@
                                       "subtasks":  [
 
                                                    ]
+                                  },
+                                  {
+                                      "id":  "mooc-managerial-mastery-excel-2026",
+                                      "title":  "Managerial Mastery using Advanced Excel",
+                                      "platform":  "July 2026 Course Development",
+                                      "proposal_status":  "approved",
+                                      "noc_status":  "not_required",
+                                      "content_status":  "in_progress",
+                                      "recording_status":  "scheduled",
+                                      "upload_status":  "not_started",
+                                      "launch_term":  "July 2026",
+                                      "collaborators":  [
+                                                            "Course development team"
+                                                        ],
+                                      "organization_or_publisher":  "MOOC Course Development",
+                                      "description_or_abstract":  "Course development schedule for Managerial Mastery using Advanced Excel. Weekly final videos, assessments, and additional reading materials are tracked from the July 2026 course development email.",
+                                      "status":  "content_development",
+                                      "visibility":  "internal",
+                                      "created_by":  "u-admin",
+                                      "updated_by":  "u-admin",
+                                      "timestamps":  {
+                                                         "created_at":  "2026-04-17T14:00:00.000Z",
+                                                         "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                     },
+                                      "notes_append_only":  [
+                                                                {
+                                                                    "id":  "mn-excel-1",
+                                                                    "text":  "Email timeline added. Video review is scheduled for Week 1 and Week 2; later review submissions are NA unless requested. Final videos, assessments, and additional reading materials should be submitted on or before the listed deadlines.",
+                                                                    "visibility":  "internal",
+                                                                    "created_by":  "u-admin",
+                                                                    "created_at":  "2026-04-17T14:00:00.000Z"
+                                                                }
+                                                            ],
+                                      "attachments":  [
+
+                                                      ],
+                                      "revision_history":  [
+                                                               {
+                                                                   "version":  1,
+                                                                   "summary":  "MOOC deadline timeline created from July 2026 course development email",
+                                                                   "updated_by":  "u-admin",
+                                                                   "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                               }
+                                                           ],
+                                      "academic_year_start":  "2025-2026",
+                                      "academic_year_current":  "2025-2026",
+                                      "carry_forward":  true,
+                                      "category":  "moocs",
+                                      "sub_type":  "course_development",
+                                      "final_deadline":  "2026-07-06",
+                                      "final_deadline_datetime":  "2026-07-06T17:00",
+                                      "priority":  "high",
+                                      "notes":  [
+                                                    {
+                                                        "id":  "mn-excel-1",
+                                                        "text":  "Email timeline added. Video review is scheduled for Week 1 and Week 2; later review submissions are NA unless requested. Final videos, assessments, and additional reading materials should be submitted on or before the listed deadlines.",
+                                                        "visibility":  "internal",
+                                                        "created_by":  "u-admin",
+                                                        "created_at":  "2026-04-17T14:00:00.000Z"
+                                                    }
+                                                ],
+                                      "history":  [
+                                                      {
+                                                          "version":  1,
+                                                          "summary":  "MOOC deadline timeline created from July 2026 course development email",
+                                                          "updated_by":  "u-admin",
+                                                          "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                      }
+                                                  ],
+                                      "subtasks":  [
+                                                       {
+                                                           "id":  "sub-excel-week-1-review",
+                                                           "parent_record_id":  "mooc-managerial-mastery-excel-2026",
+                                                           "title":  "Week 1 videos for review",
+                                                           "subtask_type":  "videos_for_review",
+                                                           "due_date":  "2026-04-24",
+                                                           "due_datetime":  "2026-04-24T17:00",
+                                                           "completed_date":  "",
+                                                           "completed_datetime":  "",
+                                                           "status":  "pending",
+                                                           "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                           "notes":  [
+                                                                         {
+                                                                             "id":  "sub-excel-week-1-review-note-1",
+                                                                             "text":  "Feedback is expected within 2 days of submission.",
+                                                                             "visibility":  "internal",
+                                                                             "created_by":  "u-admin",
+                                                                             "created_at":  "2026-04-17T14:00:00.000Z"
+                                                                         }
+                                                                     ],
+                                                           "history":  [
+                                                                           {
+                                                                               "version":  1,
+                                                                               "summary":  "Subtask created from MOOC email timeline",
+                                                                               "updated_by":  "u-admin",
+                                                                               "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                                           }
+                                                                       ],
+                                                           "sequence_order":  1
+                                                       },
+                                                       {
+                                                           "id":  "sub-excel-week-1-final-videos",
+                                                           "parent_record_id":  "mooc-managerial-mastery-excel-2026",
+                                                           "title":  "Week 1 final videos",
+                                                           "subtask_type":  "final_videos",
+                                                           "due_date":  "2026-04-30",
+                                                           "due_datetime":  "2026-04-30T17:00",
+                                                           "completed_date":  "",
+                                                           "completed_datetime":  "",
+                                                           "status":  "pending",
+                                                           "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                           "notes":  [
+
+                                                                     ],
+                                                           "history":  [
+                                                                           {
+                                                                               "version":  1,
+                                                                               "summary":  "Subtask created from MOOC email timeline",
+                                                                               "updated_by":  "u-admin",
+                                                                               "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                                           }
+                                                                       ],
+                                                           "sequence_order":  2
+                                                       },
+                                                       {
+                                                           "id":  "sub-excel-week-2-review",
+                                                           "parent_record_id":  "mooc-managerial-mastery-excel-2026",
+                                                           "title":  "Week 2 videos for review",
+                                                           "subtask_type":  "videos_for_review",
+                                                           "due_date":  "2026-05-12",
+                                                           "due_datetime":  "2026-05-12T17:00",
+                                                           "completed_date":  "",
+                                                           "completed_datetime":  "",
+                                                           "status":  "pending",
+                                                           "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                           "notes":  [
+                                                                         {
+                                                                             "id":  "sub-excel-week-2-review-note-1",
+                                                                             "text":  "Feedback is expected within 2 days of submission.",
+                                                                             "visibility":  "internal",
+                                                                             "created_by":  "u-admin",
+                                                                             "created_at":  "2026-04-17T14:00:00.000Z"
+                                                                         }
+                                                                     ],
+                                                           "history":  [
+                                                                           {
+                                                                               "version":  1,
+                                                                               "summary":  "Subtask created from MOOC email timeline",
+                                                                               "updated_by":  "u-admin",
+                                                                               "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                                           }
+                                                                       ],
+                                                           "sequence_order":  3
+                                                       },
+                                                       {
+                                                           "id":  "sub-excel-week-2-final-videos",
+                                                           "parent_record_id":  "mooc-managerial-mastery-excel-2026",
+                                                           "title":  "Week 2 final videos",
+                                                           "subtask_type":  "final_videos",
+                                                           "due_date":  "2026-05-15",
+                                                           "due_datetime":  "2026-05-15T17:00",
+                                                           "completed_date":  "",
+                                                           "completed_datetime":  "",
+                                                           "status":  "pending",
+                                                           "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                           "notes":  [
+
+                                                                     ],
+                                                           "history":  [
+                                                                           {
+                                                                               "version":  1,
+                                                                               "summary":  "Subtask created from MOOC email timeline",
+                                                                               "updated_by":  "u-admin",
+                                                                               "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                                           }
+                                                                       ],
+                                                           "sequence_order":  4
+                                                       },
+                                                       {
+                                                           "id":  "sub-excel-week-3-final-videos",
+                                                           "parent_record_id":  "mooc-managerial-mastery-excel-2026",
+                                                           "title":  "Week 3 final videos",
+                                                           "subtask_type":  "final_videos",
+                                                           "due_date":  "2026-05-25",
+                                                           "due_datetime":  "2026-05-25T17:00",
+                                                           "completed_date":  "",
+                                                           "completed_datetime":  "",
+                                                           "status":  "pending",
+                                                           "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                           "notes":  [
+                                                                         {
+                                                                             "id":  "sub-excel-week-3-final-videos-note-1",
+                                                                             "text":  "Videos for review are NA unless specifically required.",
+                                                                             "visibility":  "internal",
+                                                                             "created_by":  "u-admin",
+                                                                             "created_at":  "2026-04-17T14:00:00.000Z"
+                                                                         }
+                                                                     ],
+                                                           "history":  [
+                                                                           {
+                                                                               "version":  1,
+                                                                               "summary":  "Subtask created from MOOC email timeline",
+                                                                               "updated_by":  "u-admin",
+                                                                               "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                                           }
+                                                                       ],
+                                                           "sequence_order":  5
+                                                       },
+                                                       {
+                                                           "id":  "sub-excel-week-4-final-videos",
+                                                           "parent_record_id":  "mooc-managerial-mastery-excel-2026",
+                                                           "title":  "Week 4 final videos",
+                                                           "subtask_type":  "final_videos",
+                                                           "due_date":  "2026-06-01",
+                                                           "due_datetime":  "2026-06-01T17:00",
+                                                           "completed_date":  "",
+                                                           "completed_datetime":  "",
+                                                           "status":  "pending",
+                                                           "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                           "notes":  [
+
+                                                                     ],
+                                                           "history":  [
+                                                                           {
+                                                                               "version":  1,
+                                                                               "summary":  "Subtask created from MOOC email timeline",
+                                                                               "updated_by":  "u-admin",
+                                                                               "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                                           }
+                                                                       ],
+                                                           "sequence_order":  6
+                                                       },
+                                                       {
+                                                           "id":  "sub-excel-week-5-final-videos",
+                                                           "parent_record_id":  "mooc-managerial-mastery-excel-2026",
+                                                           "title":  "Week 5 final videos",
+                                                           "subtask_type":  "final_videos",
+                                                           "due_date":  "2026-06-10",
+                                                           "due_datetime":  "2026-06-10T17:00",
+                                                           "completed_date":  "",
+                                                           "completed_datetime":  "",
+                                                           "status":  "pending",
+                                                           "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                           "notes":  [
+
+                                                                     ],
+                                                           "history":  [
+                                                                           {
+                                                                               "version":  1,
+                                                                               "summary":  "Subtask created from MOOC email timeline",
+                                                                               "updated_by":  "u-admin",
+                                                                               "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                                           }
+                                                                       ],
+                                                           "sequence_order":  7
+                                                       },
+                                                       {
+                                                           "id":  "sub-excel-week-6-final-videos",
+                                                           "parent_record_id":  "mooc-managerial-mastery-excel-2026",
+                                                           "title":  "Week 6 final videos",
+                                                           "subtask_type":  "final_videos",
+                                                           "due_date":  "2026-06-16",
+                                                           "due_datetime":  "2026-06-16T17:00",
+                                                           "completed_date":  "",
+                                                           "completed_datetime":  "",
+                                                           "status":  "pending",
+                                                           "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                           "notes":  [
+
+                                                                     ],
+                                                           "history":  [
+                                                                           {
+                                                                               "version":  1,
+                                                                               "summary":  "Subtask created from MOOC email timeline",
+                                                                               "updated_by":  "u-admin",
+                                                                               "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                                           }
+                                                                       ],
+                                                           "sequence_order":  8
+                                                       },
+                                                       {
+                                                           "id":  "sub-excel-week-7-final-videos",
+                                                           "parent_record_id":  "mooc-managerial-mastery-excel-2026",
+                                                           "title":  "Week 7 final videos",
+                                                           "subtask_type":  "final_videos",
+                                                           "due_date":  "2026-06-22",
+                                                           "due_datetime":  "2026-06-22T17:00",
+                                                           "completed_date":  "",
+                                                           "completed_datetime":  "",
+                                                           "status":  "pending",
+                                                           "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                           "notes":  [
+
+                                                                     ],
+                                                           "history":  [
+                                                                           {
+                                                                               "version":  1,
+                                                                               "summary":  "Subtask created from MOOC email timeline",
+                                                                               "updated_by":  "u-admin",
+                                                                               "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                                           }
+                                                                       ],
+                                                           "sequence_order":  9
+                                                       },
+                                                       {
+                                                           "id":  "sub-excel-week-8-final-videos",
+                                                           "parent_record_id":  "mooc-managerial-mastery-excel-2026",
+                                                           "title":  "Week 8 final videos",
+                                                           "subtask_type":  "final_videos",
+                                                           "due_date":  "2026-06-26",
+                                                           "due_datetime":  "2026-06-26T17:00",
+                                                           "completed_date":  "",
+                                                           "completed_datetime":  "",
+                                                           "status":  "pending",
+                                                           "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                           "notes":  [
+
+                                                                     ],
+                                                           "history":  [
+                                                                           {
+                                                                               "version":  1,
+                                                                               "summary":  "Subtask created from MOOC email timeline",
+                                                                               "updated_by":  "u-admin",
+                                                                               "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                                           }
+                                                                       ],
+                                                           "sequence_order":  10
+                                                       },
+                                                       {
+                                                           "id":  "sub-excel-week-9-final-videos",
+                                                           "parent_record_id":  "mooc-managerial-mastery-excel-2026",
+                                                           "title":  "Week 9 final videos",
+                                                           "subtask_type":  "final_videos",
+                                                           "due_date":  "2026-06-30",
+                                                           "due_datetime":  "2026-06-30T17:00",
+                                                           "completed_date":  "",
+                                                           "completed_datetime":  "",
+                                                           "status":  "pending",
+                                                           "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                           "notes":  [
+
+                                                                     ],
+                                                           "history":  [
+                                                                           {
+                                                                               "version":  1,
+                                                                               "summary":  "Subtask created from MOOC email timeline",
+                                                                               "updated_by":  "u-admin",
+                                                                               "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                                           }
+                                                                       ],
+                                                           "sequence_order":  11
+                                                       },
+                                                       {
+                                                           "id":  "sub-excel-assessments-all-weeks",
+                                                           "parent_record_id":  "mooc-managerial-mastery-excel-2026",
+                                                           "title":  "Assessments for all weeks",
+                                                           "subtask_type":  "assessments",
+                                                           "due_date":  "2026-06-30",
+                                                           "due_datetime":  "2026-06-30T17:00",
+                                                           "completed_date":  "",
+                                                           "completed_datetime":  "",
+                                                           "status":  "pending",
+                                                           "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                           "notes":  [
+                                                                         {
+                                                                             "id":  "sub-excel-assessments-all-weeks-note-1",
+                                                                             "text":  "Prepare 10 MCQs per week before June end.",
+                                                                             "visibility":  "internal",
+                                                                             "created_by":  "u-admin",
+                                                                             "created_at":  "2026-04-17T14:00:00.000Z"
+                                                                         }
+                                                                     ],
+                                                           "history":  [
+                                                                           {
+                                                                               "version":  1,
+                                                                               "summary":  "Subtask created from MOOC email timeline",
+                                                                               "updated_by":  "u-admin",
+                                                                               "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                                           }
+                                                                       ],
+                                                           "sequence_order":  12
+                                                       },
+                                                       {
+                                                           "id":  "sub-excel-additional-reading",
+                                                           "parent_record_id":  "mooc-managerial-mastery-excel-2026",
+                                                           "title":  "Additional reading materials",
+                                                           "subtask_type":  "additional_reading",
+                                                           "due_date":  "2026-06-30",
+                                                           "due_datetime":  "2026-06-30T17:00",
+                                                           "completed_date":  "",
+                                                           "completed_datetime":  "",
+                                                           "status":  "pending",
+                                                           "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                           "notes":  [
+                                                                         {
+                                                                             "id":  "sub-excel-additional-reading-note-1",
+                                                                             "text":  "Submit additional reading materials before June end.",
+                                                                             "visibility":  "internal",
+                                                                             "created_by":  "u-admin",
+                                                                             "created_at":  "2026-04-17T14:00:00.000Z"
+                                                                         }
+                                                                     ],
+                                                           "history":  [
+                                                                           {
+                                                                               "version":  1,
+                                                                               "summary":  "Subtask created from MOOC email timeline",
+                                                                               "updated_by":  "u-admin",
+                                                                               "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                                           }
+                                                                       ],
+                                                           "sequence_order":  13
+                                                       },
+                                                       {
+                                                           "id":  "sub-excel-week-10-final-videos",
+                                                           "parent_record_id":  "mooc-managerial-mastery-excel-2026",
+                                                           "title":  "Week 10 final videos",
+                                                           "subtask_type":  "final_videos",
+                                                           "due_date":  "2026-07-06",
+                                                           "due_datetime":  "2026-07-06T17:00",
+                                                           "completed_date":  "",
+                                                           "completed_datetime":  "",
+                                                           "status":  "pending",
+                                                           "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                           "notes":  [
+
+                                                                     ],
+                                                           "history":  [
+                                                                           {
+                                                                               "version":  1,
+                                                                               "summary":  "Subtask created from MOOC email timeline",
+                                                                               "updated_by":  "u-admin",
+                                                                               "updated_at":  "2026-04-17T14:00:00.000Z"
+                                                                           }
+                                                                       ],
+                                                           "sequence_order":  14
+                                                       }
+                                                   ]
                                   }
                               ],
                     "custom_activities":  [
