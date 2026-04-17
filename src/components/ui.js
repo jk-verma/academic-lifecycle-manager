@@ -71,6 +71,7 @@ export function filterBar(filters, options = {}) {
     <select id="filter-module" ${options.moduleLocked ? 'disabled' : ''}><option value="">Any module</option>${(options.modules || []).map((item) => `<option value="${escapeHtml(item)}" ${(filters.module || options.moduleLocked) === item ? 'selected' : ''}>${escapeHtml(slugLabel(item))}</option>`).join('')}</select>
     <input id="filter-status" value="${escapeHtml(filters.status || '')}" placeholder="Status" />
     <select id="filter-visibility"><option value="">Any visibility</option>${(options.visibilities || []).map((item) => `<option value="${escapeHtml(item)}" ${filters.visibility === item ? 'selected' : ''}>${escapeHtml(slugLabel(item))}</option>`).join('')}</select>
+    <select id="filter-academicYear"><option value="">Any academic year</option>${(options.academicYears || []).map((item) => `<option value="${escapeHtml(item)}" ${filters.academicYear === item ? 'selected' : ''}>${escapeHtml(item)}</option>`).join('')}</select>
     <input id="filter-from" type="date" value="${escapeHtml(filters.from || '')}" />
     <input id="filter-to" type="date" value="${escapeHtml(filters.to || '')}" />
   </div>`;

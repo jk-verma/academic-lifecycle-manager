@@ -3,10 +3,17 @@
   "users": [
     {
       "id": "u-admin",
-      "name": "Faculty Supervisor",
+      "name": "Dr. Jitendra Kumar Verma",
       "role": "ADMIN",
-      "email": "faculty@example.edu",
-      "note": "Static GitHub Pages role profile. This is not authentication."
+      "email": "jitendra.verma@example.edu",
+      "note": "Primary faculty admin. Static GitHub Pages role profile; this is not authentication."
+    },
+    {
+      "id": "u-assistant",
+      "name": "Faculty Assistant",
+      "role": "ASSISTANT",
+      "email": "assistant@example.edu",
+      "note": "Optional assistant role for data entry, daily logs, deadlines, follow-up notes, meeting details, attendees, and action items."
     },
     {
       "id": "u-writer",

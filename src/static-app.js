@@ -1,5 +1,7 @@
 import { filterBar } from './components/ui.js';
 import { loadStore } from './data/load.js';
+import { activitiesPage, activityDetailPage } from './pages/activities.js';
+import { calendarDetailPage, calendarPage } from './pages/calendar.js';
 import { candidateDetailPage, candidatePhasePage, candidatesListPage } from './pages/candidates.js';
 import { dashboardPage } from './pages/dashboard.js';
 import { dataPage } from './pages/data.js';
@@ -7,6 +9,8 @@ import { meetingDetailPage, meetingsListPage } from './pages/meetings.js';
 import { searchPage } from './pages/search.js';
 import { settingsPage } from './pages/settings.js';
 import { moduleLabels, workbenchDetailPage, workbenchHomePage, workbenchModulePage } from './pages/workbench.js';
+import { yearDetailPage, yearsPage } from './pages/years.js';
+import { academicYearForDate } from './utils/academic-year.js';
 import { nowIso } from './utils/date.js';
 import { diffSummary, downloadJson } from './utils/export.js';
 import { escapeHtml, uid } from './utils/html.js';
@@ -42,6 +46,24 @@ function visibleWorkbench() {
   return visibleByRole(store, role, flattenWorkbench(store.workbench), ['description_or_abstract', 'budget', 'honorarium', 'deliverables']);
 }
 
+function visibleActivities() {
+  return visibleByRole(store, role, store.activities.records, ['short_notes']);
+}
+
+function visibleCalendar() {
+  return visibleByRole(store, role, store.calendar.records, ['notes']);
+}
+
+function allRecords() {
+  return [
+    ...visibleCandidates().map((item) => ({ ...item, route: `#/candidates/${item.id}` })),
+    ...visibleMeetings().map((item) => ({ ...item, route: `#/meetings/${item.id}` })),
+    ...visibleWorkbench().map((item) => ({ ...item, route: `#/workbench/${item.module}/${item.id}` })),
+    ...visibleActivities().map((item) => ({ ...item, route: `#/activities/${item.id}` })),
+    ...visibleCalendar().map((item) => ({ ...item, route: `#/calendar/${item.id}` }))
+  ];
+}
+
 function renderFilters(options = {}) {
   return filterBar(filters, {
     programmes: [...new Set(store.candidates.records.map((item) => item.programme_type))],
@@ -49,6 +71,7 @@ function renderFilters(options = {}) {
     phases: [...new Set(store.meetings.records.map((item) => item.phase))],
     modules: Object.keys(moduleLabels),
     visibilities: store.permissions.visibility_levels,
+    academicYears: [...new Set(allRecords().flatMap((item) => [item.academic_year_start, item.academic_year_current]).filter(Boolean))].sort().reverse(),
     ...options
   });
 }
@@ -74,6 +97,9 @@ function ctx() {
     visibleCandidates,
     visibleMeetings,
     visibleWorkbench,
+    visibleActivities,
+    visibleCalendar,
+    allRecords,
     maskNotes: (notes) => maskNotes(store, role, notes),
     canWrite: () => canWrite(store, role),
     canArchive: () => canArchive(store, role),
@@ -90,6 +116,9 @@ function shell(content) {
     ['candidates', 'Candidates'],
     ['meetings', 'Meetings'],
     ['workbench', 'Workbench'],
+    ['activities', 'Daily Activity'],
+    ['calendar', 'Calendar'],
+    ['years', 'Academic Years'],
     ['search', 'Search'],
     ['data', 'Data / Import-Export'],
     ['settings', 'Settings']
@@ -126,6 +155,12 @@ function render() {
   else if (parts[0] === 'workbench' && parts[1] && parts[2]) content = workbenchDetailPage(c, parts[1], parts[2]);
   else if (parts[0] === 'workbench' && parts[1]) content = workbenchModulePage(c, parts[1]);
   else if (parts[0] === 'workbench') content = workbenchHomePage(c);
+  else if (parts[0] === 'activities' && parts[1]) content = activityDetailPage(c, parts[1]);
+  else if (parts[0] === 'activities') content = activitiesPage(c);
+  else if (parts[0] === 'calendar' && parts[1]) content = calendarDetailPage(c, parts[1]);
+  else if (parts[0] === 'calendar') content = calendarPage(c);
+  else if (parts[0] === 'years' && parts[1]) content = yearDetailPage(c, parts[1]);
+  else if (parts[0] === 'years') content = yearsPage(c);
   else if (parts[0] === 'search') content = searchPage(c);
   else if (parts[0] === 'data') content = dataPage(c);
   else if (parts[0] === 'settings') content = settingsPage(c);
@@ -143,7 +178,7 @@ function bindEvents() {
     });
   }
 
-  ['q', 'programme', 'candidate', 'phase', 'module', 'status', 'visibility', 'from', 'to'].forEach((key) => {
+  ['q', 'programme', 'candidate', 'phase', 'module', 'status', 'visibility', 'academicYear', 'from', 'to'].forEach((key) => {
     const el = document.getElementById(`filter-${key}`);
     if (el) {
       el.addEventListener('input', (event) => {
@@ -183,6 +218,18 @@ function bindEvents() {
 
   document.querySelectorAll('[data-archive-kind]').forEach((button) => {
     button.addEventListener('click', () => archiveRecord(button.dataset.archiveKind, button.dataset.archiveId, button.dataset.archiveModule || ''));
+  });
+
+  const activityForm = document.getElementById('activity-form');
+  if (activityForm) activityForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    addActivity(new FormData(activityForm));
+  });
+
+  const calendarForm = document.getElementById('calendar-form');
+  if (calendarForm) calendarForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    addCalendarItem(new FormData(calendarForm));
   });
 }
 
@@ -255,6 +302,58 @@ function previewDraft(formData) {
   render();
 }
 
+function addActivity(formData) {
+  if (!canWrite(store, role)) return;
+  const date = formData.get('date');
+  store.activities.records.unshift({
+    id: uid('act'),
+    date,
+    title: formData.get('title'),
+    category: formData.get('category'),
+    sub_type: formData.get('sub_type'),
+    linked_record_id: formData.get('linked_record_id'),
+    short_notes: formData.get('short_notes'),
+    status: 'open',
+    next_action_date: '',
+    priority: formData.get('priority'),
+    created_by: `local-${role.toLowerCase()}`,
+    created_at: nowIso(),
+    updated_at: nowIso(),
+    visibility: formData.get('visibility'),
+    academic_year_start: academicYearForDate(date),
+    academic_year_current: academicYearForDate(date),
+    carry_forward: true,
+    history: [{ version: 1, summary: 'Daily activity created locally', updated_by: `local-${role.toLowerCase()}`, updated_at: nowIso() }]
+  });
+  error = 'Daily activity added locally. Export JSON to commit it.';
+  render();
+}
+
+function addCalendarItem(formData) {
+  if (!canWrite(store, role)) return;
+  const dueDate = formData.get('due_date');
+  store.calendar.records.unshift({
+    id: uid('cal'),
+    title: formData.get('title'),
+    linked_record_id: formData.get('linked_record_id'),
+    category: formData.get('category'),
+    sub_type: formData.get('sub_type'),
+    due_date: dueDate,
+    reminder_date: formData.get('reminder_date'),
+    status: 'open',
+    priority: formData.get('priority'),
+    notes: '',
+    created_by: `local-${role.toLowerCase()}`,
+    academic_year_start: academicYearForDate(dueDate),
+    academic_year_current: academicYearForDate(dueDate),
+    carry_forward: true,
+    visibility: formData.get('visibility'),
+    history: [{ version: 1, summary: 'Calendar item created locally', updated_by: `local-${role.toLowerCase()}`, updated_at: nowIso() }]
+  });
+  error = 'Calendar item added locally. Export JSON to commit it.';
+  render();
+}
+
 function importBundle(event) {
   const file = event.target.files?.[0];
   if (!file) return;
@@ -262,7 +361,7 @@ function importBundle(event) {
   reader.onload = () => {
     try {
       const parsed = JSON.parse(reader.result);
-      if (!parsed.candidates || !parsed.meetings || !parsed.workbench) throw new Error('Bundle must include candidates, meetings, and workbench.');
+      if (!parsed.candidates || !parsed.meetings || !parsed.workbench || !parsed.activities || !parsed.calendar) throw new Error('Bundle must include candidates, meetings, workbench, activities, and calendar.');
       store = { ...store, ...parsed };
       error = 'JSON bundle imported into local browser state.';
       render();

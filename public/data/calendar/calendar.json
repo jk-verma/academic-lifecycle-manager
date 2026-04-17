@@ -1,0 +1,66 @@
+{
+  "schema": "research-lifecycle-manager.calendar.v1",
+  "updated_at": "2026-04-17T00:00:00.000Z",
+  "records": [
+    {
+      "id": "cal-meera-dac-evidence",
+      "title": "Submit DAC compliance evidence",
+      "linked_record_id": "cand-phd-meera",
+      "category": "supervision",
+      "sub_type": "phd_dac",
+      "due_date": "2026-04-20",
+      "reminder_date": "2026-04-18",
+      "status": "open",
+      "priority": "high",
+      "notes": "Evidence required before next DAC review.",
+      "created_by": "u-assistant",
+      "academic_year_start": "2025-2026",
+      "academic_year_current": "2025-2026",
+      "carry_forward": true,
+      "visibility": "internal",
+      "history": [
+        {"version": 1, "summary": "Calendar deadline created by assistant", "updated_by": "u-assistant", "updated_at": "2026-04-15T16:10:00.000Z"}
+      ]
+    },
+    {
+      "id": "cal-journal-revision",
+      "title": "Journal revision response due",
+      "linked_record_id": "journal-fed-biomed-001",
+      "category": "research",
+      "sub_type": "journal_revision",
+      "due_date": "2026-04-30",
+      "reminder_date": "2026-04-25",
+      "status": "open",
+      "priority": "high",
+      "notes": "Reviewer 2 ablation response.",
+      "created_by": "u-admin",
+      "academic_year_start": "2025-2026",
+      "academic_year_current": "2025-2026",
+      "carry_forward": true,
+      "visibility": "admin_only",
+      "history": [
+        {"version": 1, "summary": "Revision deadline entered by admin", "updated_by": "u-admin", "updated_at": "2026-04-16T10:00:00.000Z"}
+      ]
+    },
+    {
+      "id": "cal-project-reporting",
+      "title": "Project reporting deadline",
+      "linked_record_id": "proj-rural-health-ai-001",
+      "category": "projects",
+      "sub_type": "project_reporting",
+      "due_date": "2026-06-30",
+      "reminder_date": "2026-06-15",
+      "status": "open",
+      "priority": "medium",
+      "notes": "Prepare follow-up report and utilization summary.",
+      "created_by": "u-admin",
+      "academic_year_start": "2025-2026",
+      "academic_year_current": "2025-2026",
+      "carry_forward": true,
+      "visibility": "admin_only",
+      "history": [
+        {"version": 1, "summary": "Project reporting calendar item created", "updated_by": "u-admin", "updated_at": "2026-04-16T10:30:00.000Z"}
+      ]
+    }
+  ]
+}

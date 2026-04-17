@@ -5,7 +5,9 @@ export function searchPage(ctx) {
   const records = [
     ...ctx.visibleCandidates().map((item) => ({ ...item, kind: 'candidate', title: item.name, href: `#/candidates/${item.id}`, body: item.topic })),
     ...ctx.visibleMeetings().map((item) => ({ ...item, kind: 'meeting', href: `#/meetings/${item.id}`, body: item.discussion })),
-    ...ctx.visibleWorkbench().map((item) => ({ ...item, kind: item.module, href: `#/workbench/${item.module}/${item.id}`, body: item.description_or_abstract }))
+    ...ctx.visibleWorkbench().map((item) => ({ ...item, kind: item.module, href: `#/workbench/${item.module}/${item.id}`, body: item.description_or_abstract })),
+    ...ctx.visibleActivities().map((item) => ({ ...item, kind: 'daily_activity', href: `#/activities/${item.id}`, body: item.short_notes })),
+    ...ctx.visibleCalendar().map((item) => ({ ...item, kind: 'calendar', href: `#/calendar/${item.id}`, body: item.notes }))
   ];
   const results = structuredFilter(records, ctx.filters);
   return `${pageHeader('Search', 'Structured search across candidates, meetings, modules, projects, and publications.')}

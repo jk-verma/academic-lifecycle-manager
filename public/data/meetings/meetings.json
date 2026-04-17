@@ -1,119 +1,235 @@
 {
-  "schema": "research-lifecycle-manager.meetings.v1",
-  "updated_at": "2026-04-16T00:00:00.000Z",
-  "records": [
-    {
-      "id": "meet-asha-synopsis-001",
-      "candidate_id": "cand-ms-asha",
-      "programme_type": "Masters",
-      "phase": "Synopsis",
-      "sub_phase": "Problem framing",
-      "title": "Synopsis framing discussion",
-      "date": "2026-02-12",
-      "start_time": "10:00",
-      "end_time": "10:45",
-      "mode": "offline",
-      "venue_or_link": "Department room 204",
-      "attendees": ["Faculty Supervisor", "Asha Menon"],
-      "attendance_status": "present",
-      "agenda": "Scope review and methodology plan",
-      "discussion": "Candidate refined the problem statement and dataset criteria.",
-      "decisions": "Proceed with literature matrix and ethics checklist.",
-      "action_items": [
-        {"id": "ai-asha-1", "text": "Prepare literature matrix", "responsible_person": "Asha Menon", "due_date": "2026-02-25", "status": "open", "visibility": "candidate_visible"},
-        {"id": "ai-asha-2", "text": "Review ethics checklist", "responsible_person": "Faculty Supervisor", "due_date": "2026-02-28", "status": "open", "visibility": "internal"}
-      ],
-      "responsible_person": "Asha Menon",
-      "due_dates": ["2026-02-25", "2026-02-28"],
-      "satisfaction_status": "satisfied",
-      "next_meeting_date": "2026-03-01",
-      "visibility": "candidate_visible",
-      "status": "completed",
-      "created_by": "u-admin",
-      "updated_by": "u-admin",
-      "timestamps": {"created_at": "2026-02-12T10:45:00.000Z", "updated_at": "2026-02-12T10:45:00.000Z"},
-      "comments_append_only": [
-        {"id": "c-asha-1", "text": "Student-visible summary added after meeting.", "visibility": "candidate_visible", "created_by": "u-admin", "created_at": "2026-02-12T11:00:00.000Z"}
-      ],
-      "attachments": [{"label": "Minutes draft", "url": "docs/minutes/meet-asha-synopsis-001.md", "visibility": "internal"}],
-      "revision_history": [
-        {"version": 1, "summary": "Meeting minutes created", "updated_by": "u-admin", "updated_at": "2026-02-12T10:45:00.000Z"}
-      ]
-    },
-    {
-      "id": "meet-meera-dac1-001",
-      "candidate_id": "cand-phd-meera",
-      "programme_type": "PhD",
-      "phase": "DAC-1",
-      "sub_phase": "Suggestion tracking",
-      "title": "DAC suggestion review",
-      "date": "2026-03-05",
-      "start_time": "09:30",
-      "end_time": "11:00",
-      "mode": "online",
-      "venue_or_link": "https://meet.example.edu/dac1",
-      "attendees": ["Faculty Supervisor", "DAC Member 1", "Meera Iyer"],
-      "attendance_status": "present",
-      "agenda": "Track DAC suggestions and compliance plan",
-      "discussion": "Methodology comments need internal handling before candidate-facing summary.",
-      "decisions": "Create compliance items before next DAC.",
-      "action_items": [
-        {"id": "ai-meera-1", "text": "Add ablation study plan", "responsible_person": "Meera Iyer", "due_date": "2026-04-15", "status": "open", "visibility": "internal"}
-      ],
-      "responsible_person": "Meera Iyer",
-      "due_dates": ["2026-04-15"],
-      "satisfaction_status": "partially_satisfied",
-      "next_meeting_date": "2026-04-20",
-      "visibility": "internal",
-      "status": "completed",
-      "created_by": "u-admin",
-      "updated_by": "u-admin",
-      "timestamps": {"created_at": "2026-03-05T11:10:00.000Z", "updated_at": "2026-03-05T11:10:00.000Z"},
-      "comments_append_only": [
-        {"id": "c-meera-1", "text": "DAC compliance matrix opened.", "visibility": "internal", "created_by": "u-admin", "created_at": "2026-03-05T11:15:00.000Z"},
-        {"id": "c-meera-conf", "text": "Confidential assessment notes for supervisor only.", "visibility": "admin_only", "created_by": "u-admin", "created_at": "2026-03-05T11:20:00.000Z"}
-      ],
-      "attachments": [{"label": "DAC checklist", "url": "docs/minutes/meet-meera-dac1-001.md", "visibility": "supervisor_only"}],
-      "revision_history": [
-        {"version": 1, "summary": "Meeting minutes created", "updated_by": "u-admin", "updated_at": "2026-03-05T11:10:00.000Z"}
-      ]
-    },
-    {
-      "id": "meet-nina-weekly-001",
-      "candidate_id": "cand-int-nina",
-      "programme_type": "Intern",
-      "phase": "Weekly Review",
-      "sub_phase": "Literature mapping",
-      "title": "Intern weekly checkpoint",
-      "date": "2026-03-20",
-      "start_time": "14:00",
-      "end_time": "14:20",
-      "mode": "online",
-      "venue_or_link": "https://meet.example.edu/intern",
-      "attendees": ["Faculty Supervisor", "Nina Das"],
-      "attendance_status": "present",
-      "agenda": "Review literature map",
-      "discussion": "Progress is on track; sensitive project details withheld.",
-      "decisions": "Share sanitized reading list.",
-      "action_items": [
-        {"id": "ai-nina-1", "text": "Update reading list tags", "responsible_person": "Nina Das", "due_date": "2026-03-27", "status": "open", "visibility": "sanitized_external"}
-      ],
-      "responsible_person": "Nina Das",
-      "due_dates": ["2026-03-27"],
-      "satisfaction_status": "satisfied",
-      "next_meeting_date": "2026-03-27",
-      "visibility": "sanitized_external",
-      "status": "completed",
-      "created_by": "u-writer",
-      "updated_by": "u-writer",
-      "timestamps": {"created_at": "2026-03-20T14:25:00.000Z", "updated_at": "2026-03-20T14:25:00.000Z"},
-      "comments_append_only": [
-        {"id": "c-nina-1", "text": "Use sanitized bibliography export.", "visibility": "sanitized_external", "created_by": "u-writer", "created_at": "2026-03-20T14:25:00.000Z"}
-      ],
-      "attachments": [],
-      "revision_history": [
-        {"version": 1, "summary": "Intern checkpoint created", "updated_by": "u-writer", "updated_at": "2026-03-20T14:25:00.000Z"}
-      ]
-    }
-  ]
+    "schema":  "research-lifecycle-manager.meetings.v1",
+    "updated_at":  "2026-04-16T00:00:00.000Z",
+    "records":  [
+                    {
+                        "id":  "meet-asha-synopsis-001",
+                        "candidate_id":  "cand-ms-asha",
+                        "programme_type":  "Masters",
+                        "phase":  "Synopsis",
+                        "sub_phase":  "Problem framing",
+                        "title":  "Synopsis framing discussion",
+                        "date":  "2026-02-12",
+                        "start_time":  "10:00",
+                        "end_time":  "10:45",
+                        "mode":  "offline",
+                        "venue_or_link":  "Department room 204",
+                        "attendees":  [
+                                          "Faculty Supervisor",
+                                          "Asha Menon"
+                                      ],
+                        "attendance_status":  "present",
+                        "agenda":  "Scope review and methodology plan",
+                        "discussion":  "Candidate refined the problem statement and dataset criteria.",
+                        "decisions":  "Proceed with literature matrix and ethics checklist.",
+                        "action_items":  [
+                                             {
+                                                 "id":  "ai-asha-1",
+                                                 "text":  "Prepare literature matrix",
+                                                 "responsible_person":  "Asha Menon",
+                                                 "due_date":  "2026-02-25",
+                                                 "status":  "open",
+                                                 "visibility":  "candidate_visible"
+                                             },
+                                             {
+                                                 "id":  "ai-asha-2",
+                                                 "text":  "Review ethics checklist",
+                                                 "responsible_person":  "Faculty Supervisor",
+                                                 "due_date":  "2026-02-28",
+                                                 "status":  "open",
+                                                 "visibility":  "internal"
+                                             }
+                                         ],
+                        "responsible_person":  "Asha Menon",
+                        "due_dates":  [
+                                          "2026-02-25",
+                                          "2026-02-28"
+                                      ],
+                        "satisfaction_status":  "satisfied",
+                        "next_meeting_date":  "2026-03-01",
+                        "visibility":  "candidate_visible",
+                        "status":  "completed",
+                        "created_by":  "u-admin",
+                        "updated_by":  "u-admin",
+                        "timestamps":  {
+                                           "created_at":  "2026-02-12T10:45:00.000Z",
+                                           "updated_at":  "2026-02-12T10:45:00.000Z"
+                                       },
+                        "comments_append_only":  [
+                                                     {
+                                                         "id":  "c-asha-1",
+                                                         "text":  "Student-visible summary added after meeting.",
+                                                         "visibility":  "candidate_visible",
+                                                         "created_by":  "u-admin",
+                                                         "created_at":  "2026-02-12T11:00:00.000Z"
+                                                     }
+                                                 ],
+                        "attachments":  [
+                                            {
+                                                "label":  "Minutes draft",
+                                                "url":  "docs/minutes/meet-asha-synopsis-001.md",
+                                                "visibility":  "internal"
+                                            }
+                                        ],
+                        "revision_history":  [
+                                                 {
+                                                     "version":  1,
+                                                     "summary":  "Meeting minutes created",
+                                                     "updated_by":  "u-admin",
+                                                     "updated_at":  "2026-02-12T10:45:00.000Z"
+                                                 }
+                                             ],
+                        "academic_year_start":  "2025-2026",
+                        "academic_year_current":  "2025-2026",
+                        "carry_forward":  false
+                    },
+                    {
+                        "id":  "meet-meera-dac1-001",
+                        "candidate_id":  "cand-phd-meera",
+                        "programme_type":  "PhD",
+                        "phase":  "DAC-1",
+                        "sub_phase":  "Suggestion tracking",
+                        "title":  "DAC suggestion review",
+                        "date":  "2026-03-05",
+                        "start_time":  "09:30",
+                        "end_time":  "11:00",
+                        "mode":  "online",
+                        "venue_or_link":  "https://meet.example.edu/dac1",
+                        "attendees":  [
+                                          "Faculty Supervisor",
+                                          "DAC Member 1",
+                                          "Meera Iyer"
+                                      ],
+                        "attendance_status":  "present",
+                        "agenda":  "Track DAC suggestions and compliance plan",
+                        "discussion":  "Methodology comments need internal handling before candidate-facing summary.",
+                        "decisions":  "Create compliance items before next DAC.",
+                        "action_items":  [
+                                             {
+                                                 "id":  "ai-meera-1",
+                                                 "text":  "Add ablation study plan",
+                                                 "responsible_person":  "Meera Iyer",
+                                                 "due_date":  "2026-04-15",
+                                                 "status":  "open",
+                                                 "visibility":  "internal"
+                                             }
+                                         ],
+                        "responsible_person":  "Meera Iyer",
+                        "due_dates":  [
+                                          "2026-04-15"
+                                      ],
+                        "satisfaction_status":  "partially_satisfied",
+                        "next_meeting_date":  "2026-04-20",
+                        "visibility":  "internal",
+                        "status":  "completed",
+                        "created_by":  "u-admin",
+                        "updated_by":  "u-admin",
+                        "timestamps":  {
+                                           "created_at":  "2026-03-05T11:10:00.000Z",
+                                           "updated_at":  "2026-03-05T11:10:00.000Z"
+                                       },
+                        "comments_append_only":  [
+                                                     {
+                                                         "id":  "c-meera-1",
+                                                         "text":  "DAC compliance matrix opened.",
+                                                         "visibility":  "internal",
+                                                         "created_by":  "u-admin",
+                                                         "created_at":  "2026-03-05T11:15:00.000Z"
+                                                     },
+                                                     {
+                                                         "id":  "c-meera-conf",
+                                                         "text":  "Confidential assessment notes for supervisor only.",
+                                                         "visibility":  "admin_only",
+                                                         "created_by":  "u-admin",
+                                                         "created_at":  "2026-03-05T11:20:00.000Z"
+                                                     }
+                                                 ],
+                        "attachments":  [
+                                            {
+                                                "label":  "DAC checklist",
+                                                "url":  "docs/minutes/meet-meera-dac1-001.md",
+                                                "visibility":  "supervisor_only"
+                                            }
+                                        ],
+                        "revision_history":  [
+                                                 {
+                                                     "version":  1,
+                                                     "summary":  "Meeting minutes created",
+                                                     "updated_by":  "u-admin",
+                                                     "updated_at":  "2026-03-05T11:10:00.000Z"
+                                                 }
+                                             ],
+                        "academic_year_start":  "2025-2026",
+                        "academic_year_current":  "2025-2026",
+                        "carry_forward":  false
+                    },
+                    {
+                        "id":  "meet-nina-weekly-001",
+                        "candidate_id":  "cand-int-nina",
+                        "programme_type":  "Intern",
+                        "phase":  "Weekly Review",
+                        "sub_phase":  "Literature mapping",
+                        "title":  "Intern weekly checkpoint",
+                        "date":  "2026-03-20",
+                        "start_time":  "14:00",
+                        "end_time":  "14:20",
+                        "mode":  "online",
+                        "venue_or_link":  "https://meet.example.edu/intern",
+                        "attendees":  [
+                                          "Faculty Supervisor",
+                                          "Nina Das"
+                                      ],
+                        "attendance_status":  "present",
+                        "agenda":  "Review literature map",
+                        "discussion":  "Progress is on track; sensitive project details withheld.",
+                        "decisions":  "Share sanitized reading list.",
+                        "action_items":  [
+                                             {
+                                                 "id":  "ai-nina-1",
+                                                 "text":  "Update reading list tags",
+                                                 "responsible_person":  "Nina Das",
+                                                 "due_date":  "2026-03-27",
+                                                 "status":  "open",
+                                                 "visibility":  "sanitized_external"
+                                             }
+                                         ],
+                        "responsible_person":  "Nina Das",
+                        "due_dates":  [
+                                          "2026-03-27"
+                                      ],
+                        "satisfaction_status":  "satisfied",
+                        "next_meeting_date":  "2026-03-27",
+                        "visibility":  "sanitized_external",
+                        "status":  "completed",
+                        "created_by":  "u-writer",
+                        "updated_by":  "u-writer",
+                        "timestamps":  {
+                                           "created_at":  "2026-03-20T14:25:00.000Z",
+                                           "updated_at":  "2026-03-20T14:25:00.000Z"
+                                       },
+                        "comments_append_only":  [
+                                                     {
+                                                         "id":  "c-nina-1",
+                                                         "text":  "Use sanitized bibliography export.",
+                                                         "visibility":  "sanitized_external",
+                                                         "created_by":  "u-writer",
+                                                         "created_at":  "2026-03-20T14:25:00.000Z"
+                                                     }
+                                                 ],
+                        "attachments":  [
+
+                                        ],
+                        "revision_history":  [
+                                                 {
+                                                     "version":  1,
+                                                     "summary":  "Intern checkpoint created",
+                                                     "updated_by":  "u-writer",
+                                                     "updated_at":  "2026-03-20T14:25:00.000Z"
+                                                 }
+                                             ],
+                        "academic_year_start":  "2025-2026",
+                        "academic_year_current":  "2025-2026",
+                        "carry_forward":  false
+                    }
+                ]
 }

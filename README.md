@@ -6,6 +6,9 @@ The app supports two working areas:
 
 - Research Supervision for Masters, PhD, and interns
 - Faculty Academic Workbench for publications, books, chapters, conference papers, projects, consultancy, MOOCs, and custom academic activities
+- Daily Activity Tracker for teaching, research, supervision, projects, administration, external engagements, and custom work
+- Deadline Calendar for submissions, revisions, follow-ups, project reports, meetings, milestones, teaching deliverables, consultancy, and MOOC milestones
+- Academic Year views for past-year tracking and carry-forward work
 
 ## GitHub Pages Architecture
 
@@ -25,13 +28,16 @@ This version intentionally does not implement custom password login. GitHub Page
 Roles are logical UI modes loaded from `public/config/users.json` and `public/config/permissions.json`.
 
 - `ADMIN`: full UI access, can archive records in local browser state, can manage visibility labels by editing config files
+- `ASSISTANT`: can create entries, update permitted records, add daily logs, deadlines, follow-up notes, meeting details, attendees, and action items
 - `WRITER`: can append notes and prepare exportable JSON changes, but deletion is disabled
 - `VIEWER`: read-only mode
 - `RESTRICTED_EXTERNAL`: sees only sanitized content
 
-Writing rights in the static UI are available only to `ADMIN` and `WRITER`. `VIEWER` and `RESTRICTED_EXTERNAL` do not receive local editor/export controls for prepared writing changes.
+Writing rights in the static UI are available to `ADMIN`, `ASSISTANT`, and legacy `WRITER`. `VIEWER` and `RESTRICTED_EXTERNAL` do not receive local editor/export controls for prepared writing changes. Archive/correction/close controls remain admin-oriented.
 
 These roles are not secure authentication. They are data and UI policies for a static trusted-user portal. The code is structured so these roles can later map to real backend auth.
+
+The primary admin profile is Dr. Jitendra Kumar Verma. Assistant entries are tracked through `created_by`, `updated_by`, timestamps, and append-only history arrays.
 
 ## Data Files
 
@@ -42,6 +48,8 @@ Main files:
 - `public/data/candidates/candidates.json`
 - `public/data/meetings/meetings.json`
 - `public/data/workbench/workbench.json`
+- `public/data/daily-activities/daily-activities.json`
+- `public/data/calendar/calendar.json`
 
 Records are Git-friendly and human-readable. Normal editing uses append-only arrays:
 
@@ -50,6 +58,17 @@ Records are Git-friendly and human-readable. Normal editing uses append-only arr
 - `revision_history`
 
 Normal UI flows never delete historical entries. Admin archive changes update status and append a revision entry.
+
+## Academic Year Logic
+
+All core records include:
+
+- `academic_year_start`
+- `academic_year_current`
+- `carry_forward`
+- `status`
+
+Incomplete records with `carry_forward: true` appear in the Academic Years view without duplicating original history. Past academic year records remain editable through the static JSON workflow by appending history entries rather than deleting older data.
 
 ## Folder Structure
 
@@ -79,6 +98,12 @@ Hash routes are GitHub Pages safe:
 - `#/workbench`
 - `#/workbench/<module>`
 - `#/workbench/<module>/<record_id>`
+- `#/activities`
+- `#/activities/<activity_id>`
+- `#/calendar`
+- `#/calendar/<calendar_id>`
+- `#/years`
+- `#/years/<academic_year>`
 - `#/search`
 - `#/data`
 - `#/settings`
@@ -186,6 +211,8 @@ The Data page supports:
 - JSON bundle import into local browser state
 - record-specific draft export
 - local preview before export
+
+The Daily Activity and Calendar pages include assistant/admin local entry forms. Export the JSON bundle after local entry, then commit the updated JSON files.
 
 Exports are useful for preparing Git commits. Imports are useful for review, testing, or restoring a local browser state.
 

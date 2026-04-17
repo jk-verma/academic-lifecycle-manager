@@ -15,7 +15,12 @@ All core data is stored as JSON under `public/`.
 
 - Config files define roles, logical users, visibility levels, and masking text.
 - Candidate, meeting, and workbench files define records.
+- Daily activity and calendar files define operational logs and deadlines.
 - Append-only arrays and Git history provide auditability.
+
+## Academic Years
+
+Records include `academic_year_start`, `academic_year_current`, `status`, and `carry_forward`. Carry-forward is represented as metadata on the original record so incomplete work appears in later-year views without duplicating history.
 
 ## Security Boundary
 

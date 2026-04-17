@@ -1,0 +1,50 @@
+{
+  "schema": "research-lifecycle-manager.daily-activities.v1",
+  "updated_at": "2026-04-17T00:00:00.000Z",
+  "records": [
+    {
+      "id": "act-2026-04-15-dac-followup",
+      "date": "2026-04-15",
+      "title": "DAC compliance follow-up for Meera",
+      "category": "supervision",
+      "sub_type": "phd_dac",
+      "linked_record_id": "cand-phd-meera",
+      "short_notes": "Checked ablation plan and pending compliance evidence.",
+      "status": "in_progress",
+      "next_action_date": "2026-04-20",
+      "priority": "high",
+      "created_by": "u-assistant",
+      "created_at": "2026-04-15T16:00:00.000Z",
+      "updated_at": "2026-04-15T16:00:00.000Z",
+      "visibility": "internal",
+      "academic_year_start": "2025-2026",
+      "academic_year_current": "2025-2026",
+      "carry_forward": true,
+      "history": [
+        {"version": 1, "summary": "Daily activity logged by assistant", "updated_by": "u-assistant", "updated_at": "2026-04-15T16:00:00.000Z"}
+      ]
+    },
+    {
+      "id": "act-2026-04-16-mooc-content",
+      "date": "2026-04-16",
+      "title": "MOOC module content review",
+      "category": "research",
+      "sub_type": "mooc",
+      "linked_record_id": "mooc-research-writing-001",
+      "short_notes": "Reviewed Module 1 slides and noted recording checklist.",
+      "status": "open",
+      "next_action_date": "2026-04-22",
+      "priority": "medium",
+      "created_by": "u-admin",
+      "created_at": "2026-04-16T11:00:00.000Z",
+      "updated_at": "2026-04-16T11:00:00.000Z",
+      "visibility": "admin_only",
+      "academic_year_start": "2025-2026",
+      "academic_year_current": "2025-2026",
+      "carry_forward": true,
+      "history": [
+        {"version": 1, "summary": "Activity created by admin", "updated_by": "u-admin", "updated_at": "2026-04-16T11:00:00.000Z"}
+      ]
+    }
+  ]
+}

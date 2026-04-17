@@ -87,6 +87,7 @@ pre {
   padding: 22px;
   background: #102a2e;
   color: #f8fbfb;
+  overflow-y: auto;
 }
 
 .brand {

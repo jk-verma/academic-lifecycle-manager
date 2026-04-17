@@ -10,8 +10,24 @@
     "ADMIN": {
       "can_edit_local": true,
       "can_archive": true,
+      "can_correct": true,
+      "can_close": true,
+      "can_review_assistant_data": true,
+      "can_manage_calendar": true,
+      "can_manage_carry_forward": true,
       "can_manage_visibility_labels": true,
       "visible_levels": ["admin_only", "supervisor_only", "internal", "candidate_visible", "sanitized_external"]
+    },
+    "ASSISTANT": {
+      "can_edit_local": true,
+      "can_archive": false,
+      "can_correct": false,
+      "can_close": false,
+      "can_review_assistant_data": false,
+      "can_manage_calendar": true,
+      "can_manage_carry_forward": false,
+      "can_manage_visibility_labels": false,
+      "visible_levels": ["supervisor_only", "internal", "candidate_visible", "sanitized_external"]
     },
     "WRITER": {
       "can_edit_local": true,
@@ -32,5 +48,7 @@
       "visible_levels": ["sanitized_external"]
     }
   },
+  "protected_settings_roles": ["ADMIN"],
+  "writing_roles": ["ADMIN", "ASSISTANT", "WRITER"],
   "masked_text": "Confidential content hidden"
 }

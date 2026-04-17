@@ -3,7 +3,9 @@ export const DATA_PATHS = {
   permissions: './public/config/permissions.json',
   candidates: './public/data/candidates/candidates.json',
   meetings: './public/data/meetings/meetings.json',
-  workbench: './public/data/workbench/workbench.json'
+  workbench: './public/data/workbench/workbench.json',
+  activities: './public/data/daily-activities/daily-activities.json',
+  calendar: './public/data/calendar/calendar.json'
 };
 
 async function loadJson(path) {
@@ -17,6 +19,8 @@ function validateStore(store) {
   if (!Array.isArray(store.candidates?.records)) errors.push('Candidate records are missing.');
   if (!Array.isArray(store.meetings?.records)) errors.push('Meeting records are missing.');
   if (!store.workbench?.modules) errors.push('Workbench modules are missing.');
+  if (!Array.isArray(store.activities?.records)) errors.push('Daily activity records are missing.');
+  if (!Array.isArray(store.calendar?.records)) errors.push('Calendar records are missing.');
   if (!store.permissions?.roles) errors.push('Permission roles are missing.');
   return errors;
 }

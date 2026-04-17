@@ -25,5 +25,5 @@ export function dataPage(ctx) {
       ${exchange}
       ${draft}
     </div>
-    ${detailSection('Repository files', ['public/config/users.json', 'public/config/permissions.json', 'public/data/candidates/candidates.json', 'public/data/meetings/meetings.json', 'public/data/workbench/workbench.json'].map((file) => recordCard({ title: file, meta: 'Git-friendly JSON', body: 'Edit, commit, and push to update the portal.' })).join(''))}`;
+    ${detailSection('Repository files', ['public/config/users.json', 'public/config/permissions.json', 'public/data/candidates/candidates.json', 'public/data/meetings/meetings.json', 'public/data/workbench/workbench.json', 'public/data/daily-activities/daily-activities.json', 'public/data/calendar/calendar.json'].map((file) => recordCard({ title: file, meta: 'Git-friendly JSON', body: 'Edit, commit, and push to update the portal.' })).join(''))}`;
 }
