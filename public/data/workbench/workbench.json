@@ -26,7 +26,7 @@
                                                  "doi":  null,
                                                  "apc":  0,
                                                  "status":  "revision",
-                                                 "visibility":  "admin_only",
+                                                 "visibility":  "open",
                                                  "created_by":  "u-admin",
                                                  "updated_by":  "u-admin",
                                                  "timestamps":  {
@@ -37,7 +37,7 @@
                                                                            {
                                                                                "id":  "jn-1",
                                                                                "text":  "Reviewer 2 requested additional ablation.",
-                                                                               "visibility":  "admin_only",
+                                                                               "visibility":  "open",
                                                                                "created_by":  "u-admin",
                                                                                "created_at":  "2026-04-01T10:00:00.000Z"
                                                                            }
@@ -64,7 +64,7 @@
                                                                {
                                                                    "id":  "jn-1",
                                                                    "text":  "Reviewer 2 requested additional ablation.",
-                                                                   "visibility":  "admin_only",
+                                                                   "visibility":  "open",
                                                                    "created_by":  "u-admin",
                                                                    "created_at":  "2026-04-01T10:00:00.000Z"
                                                                }
@@ -93,7 +93,7 @@
                                                                                         "text":  "Address reviewer comments section by section.",
                                                                                         "created_by":  "u-admin",
                                                                                         "created_at":  "2026-04-17T12:00:00.000Z",
-                                                                                        "visibility":  "internal"
+                                                                                        "visibility":  "open"
                                                                                     }
                                                                                 ],
                                                                       "history":  [
@@ -121,7 +121,7 @@
                                                                                         "text":  "Prepare response letter and marked manuscript.",
                                                                                         "created_by":  "u-admin",
                                                                                         "created_at":  "2026-04-17T12:00:00.000Z",
-                                                                                        "visibility":  "internal"
+                                                                                        "visibility":  "open"
                                                                                     }
                                                                                 ],
                                                                       "history":  [
@@ -153,7 +153,7 @@
                                                "isbn":  null,
                                                "publication_date":  null,
                                                "status":  "drafting",
-                                               "visibility":  "admin_only",
+                                               "visibility":  "open",
                                                "created_by":  "u-admin",
                                                "updated_by":  "u-admin",
                                                "timestamps":  {
@@ -164,7 +164,7 @@
                                                                          {
                                                                              "id":  "bn-1",
                                                                              "text":  "Chapters 1-3 drafted.",
-                                                                             "visibility":  "admin_only",
+                                                                             "visibility":  "open",
                                                                              "created_by":  "u-admin",
                                                                              "created_at":  "2026-04-05T10:00:00.000Z"
                                                                          }
@@ -191,7 +191,7 @@
                                                              {
                                                                  "id":  "bn-1",
                                                                  "text":  "Chapters 1-3 drafted.",
-                                                                 "visibility":  "admin_only",
+                                                                 "visibility":  "open",
                                                                  "created_by":  "u-admin",
                                                                  "created_at":  "2026-04-05T10:00:00.000Z"
                                                              }
@@ -229,7 +229,7 @@
                                               "review_status":  "under_review",
                                               "doi_or_isbn":  null,
                                               "status":  "under_review",
-                                              "visibility":  "internal",
+                                              "visibility":  "open",
                                               "created_by":  "u-admin",
                                               "updated_by":  "u-assistant",
                                               "timestamps":  {
@@ -292,7 +292,7 @@
                                                   "organization_or_publisher":  "ICRAI",
                                                   "description_or_abstract":  "Conference paper planned from PhD work package.",
                                                   "status":  "drafting",
-                                                  "visibility":  "supervisor_only",
+                                                  "visibility":  "open",
                                                   "created_by":  "u-admin",
                                                   "updated_by":  "u-admin",
                                                   "timestamps":  {
@@ -371,7 +371,7 @@
                                          "organization_or_publisher":  "DST",
                                          "description_or_abstract":  "Sponsored project proposal under follow-up.",
                                          "status":  "followup",
-                                         "visibility":  "admin_only",
+                                         "visibility":  "open",
                                          "created_by":  "u-admin",
                                          "updated_by":  "u-admin",
                                          "timestamps":  {
@@ -382,7 +382,7 @@
                                                                    {
                                                                        "id":  "pn-1",
                                                                        "text":  "Follow-up email sent to funding agency.",
-                                                                       "visibility":  "admin_only",
+                                                                       "visibility":  "open",
                                                                        "created_by":  "u-admin",
                                                                        "created_at":  "2026-04-01T10:00:00.000Z"
                                                                    }
@@ -409,7 +409,7 @@
                                                        {
                                                            "id":  "pn-1",
                                                            "text":  "Follow-up email sent to funding agency.",
-                                                           "visibility":  "admin_only",
+                                                           "visibility":  "open",
                                                            "created_by":  "u-admin",
                                                            "created_at":  "2026-04-01T10:00:00.000Z"
                                                        }
@@ -440,7 +440,7 @@
                                                                                 "text":  "Date-time tracked project proposal milestone.",
                                                                                 "created_by":  "u-admin",
                                                                                 "created_at":  "2026-04-17T13:00:00.000Z",
-                                                                                "visibility":  "admin_only"
+                                                                                "visibility":  "open"
                                                                             }
                                                                         ],
                                                               "history":  [
@@ -470,7 +470,7 @@
                                                                                 "text":  "Date-time tracked project proposal milestone.",
                                                                                 "created_by":  "u-admin",
                                                                                 "created_at":  "2026-04-17T13:00:00.000Z",
-                                                                                "visibility":  "admin_only"
+                                                                                "visibility":  "open"
                                                                             }
                                                                         ],
                                                               "history":  [
@@ -500,7 +500,7 @@
                                                                                 "text":  "Date-time tracked project proposal milestone.",
                                                                                 "created_by":  "u-admin",
                                                                                 "created_at":  "2026-04-17T13:00:00.000Z",
-                                                                                "visibility":  "admin_only"
+                                                                                "visibility":  "open"
                                                                             }
                                                                         ],
                                                               "history":  [
@@ -530,7 +530,7 @@
                                                                                 "text":  "Date-time tracked project proposal milestone.",
                                                                                 "created_by":  "u-admin",
                                                                                 "created_at":  "2026-04-17T13:00:00.000Z",
-                                                                                "visibility":  "admin_only"
+                                                                                "visibility":  "open"
                                                                             }
                                                                         ],
                                                               "history":  [
@@ -560,7 +560,7 @@
                                                                                 "text":  "Date-time tracked project proposal milestone.",
                                                                                 "created_by":  "u-admin",
                                                                                 "created_at":  "2026-04-17T13:00:00.000Z",
-                                                                                "visibility":  "admin_only"
+                                                                                "visibility":  "open"
                                                                             }
                                                                         ],
                                                               "history":  [
@@ -590,7 +590,7 @@
                                                                                 "text":  "Date-time tracked project proposal milestone.",
                                                                                 "created_by":  "u-admin",
                                                                                 "created_at":  "2026-04-17T13:00:00.000Z",
-                                                                                "visibility":  "admin_only"
+                                                                                "visibility":  "open"
                                                                             }
                                                                         ],
                                                               "history":  [
@@ -620,7 +620,7 @@
                                                                                 "text":  "Date-time tracked project proposal milestone.",
                                                                                 "created_by":  "u-admin",
                                                                                 "created_at":  "2026-04-17T13:00:00.000Z",
-                                                                                "visibility":  "admin_only"
+                                                                                "visibility":  "open"
                                                                             }
                                                                         ],
                                                               "history":  [
@@ -650,7 +650,7 @@
                                                                                 "text":  "Date-time tracked project proposal milestone.",
                                                                                 "created_by":  "u-admin",
                                                                                 "created_at":  "2026-04-17T13:00:00.000Z",
-                                                                                "visibility":  "admin_only"
+                                                                                "visibility":  "open"
                                                                             }
                                                                         ],
                                                               "history":  [
@@ -680,7 +680,7 @@
                                                                                 "text":  "Date-time tracked project proposal milestone.",
                                                                                 "created_by":  "u-admin",
                                                                                 "created_at":  "2026-04-17T13:00:00.000Z",
-                                                                                "visibility":  "admin_only"
+                                                                                "visibility":  "open"
                                                                             }
                                                                         ],
                                                               "history":  [
@@ -710,7 +710,7 @@
                                                                                 "text":  "Date-time tracked project proposal milestone.",
                                                                                 "created_by":  "u-admin",
                                                                                 "created_at":  "2026-04-17T13:00:00.000Z",
-                                                                                "visibility":  "admin_only"
+                                                                                "visibility":  "open"
                                                                             }
                                                                         ],
                                                               "history":  [
@@ -740,7 +740,7 @@
                                                                                 "text":  "Date-time tracked project proposal milestone.",
                                                                                 "created_by":  "u-admin",
                                                                                 "created_at":  "2026-04-17T13:00:00.000Z",
-                                                                                "visibility":  "admin_only"
+                                                                                "visibility":  "open"
                                                                             }
                                                                         ],
                                                               "history":  [
@@ -770,7 +770,7 @@
                                                                                 "text":  "Date-time tracked project proposal milestone.",
                                                                                 "created_by":  "u-admin",
                                                                                 "created_at":  "2026-04-17T13:00:00.000Z",
-                                                                                "visibility":  "admin_only"
+                                                                                "visibility":  "open"
                                                                             }
                                                                         ],
                                                               "history":  [
@@ -800,7 +800,7 @@
                                                                                 "text":  "Date-time tracked project proposal milestone.",
                                                                                 "created_by":  "u-admin",
                                                                                 "created_at":  "2026-04-17T13:00:00.000Z",
-                                                                                "visibility":  "admin_only"
+                                                                                "visibility":  "open"
                                                                             }
                                                                         ],
                                                               "history":  [
@@ -830,7 +830,7 @@
                                                                                 "text":  "Date-time tracked project proposal milestone.",
                                                                                 "created_by":  "u-admin",
                                                                                 "created_at":  "2026-04-17T13:00:00.000Z",
-                                                                                "visibility":  "admin_only"
+                                                                                "visibility":  "open"
                                                                             }
                                                                         ],
                                                               "history":  [
@@ -860,7 +860,7 @@
                                                                                 "text":  "Date-time tracked project proposal milestone.",
                                                                                 "created_by":  "u-admin",
                                                                                 "created_at":  "2026-04-17T13:00:00.000Z",
-                                                                                "visibility":  "admin_only"
+                                                                                "visibility":  "open"
                                                                             }
                                                                         ],
                                                               "history":  [
@@ -900,7 +900,7 @@
                                             "organization_or_publisher":  "National Institute of Advanced Computing",
                                             "description_or_abstract":  "Consultancy: visiting faculty assignment opportunity for Visiting Faculty at National Institute of Advanced Computing, Bengaluru, India.",
                                             "status":  "planned",
-                                            "visibility":  "internal",
+                                            "visibility":  "open",
                                             "created_by":  "u-admin",
                                             "updated_by":  "u-admin",
                                             "timestamps":  {
@@ -913,7 +913,7 @@
                                                                           "text":  "Collect eligibility details, NOC requirements, and application documents before the deadline.",
                                                                           "created_by":  "u-admin",
                                                                           "created_at":  "2026-04-17T11:00:00.000Z",
-                                                                          "visibility":  "internal"
+                                                                          "visibility":  "open"
                                                                       }
                                                                   ],
                                             "attachments":  [
@@ -949,7 +949,7 @@
                                                               "text":  "Collect eligibility details, NOC requirements, and application documents before the deadline.",
                                                               "created_by":  "u-admin",
                                                               "created_at":  "2026-04-17T11:00:00.000Z",
-                                                              "visibility":  "internal"
+                                                              "visibility":  "open"
                                                           }
                                                       ],
                                             "history":  [
@@ -982,7 +982,7 @@
                                                                                    "text":  "Add latest publications, projects, and supervision details.",
                                                                                    "created_by":  "u-admin",
                                                                                    "created_at":  "2026-04-17T12:00:00.000Z",
-                                                                                   "visibility":  "internal"
+                                                                                   "visibility":  "open"
                                                                                }
                                                                            ],
                                                                  "history":  [
@@ -1010,7 +1010,7 @@
                                                                                    "text":  "Attach CV, cover letter, and evidence documents.",
                                                                                    "created_by":  "u-admin",
                                                                                    "created_at":  "2026-04-17T12:00:00.000Z",
-                                                                                   "visibility":  "internal"
+                                                                                   "visibility":  "open"
                                                                                }
                                                                            ],
                                                                  "history":  [
@@ -1038,7 +1038,7 @@
                                                                                    "text":  "Start only if institution asks for NOC.",
                                                                                    "created_by":  "u-admin",
                                                                                    "created_at":  "2026-04-17T12:00:00.000Z",
-                                                                                   "visibility":  "internal"
+                                                                                   "visibility":  "open"
                                                                                }
                                                                            ],
                                                                  "history":  [
@@ -1066,7 +1066,7 @@
                                                                                    "text":  "Track interview date and result.",
                                                                                    "created_by":  "u-admin",
                                                                                    "created_at":  "2026-04-17T12:00:00.000Z",
-                                                                                   "visibility":  "internal"
+                                                                                   "visibility":  "open"
                                                                                }
                                                                            ],
                                                                  "history":  [
@@ -1103,7 +1103,7 @@
                                             "organization_or_publisher":  "City College",
                                             "description_or_abstract":  "Visiting faculty and advisory engagement.",
                                             "status":  "proposal",
-                                            "visibility":  "admin_only",
+                                            "visibility":  "open",
                                             "created_by":  "u-admin",
                                             "updated_by":  "u-admin",
                                             "timestamps":  {
@@ -1162,7 +1162,7 @@
                                             "organization_or_publisher":  "MOOC Course Development",
                                             "description_or_abstract":  "Consultancy: MOOC course development assignment. Course development schedule for Managerial Mastery using Advanced Excel. Weekly final videos, assessments, and additional reading materials are tracked from the July 2026 course development email.",
                                             "status":  "content_development",
-                                            "visibility":  "internal",
+                                            "visibility":  "open",
                                             "created_by":  "u-admin",
                                             "updated_by":  "u-admin",
                                             "timestamps":  {
@@ -1173,7 +1173,7 @@
                                                                       {
                                                                           "id":  "mn-excel-1",
                                                                           "text":  "Email timeline added. Video review is scheduled for Week 1 and Week 2; later review submissions are NA unless requested. Final videos, assessments, and additional reading materials should be submitted on or before the listed deadlines.",
-                                                                          "visibility":  "internal",
+                                                                          "visibility":  "open",
                                                                           "created_by":  "u-admin",
                                                                           "created_at":  "2026-04-17T14:00:00.000Z"
                                                                       }
@@ -1213,7 +1213,7 @@
                                                           {
                                                               "id":  "mn-excel-1",
                                                               "text":  "Email timeline added. Video review is scheduled for Week 1 and Week 2; later review submissions are NA unless requested. Final videos, assessments, and additional reading materials should be submitted on or before the listed deadlines.",
-                                                              "visibility":  "internal",
+                                                              "visibility":  "open",
                                                               "created_by":  "u-admin",
                                                               "created_at":  "2026-04-17T14:00:00.000Z"
                                                           }
@@ -1254,7 +1254,7 @@
                                                                                {
                                                                                    "id":  "sub-excel-week-1-review-note-1",
                                                                                    "text":  "Feedback is expected within 2 days of submission.",
-                                                                                   "visibility":  "internal",
+                                                                                   "visibility":  "open",
                                                                                    "created_by":  "u-admin",
                                                                                    "created_at":  "2026-04-17T14:00:00.000Z"
                                                                                }
@@ -1310,7 +1310,7 @@
                                                                                {
                                                                                    "id":  "sub-excel-week-2-review-note-1",
                                                                                    "text":  "Feedback is expected within 2 days of submission.",
-                                                                                   "visibility":  "internal",
+                                                                                   "visibility":  "open",
                                                                                    "created_by":  "u-admin",
                                                                                    "created_at":  "2026-04-17T14:00:00.000Z"
                                                                                }
@@ -1366,7 +1366,7 @@
                                                                                {
                                                                                    "id":  "sub-excel-week-3-final-videos-note-1",
                                                                                    "text":  "Videos for review are NA unless specifically required.",
-                                                                                   "visibility":  "internal",
+                                                                                   "visibility":  "open",
                                                                                    "created_by":  "u-admin",
                                                                                    "created_at":  "2026-04-17T14:00:00.000Z"
                                                                                }
@@ -1547,7 +1547,7 @@
                                                                                {
                                                                                    "id":  "sub-excel-assessments-all-weeks-note-1",
                                                                                    "text":  "Prepare 10 MCQs per week before June end.",
-                                                                                   "visibility":  "internal",
+                                                                                   "visibility":  "open",
                                                                                    "created_by":  "u-admin",
                                                                                    "created_at":  "2026-04-17T14:00:00.000Z"
                                                                                }
@@ -1578,7 +1578,7 @@
                                                                                {
                                                                                    "id":  "sub-excel-additional-reading-note-1",
                                                                                    "text":  "Submit additional reading materials before June end.",
-                                                                                   "visibility":  "internal",
+                                                                                   "visibility":  "open",
                                                                                    "created_by":  "u-admin",
                                                                                    "created_at":  "2026-04-17T14:00:00.000Z"
                                                                                }
@@ -1640,7 +1640,7 @@
                                             "organization_or_publisher":  "SWAYAM",
                                             "description_or_abstract":  "Consultancy: MOOC course development assignment. MOOC for graduate research writing and reproducibility.",
                                             "status":  "content_development",
-                                            "visibility":  "admin_only",
+                                            "visibility":  "open",
                                             "created_by":  "u-admin",
                                             "updated_by":  "u-admin",
                                             "timestamps":  {
@@ -1651,7 +1651,7 @@
                                                                       {
                                                                           "id":  "mn-1",
                                                                           "text":  "Module 1 slides ready.",
-                                                                          "visibility":  "admin_only",
+                                                                          "visibility":  "open",
                                                                           "created_by":  "u-assistant",
                                                                           "created_at":  "2026-04-10T10:00:00.000Z"
                                                                       }
@@ -1684,7 +1684,7 @@
                                                           {
                                                               "id":  "mn-1",
                                                               "text":  "Module 1 slides ready.",
-                                                              "visibility":  "admin_only",
+                                                              "visibility":  "open",
                                                               "created_by":  "u-assistant",
                                                               "created_at":  "2026-04-10T10:00:00.000Z"
                                                           }
@@ -1725,7 +1725,7 @@
                                                   "organization_or_publisher":  "Home Institution",
                                                   "description_or_abstract":  "Faculty development programme planning record.",
                                                   "status":  "planning",
-                                                  "visibility":  "internal",
+                                                  "visibility":  "open",
                                                   "created_by":  "u-admin",
                                                   "updated_by":  "u-admin",
                                                   "timestamps":  {

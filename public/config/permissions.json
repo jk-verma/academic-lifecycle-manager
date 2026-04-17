@@ -1,11 +1,5 @@
 {
-  "visibility_levels": [
-    "admin_only",
-    "supervisor_only",
-    "internal",
-    "candidate_visible",
-    "sanitized_external"
-  ],
+  "visibility_levels": [],
   "roles": {
     "ADMIN": {
       "can_edit_local": true,
@@ -15,8 +9,8 @@
       "can_review_assistant_data": true,
       "can_manage_calendar": true,
       "can_manage_carry_forward": true,
-      "can_manage_visibility_labels": true,
-      "visible_levels": ["admin_only", "supervisor_only", "internal", "candidate_visible", "sanitized_external"]
+      "can_manage_visibility_labels": false,
+      "visible_levels": []
     },
     "ASSISTANT": {
       "can_edit_local": true,
@@ -27,22 +21,22 @@
       "can_manage_calendar": true,
       "can_manage_carry_forward": false,
       "can_manage_visibility_labels": false,
-      "visible_levels": ["supervisor_only", "internal", "candidate_visible", "sanitized_external"]
+      "visible_levels": []
     },
     "VIEWER": {
       "can_edit_local": false,
       "can_archive": false,
       "can_manage_visibility_labels": false,
-      "visible_levels": ["internal", "candidate_visible", "sanitized_external"]
+      "visible_levels": []
     },
     "RESTRICTED_EXTERNAL": {
       "can_edit_local": false,
       "can_archive": false,
       "can_manage_visibility_labels": false,
-      "visible_levels": ["sanitized_external"]
+      "visible_levels": []
     }
   },
   "protected_settings_roles": ["ADMIN"],
   "writing_roles": ["ADMIN", "ASSISTANT"],
-  "masked_text": "Confidential content hidden"
+  "masked_text": ""
 }

@@ -35,7 +35,6 @@ function candidateForm(ctx) {
       <input name="academic_year_current" placeholder="Academic year" value="2025-2026" />
       <select name="status"><option>active</option><option>planned</option><option>completed</option><option>archived</option></select>
       <select name="priority"><option>medium</option><option>high</option><option>low</option></select>
-      <select name="visibility">${ctx.store.permissions.visibility_levels.map((item) => `<option>${escapeHtml(item)}</option>`).join('')}</select>
       <input name="note" placeholder="Initial append-only note" />
       <button>Add Candidate</button>
     </form>
@@ -67,7 +66,7 @@ export function candidateDetailPage(ctx, id) {
       }).join('')}</div>`)}
       ${detailSection('Pending action items', actions.filter((item) => item.status !== 'done').map((item) => `<p class="${isOverdue(item.due_date, item.status) ? 'overdue' : ''}">${escapeHtml(item.text)} | ${escapeHtml(item.due_date)} | ${escapeHtml(item.meeting.title)}</p>`).join('') || '<p class="muted">No pending action items.</p>')}
       ${detailSection('Meeting history', meetings.map((meeting) => recordCard({ title: meeting.title, meta: `${meeting.date} | ${meeting.phase}`, body: meeting.discussion, badges: visibilityBadge(meeting.visibility), href: `#/meetings/${meeting.id}` })).join(''))}
-      ${detailSection('Visibility-aware notes', notesPanel(ctx.maskNotes(candidate.notes_append_only)))}
+      ${detailSection('Append-only notes', notesPanel(ctx.maskNotes(candidate.notes_append_only)))}
       ${detailSection('Revision history', timelinePanel(candidate.revision_history))}
       ${ctx.canArchive() && candidate.status !== 'archived' ? `<button class="secondary" data-archive-kind="candidate" data-archive-id="${escapeHtml(candidate.id)}">Archive candidate</button>` : ''}
     </section>`;

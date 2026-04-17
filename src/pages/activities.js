@@ -40,7 +40,6 @@ function activityForm(ctx) {
       <input name="linked_record_id" placeholder="Linked record ID" />
       <input name="short_notes" placeholder="Short notes" />
       <select name="priority"><option>low</option><option>medium</option><option>high</option></select>
-      <select name="visibility">${ctx.store.permissions.visibility_levels.map((item) => `<option>${escapeHtml(item)}</option>`).join('')}</select>
       <button>Add Task</button>
     </form>
   </section>`;

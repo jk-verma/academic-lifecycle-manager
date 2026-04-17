@@ -24,7 +24,7 @@ export function workbenchHomePage(ctx) {
 
 export function workbenchModulePage(ctx, module) {
   const items = structuredFilter(ctx.visibleWorkbench().filter((item) => item.module === module), ctx.filters);
-  return `${pageHeader(moduleLabels[module] || slugLabel(module), 'Filtered module list with status, visibility, and detail drill-down.')}
+  return `${pageHeader(moduleLabels[module] || slugLabel(module), 'Filtered module list with status and detail drill-down.')}
     ${ctx.renderFilters({ moduleLocked: module })}
     ${ctx.canWrite() ? workbenchRecordForm(module, moduleLabels[module] || slugLabel(module), ctx) : '<p class="notice">Adding records is currently unavailable in this view.</p>'}
     <div class="grid">${items.map((item) => recordCard({
@@ -74,7 +74,6 @@ function workbenchRecordForm(module, title, ctx) {
       <input name="academic_year_current" placeholder="Academic year" value="2025-2026" />
       <select name="status"><option>idea</option><option>drafting</option><option>proposal</option><option>submitted</option><option>under_review</option><option>revision</option><option>followup</option><option>execution</option><option>completed</option></select>
       <select name="priority"><option>low</option><option>medium</option><option>high</option></select>
-      <select name="visibility">${ctx.store.permissions.visibility_levels.map((item) => `<option>${escapeHtml(item)}</option>`).join('')}</select>
       <input name="note" placeholder="Initial append-only note" />
       <button>${escapeHtml(actionLabel)}</button>
     </form>

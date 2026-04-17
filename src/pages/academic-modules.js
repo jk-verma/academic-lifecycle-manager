@@ -112,7 +112,6 @@ function academicRecordForm(module, title, ctx) {
       <input name="academic_year_current" placeholder="Academic year" value="2025-2026" />
       <select name="status">${statusOptions(module)}</select>
       <select name="priority"><option>low</option><option>medium</option><option>high</option></select>
-      <select name="visibility">${ctx.store.permissions.visibility_levels.map((item) => `<option>${escapeHtml(item)}</option>`).join('')}</select>
       <button>Add local record</button>
     </form>
   </section>`;
@@ -144,7 +143,7 @@ function firstVisibleNote(item) {
 }
 
 function stripLargeArrays(item) {
-  const { notes, history, subtasks, ...rest } = item;
+  const { notes, history, subtasks, visibility, masked, ...rest } = item;
   return rest;
 }
 

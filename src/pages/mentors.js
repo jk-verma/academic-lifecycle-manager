@@ -60,7 +60,6 @@ function mentorForm(ctx) {
       <input name="academic_year_current" placeholder="Academic year" value="2025-2026" />
       <select name="status"><option>active</option><option>planned</option><option>inactive</option><option>archived</option></select>
       <select name="priority"><option>medium</option><option>high</option><option>low</option></select>
-      <select name="visibility">${ctx.store.permissions.visibility_levels.map((item) => `<option>${escapeHtml(item)}</option>`).join('')}</select>
       <input name="note" placeholder="Initial append-only note" />
       <button>Add Mentor</button>
     </form>

@@ -66,7 +66,6 @@ function calendarForm(ctx) {
       <input name="sub_type" placeholder="Subtype" />
       <input name="linked_record_id" placeholder="Linked record ID" />
       <select name="priority"><option>low</option><option>medium</option><option>high</option></select>
-      <select name="visibility">${ctx.store.permissions.visibility_levels.map((item) => `<option>${escapeHtml(item)}</option>`).join('')}</select>
       <button>Add Deadline</button>
     </form>
   </section>`;
@@ -93,7 +92,7 @@ function subtaskDeadlineItems(records) {
         reminder_date: '',
         status: subtask.status,
         priority: record.priority || 'medium',
-        visibility: record.visibility || 'internal',
+        visibility: record.visibility || 'open',
         notes: `Parent: ${record.name || record.title}. Responsible: ${subtask.responsible_person || 'not assigned'}.`,
         academic_year_start: record.academic_year_start,
         academic_year_current: record.academic_year_current,

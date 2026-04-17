@@ -55,7 +55,7 @@ function reportCard(item) {
     title: item.name || item.title,
     meta: `${item.academic_year_current || 'no year'} | ${item.status}`,
     body: item.topic || item.description_or_abstract || firstNote(item) || item.short_notes,
-    badges: `${statusBadge(item.status || 'active')} ${visibilityBadge(item.visibility || 'internal')}`,
+    badges: `${statusBadge(item.status || 'active')} ${visibilityBadge(item.visibility || 'open')}`,
     href: item.route || '#/reports'
   });
 }

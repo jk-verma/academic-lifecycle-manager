@@ -11,7 +11,6 @@ export function dataPage(ctx) {
         <input name="title" required placeholder="Title or name" />
         <input name="description" required placeholder="Description, topic, or agenda" />
         <input name="status" placeholder="Status" value="active" />
-        <select name="visibility">${ctx.store.permissions.visibility_levels.map((item) => `<option>${escapeHtml(item)}</option>`).join('')}</select>
         <button>Preview draft</button>
       </form>
     </section>` : `<section class="panel"><h3>Read-only view</h3><p>Writing tools are currently unavailable in this view.</p></section>`;

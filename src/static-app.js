@@ -86,7 +86,6 @@ function renderFilters(options = {}) {
     candidates: store.candidates.records,
     phases: [...new Set(store.meetings.records.map((item) => item.phase))],
     modules: [...new Set([...Object.keys(moduleLabels), ...Object.keys(store.academicLife.modules)])],
-    visibilities: store.permissions.visibility_levels,
     priorities: [...new Set(allRecords().map((item) => item.priority).filter(Boolean))],
     academicYears: [...new Set(allRecords().flatMap((item) => [item.academic_year_start, item.academic_year_current]).filter(Boolean))].sort().reverse(),
     ...options
@@ -98,7 +97,6 @@ function appendNoteForm(kind, id, module = '') {
     <h4>Append-only note</h4>
     <form class="record-form" data-append-note="${escapeHtml(kind)}" data-id="${escapeHtml(id)}" data-module="${escapeHtml(module)}">
       <input name="text" required placeholder="Add note without deleting history" />
-      <select name="visibility">${store.permissions.visibility_levels.map((item) => `<option>${escapeHtml(item)}</option>`).join('')}</select>
       <button>Append note</button>
     </form>
   </section>`;
@@ -219,7 +217,7 @@ function render() {
 }
 
 function bindEvents() {
-  ['q', 'programme', 'candidate', 'phase', 'module', 'status', 'priority', 'overdue', 'institution', 'visibility', 'academicYear', 'from', 'to'].forEach((key) => {
+  ['q', 'programme', 'candidate', 'phase', 'module', 'status', 'priority', 'overdue', 'institution', 'academicYear', 'from', 'to'].forEach((key) => {
     const el = document.getElementById(`filter-${key}`);
     if (el) {
       el.addEventListener('input', (event) => {
@@ -341,7 +339,7 @@ function appendNote(kind, id, formData, module) {
   const note = {
     id: uid('note'),
     text: formData.get('text'),
-    visibility: formData.get('visibility'),
+    visibility: 'open',
     created_by: `local-${role.toLowerCase()}`,
     created_at: nowIso()
   };
@@ -394,7 +392,7 @@ function addSubtask(kind, id, formData, module = '') {
       text: formData.get('notes'),
       created_by: actor,
       created_at: nowIso(),
-      visibility: record.visibility || 'internal'
+      visibility: record.visibility || 'open'
     }] : [],
     history: [{
       version: 1,
@@ -539,7 +537,7 @@ function previewDraft(formData) {
     description_or_abstract: formData.get('description'),
     topic: formData.get('description'),
     status: formData.get('status') || 'active',
-    visibility: formData.get('visibility'),
+    visibility: 'open',
     created_by: `local-${role.toLowerCase()}`,
     updated_by: `local-${role.toLowerCase()}`,
     timestamps: { created_at: nowIso(), updated_at: nowIso() },
@@ -570,7 +568,7 @@ function addActivity(formData) {
     created_by: `local-${role.toLowerCase()}`,
     created_at: nowIso(),
     updated_at: nowIso(),
-    visibility: formData.get('visibility'),
+    visibility: 'open',
     academic_year_start: academicYearForDate(date),
     academic_year_current: academicYearForDate(date),
     carry_forward: true,
@@ -598,7 +596,7 @@ function addCalendarItem(formData) {
     academic_year_start: academicYearForDate(dueDate),
     academic_year_current: academicYearForDate(dueDate),
     carry_forward: true,
-    visibility: formData.get('visibility'),
+    visibility: 'open',
     history: [{ version: 1, summary: 'Calendar item created locally', updated_by: `local-${role.toLowerCase()}`, updated_at: nowIso() }]
   });
   error = 'Calendar item added locally. Export JSON to commit it.';
@@ -624,13 +622,13 @@ function addAcademicLifeRecord(module, formData) {
       text: formData.get('notes'),
       created_by: `local-${role.toLowerCase()}`,
       created_at: nowIso(),
-      visibility: formData.get('visibility')
+      visibility: 'open'
     }] : [],
     subtasks: [],
     history: [{ version: 1, summary: `${module} record created locally`, updated_by: `local-${role.toLowerCase()}`, updated_at: nowIso() }],
     created_by: `local-${role.toLowerCase()}`,
     timestamps: { created_at: nowIso(), updated_at: nowIso() },
-    visibility: formData.get('visibility')
+    visibility: 'open'
   };
   ['institution_name', 'role_title', 'opportunity_type', 'employment_basis', 'place_city', 'place_country', 'application_deadline', 'application_date'].forEach((field) => {
     if (formData.has(field) && formData.get(field)) record[field] = formData.get(field);
@@ -654,7 +652,7 @@ function addCandidate(formData) {
   const deadline = formData.get('final_deadline_datetime');
   const actor = `local-${role.toLowerCase()}`;
   const year = formData.get('academic_year_current') || academicYearForDate(startDate);
-  const visibility = formData.get('visibility');
+  const visibility = 'open';
   const candidate = {
     id: uid('cand'),
     title: formData.get('name'),
@@ -697,7 +695,7 @@ function addMentor(formData) {
   if (!canWrite(store, role)) return;
   const actor = `local-${role.toLowerCase()}`;
   const year = formData.get('academic_year_current') || academicYearForDate();
-  const visibility = formData.get('visibility');
+  const visibility = 'open';
   const noteText = formData.get('note');
   const mentor = {
     id: uid('mentor'),
@@ -748,11 +746,11 @@ function addWorkbenchRecord(module, formData) {
     status: formData.get('status'),
     priority: formData.get('priority'),
     carry_forward: formData.get('status') !== 'completed',
-    visibility: formData.get('visibility'),
+    visibility: 'open',
     created_by: actor,
     updated_by: actor,
     timestamps: { created_at: nowIso(), updated_at: nowIso() },
-    notes_append_only: formData.get('note') ? [{ id: uid('note'), text: formData.get('note'), visibility: formData.get('visibility'), created_by: actor, created_at: nowIso() }] : [],
+    notes_append_only: formData.get('note') ? [{ id: uid('note'), text: formData.get('note'), visibility: 'open', created_by: actor, created_at: nowIso() }] : [],
     attachments: [],
     revision_history: [{ version: 1, summary: `${module} activity created locally`, updated_by: actor, updated_at: nowIso() }],
     notes: [],

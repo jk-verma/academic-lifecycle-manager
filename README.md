@@ -175,23 +175,9 @@ Compatibility and detail routes include:
 - `#/templates`
 - `#/templates/<template_id>`
 
-## Confidentiality
+## Access Model
 
-Visibility levels:
-
-- `admin_only`
-- `supervisor_only`
-- `internal`
-- `candidate_visible`
-- `sanitized_external`
-
-Restricted external users see:
-
-```text
-Confidential content hidden
-```
-
-Masking happens in the React UI based on the selected logical role and visibility metadata.
+The current GitHub Pages version keeps access control out of the visible product surface. Records are maintained as static JSON and can later be connected to a backend role model when the application view is finalized.
 
 ## Local Development
 

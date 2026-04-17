@@ -62,7 +62,7 @@ export function dashboardPage(ctx) {
         title: item.name || item.title,
         meta: formatDateTime(item.due_date || item.final_deadline || item.application_deadline),
         body: taskCardBody(item, item.topic || item.description_or_abstract || item.notes || ''),
-        badges: `${statusBadge(item.status || 'active')} ${visibilityBadge(item.visibility || 'internal')}`,
+        badges: `${statusBadge(item.status || 'active')} ${visibilityBadge(item.visibility || 'open')}`,
         href: item.route || recordRoute(item)
       })).join('') || '<p class="muted">No upcoming deadlines.</p>'}</section>
       <section class="panel"><h3>Upcoming meetings</h3>${upcomingMeetings.map((item) => recordCard({
@@ -95,7 +95,7 @@ function summaryCards(items, route) {
     title: item.name || item.title,
     meta: `${item.category || item.programme_type || item.module || route} | ${item.priority || 'medium'}`,
     body: taskCardBody(item, item.topic || item.description_or_abstract || ''),
-    badges: `${statusBadge(item.status || 'active')} ${visibilityBadge(item.visibility || 'internal')}`,
+    badges: `${statusBadge(item.status || 'active')} ${visibilityBadge(item.visibility || 'open')}`,
     href: item.route || recordRoute(item, route)
   })).join('') || '<p class="muted">No visible records.</p>';
 }

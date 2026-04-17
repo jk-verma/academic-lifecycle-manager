@@ -29,7 +29,7 @@
                                                  "responsible_person":  "Asha Menon",
                                                  "due_date":  "2026-02-25",
                                                  "status":  "open",
-                                                 "visibility":  "candidate_visible"
+                                                 "visibility":  "open"
                                              },
                                              {
                                                  "id":  "ai-asha-2",
@@ -37,7 +37,7 @@
                                                  "responsible_person":  "Faculty Supervisor",
                                                  "due_date":  "2026-02-28",
                                                  "status":  "open",
-                                                 "visibility":  "internal"
+                                                 "visibility":  "open"
                                              }
                                          ],
                         "responsible_person":  "Asha Menon",
@@ -47,7 +47,7 @@
                                       ],
                         "satisfaction_status":  "satisfied",
                         "next_meeting_date":  "2026-03-01",
-                        "visibility":  "candidate_visible",
+                        "visibility":  "open",
                         "status":  "completed",
                         "created_by":  "u-admin",
                         "updated_by":  "u-admin",
@@ -59,7 +59,7 @@
                                                      {
                                                          "id":  "c-asha-1",
                                                          "text":  "Student-visible summary added after meeting.",
-                                                         "visibility":  "candidate_visible",
+                                                         "visibility":  "open",
                                                          "created_by":  "u-admin",
                                                          "created_at":  "2026-02-12T11:00:00.000Z"
                                                      }
@@ -68,7 +68,7 @@
                                             {
                                                 "label":  "Minutes draft",
                                                 "url":  "docs/minutes/meet-asha-synopsis-001.md",
-                                                "visibility":  "internal"
+                                                "visibility":  "open"
                                             }
                                         ],
                         "revision_history":  [
@@ -111,7 +111,7 @@
                                                  "responsible_person":  "Meera Iyer",
                                                  "due_date":  "2026-04-15",
                                                  "status":  "open",
-                                                 "visibility":  "internal"
+                                                 "visibility":  "open"
                                              }
                                          ],
                         "responsible_person":  "Meera Iyer",
@@ -120,7 +120,7 @@
                                       ],
                         "satisfaction_status":  "partially_satisfied",
                         "next_meeting_date":  "2026-04-20",
-                        "visibility":  "internal",
+                        "visibility":  "open",
                         "status":  "completed",
                         "created_by":  "u-admin",
                         "updated_by":  "u-admin",
@@ -132,14 +132,14 @@
                                                      {
                                                          "id":  "c-meera-1",
                                                          "text":  "DAC compliance matrix opened.",
-                                                         "visibility":  "internal",
+                                                         "visibility":  "open",
                                                          "created_by":  "u-admin",
                                                          "created_at":  "2026-03-05T11:15:00.000Z"
                                                      },
                                                      {
                                                          "id":  "c-meera-conf",
                                                          "text":  "Confidential assessment notes for supervisor only.",
-                                                         "visibility":  "admin_only",
+                                                         "visibility":  "open",
                                                          "created_by":  "u-admin",
                                                          "created_at":  "2026-03-05T11:20:00.000Z"
                                                      }
@@ -148,7 +148,7 @@
                                             {
                                                 "label":  "DAC checklist",
                                                 "url":  "docs/minutes/meet-meera-dac1-001.md",
-                                                "visibility":  "supervisor_only"
+                                                "visibility":  "open"
                                             }
                                         ],
                         "revision_history":  [
@@ -190,7 +190,7 @@
                                                  "responsible_person":  "Nina Das",
                                                  "due_date":  "2026-03-27",
                                                  "status":  "open",
-                                                 "visibility":  "sanitized_external"
+                                                 "visibility":  "open"
                                              }
                                          ],
                         "responsible_person":  "Nina Das",
@@ -199,7 +199,7 @@
                                       ],
                         "satisfaction_status":  "satisfied",
                         "next_meeting_date":  "2026-03-27",
-                        "visibility":  "sanitized_external",
+                        "visibility":  "open",
                         "status":  "completed",
                         "created_by":  "u-assistant",
                         "updated_by":  "u-assistant",
@@ -211,7 +211,7 @@
                                                      {
                                                          "id":  "c-nina-1",
                                                          "text":  "Use sanitized bibliography export.",
-                                                         "visibility":  "sanitized_external",
+                                                         "visibility":  "open",
                                                          "created_by":  "u-assistant",
                                                          "created_at":  "2026-03-20T14:25:00.000Z"
                                                      }

@@ -17,7 +17,7 @@
       "academic_year_start": "2025-2026",
       "academic_year_current": "2025-2026",
       "carry_forward": true,
-      "visibility": "internal",
+      "visibility": "open",
       "history": [
         {"version": 1, "summary": "Calendar deadline created by assistant", "updated_by": "u-assistant", "updated_at": "2026-04-15T16:10:00.000Z"}
       ]
@@ -37,7 +37,7 @@
       "academic_year_start": "2025-2026",
       "academic_year_current": "2025-2026",
       "carry_forward": true,
-      "visibility": "admin_only",
+      "visibility": "open",
       "history": [
         {"version": 1, "summary": "Revision deadline entered by admin", "updated_by": "u-admin", "updated_at": "2026-04-16T10:00:00.000Z"}
       ]
@@ -57,7 +57,7 @@
       "academic_year_start": "2025-2026",
       "academic_year_current": "2025-2026",
       "carry_forward": true,
-      "visibility": "admin_only",
+      "visibility": "open",
       "history": [
         {"version": 1, "summary": "Project reporting calendar item created", "updated_by": "u-admin", "updated_at": "2026-04-16T10:30:00.000Z"}
       ]

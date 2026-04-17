@@ -22,14 +22,14 @@ export function yearDetailPage(ctx, year) {
       title: item.name || item.title,
       meta: item.programme_type || item.module || item.category,
       body: item.topic || item.description_or_abstract || item.notes || item.short_notes,
-      badges: `${statusBadge(item.status)} ${visibilityBadge(item.visibility || 'internal')}`,
+      badges: `${statusBadge(item.status)} ${visibilityBadge(item.visibility || 'open')}`,
       href: item.route || '#/years'
     })).join('') || emptyState('No carry-forward items', 'All visible work is completed or closed.')}</section>
     <section class="panel"><h3>All records in year</h3>${records.map((item) => recordCard({
       title: item.name || item.title,
       meta: item.programme_type || item.module || item.category,
       body: item.topic || item.description_or_abstract || item.notes || item.short_notes,
-      badges: `${statusBadge(item.status)} ${visibilityBadge(item.visibility || 'internal')}`,
+      badges: `${statusBadge(item.status)} ${visibilityBadge(item.visibility || 'open')}`,
       href: item.route || '#/years'
     })).join('')}</section>`;
 }

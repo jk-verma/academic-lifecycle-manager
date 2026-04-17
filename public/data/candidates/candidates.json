@@ -26,7 +26,7 @@
                                            ],
                         "supervisor":  "Faculty Supervisor",
                         "start_date":  "2025-08-01",
-                        "visibility":  "candidate_visible",
+                        "visibility":  "open",
                         "status":  "active",
                         "created_by":  "u-admin",
                         "updated_by":  "u-admin",
@@ -38,7 +38,7 @@
                                                   {
                                                       "id":  "n-asha-1",
                                                       "text":  "Synopsis accepted; continue literature matrix.",
-                                                      "visibility":  "candidate_visible",
+                                                      "visibility":  "open",
                                                       "created_by":  "u-admin",
                                                       "created_at":  "2026-02-15T10:00:00.000Z"
                                                   }
@@ -47,7 +47,7 @@
                                             {
                                                 "label":  "Synopsis draft",
                                                 "url":  "docs/asha-synopsis.md",
-                                                "visibility":  "internal"
+                                                "visibility":  "open"
                                             }
                                         ],
                         "revision_history":  [
@@ -69,7 +69,7 @@
                                       {
                                           "id":  "n-asha-1",
                                           "text":  "Synopsis accepted; continue literature matrix.",
-                                          "visibility":  "candidate_visible",
+                                          "visibility":  "open",
                                           "created_by":  "u-admin",
                                           "created_at":  "2026-02-15T10:00:00.000Z"
                                       }
@@ -98,7 +98,7 @@
                                                                "text":  "Integrate supervisor comments in final report.",
                                                                "created_by":  "u-admin",
                                                                "created_at":  "2026-04-17T12:00:00.000Z",
-                                                               "visibility":  "internal"
+                                                               "visibility":  "open"
                                                            }
                                                        ],
                                              "history":  [
@@ -126,7 +126,7 @@
                                                                "text":  "Check formatting, references, and similarity report.",
                                                                "created_by":  "u-admin",
                                                                "created_at":  "2026-04-17T12:00:00.000Z",
-                                                               "visibility":  "internal"
+                                                               "visibility":  "open"
                                                            }
                                                        ],
                                              "history":  [
@@ -166,7 +166,7 @@
                                            ],
                         "supervisor":  "Faculty Supervisor",
                         "start_date":  "2025-08-01",
-                        "visibility":  "internal",
+                        "visibility":  "open",
                         "status":  "active",
                         "created_by":  "u-admin",
                         "updated_by":  "u-assistant",
@@ -178,7 +178,7 @@
                                                   {
                                                       "id":  "n-rahul-1",
                                                       "text":  "Dataset collection is pending department approval.",
-                                                      "visibility":  "internal",
+                                                      "visibility":  "open",
                                                       "created_by":  "u-assistant",
                                                       "created_at":  "2026-03-05T12:00:00.000Z"
                                                   }
@@ -205,7 +205,7 @@
                                       {
                                           "id":  "n-rahul-1",
                                           "text":  "Dataset collection is pending department approval.",
-                                          "visibility":  "internal",
+                                          "visibility":  "open",
                                           "created_by":  "u-assistant",
                                           "created_at":  "2026-03-05T12:00:00.000Z"
                                       }
@@ -262,7 +262,7 @@
                                            ],
                         "supervisor":  "Faculty Supervisor",
                         "start_date":  "2024-01-10",
-                        "visibility":  "internal",
+                        "visibility":  "open",
                         "status":  "active",
                         "created_by":  "u-admin",
                         "updated_by":  "u-admin",
@@ -274,14 +274,14 @@
                                                   {
                                                       "id":  "n-meera-1",
                                                       "text":  "DAC compliance table created.",
-                                                      "visibility":  "internal",
+                                                      "visibility":  "open",
                                                       "created_by":  "u-admin",
                                                       "created_at":  "2026-03-10T11:00:00.000Z"
                                                   },
                                                   {
                                                       "id":  "n-meera-conf",
                                                       "text":  "Confidential reviewer strategy discussion.",
-                                                      "visibility":  "admin_only",
+                                                      "visibility":  "open",
                                                       "created_by":  "u-admin",
                                                       "created_at":  "2026-03-10T11:30:00.000Z"
                                                   }
@@ -290,7 +290,7 @@
                                             {
                                                 "label":  "DAC-1 suggestions",
                                                 "url":  "docs/meera-dac-1.md",
-                                                "visibility":  "supervisor_only"
+                                                "visibility":  "open"
                                             }
                                         ],
                         "revision_history":  [
@@ -312,14 +312,14 @@
                                       {
                                           "id":  "n-meera-1",
                                           "text":  "DAC compliance table created.",
-                                          "visibility":  "internal",
+                                          "visibility":  "open",
                                           "created_by":  "u-admin",
                                           "created_at":  "2026-03-10T11:00:00.000Z"
                                       },
                                       {
                                           "id":  "n-meera-conf",
                                           "text":  "Confidential reviewer strategy discussion.",
-                                          "visibility":  "admin_only",
+                                          "visibility":  "open",
                                           "created_by":  "u-admin",
                                           "created_at":  "2026-03-10T11:30:00.000Z"
                                       }
@@ -348,7 +348,7 @@
                                                                "text":  "Review DAC-1 slide structure and compliance evidence.",
                                                                "created_by":  "u-admin",
                                                                "created_at":  "2026-04-17T12:00:00.000Z",
-                                                               "visibility":  "internal"
+                                                               "visibility":  "open"
                                                            }
                                                        ],
                                              "history":  [
@@ -376,7 +376,7 @@
                                                                "text":  "Schedule committee presentation after internal review.",
                                                                "created_by":  "u-admin",
                                                                "created_at":  "2026-04-17T12:00:00.000Z",
-                                                               "visibility":  "internal"
+                                                               "visibility":  "open"
                                                            }
                                                        ],
                                              "history":  [
@@ -404,7 +404,7 @@
                                                                "text":  "Prepare action-wise compliance response.",
                                                                "created_by":  "u-admin",
                                                                "created_at":  "2026-04-17T12:00:00.000Z",
-                                                               "visibility":  "internal"
+                                                               "visibility":  "open"
                                                            }
                                                        ],
                                              "history":  [
@@ -459,7 +459,7 @@
                                            ],
                         "supervisor":  "Faculty Supervisor",
                         "start_date":  "2023-07-15",
-                        "visibility":  "supervisor_only",
+                        "visibility":  "open",
                         "status":  "active",
                         "created_by":  "u-admin",
                         "updated_by":  "u-admin",
@@ -471,7 +471,7 @@
                                                   {
                                                       "id":  "n-kabir-1",
                                                       "text":  "Needs focused writing sprint before DAC-3.",
-                                                      "visibility":  "supervisor_only",
+                                                      "visibility":  "open",
                                                       "created_by":  "u-admin",
                                                       "created_at":  "2026-01-10T09:00:00.000Z"
                                                   }
@@ -498,7 +498,7 @@
                                       {
                                           "id":  "n-kabir-1",
                                           "text":  "Needs focused writing sprint before DAC-3.",
-                                          "visibility":  "supervisor_only",
+                                          "visibility":  "open",
                                           "created_by":  "u-admin",
                                           "created_at":  "2026-01-10T09:00:00.000Z"
                                       }
@@ -540,7 +540,7 @@
                                            ],
                         "supervisor":  "Faculty Supervisor",
                         "start_date":  "2026-01-05",
-                        "visibility":  "sanitized_external",
+                        "visibility":  "open",
                         "status":  "active",
                         "created_by":  "u-admin",
                         "updated_by":  "u-assistant",
@@ -552,7 +552,7 @@
                                                   {
                                                       "id":  "n-nina-1",
                                                       "text":  "Share sanitized reading list only.",
-                                                      "visibility":  "sanitized_external",
+                                                      "visibility":  "open",
                                                       "created_by":  "u-assistant",
                                                       "created_at":  "2026-03-20T14:00:00.000Z"
                                                   }
@@ -579,7 +579,7 @@
                                       {
                                           "id":  "n-nina-1",
                                           "text":  "Share sanitized reading list only.",
-                                          "visibility":  "sanitized_external",
+                                          "visibility":  "open",
                                           "created_by":  "u-assistant",
                                           "created_at":  "2026-03-20T14:00:00.000Z"
                                       }

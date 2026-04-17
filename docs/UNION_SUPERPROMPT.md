@@ -16,12 +16,9 @@ Transform Academic Lifecycle Manager into a polished academic productivity produ
 - Preserve existing data import/export workflow.
 - Use display name `Academic Lifecycle Manager` everywhere.
 
-## Active Roles
+## Access Model
 
-- `ADMIN`: full logical UI control, archive/correction ability, can update past academic years.
-- `ASSISTANT`: can add and update records, subtasks, notes, deadlines, and daily entries, but cannot archive, delete, erase history, or modify protected settings.
-- `VIEWER`: read-only.
-- `RESTRICTED_EXTERNAL`: sanitized view only; hidden content must show `Confidential content hidden`.
+Keep access control out of the visible product surface for now. The app should remain usable as a static academic productivity portal, with backend roles and authentication deferred until the whole product view is complete.
 
 ## Core Data Rules
 

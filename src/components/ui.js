@@ -1,6 +1,5 @@
 import { escapeHtml, slugLabel } from '../utils/html.js';
 import { isOverdue } from '../utils/date.js';
-import { MASK } from '../utils/visibility.js';
 
 export function pageHeader(title, subtitle, meta = '') {
   return `<section class="page-title">
@@ -14,12 +13,12 @@ export function statusBadge(status) {
   return `<span class="badge status-${escapeHtml(status)}">${escapeHtml(slugLabel(status))}</span>`;
 }
 
-export function visibilityBadge(visibility) {
-  return `<span class="badge visibility">${escapeHtml(slugLabel(visibility))}</span>`;
+export function visibilityBadge() {
+  return '';
 }
 
 export function maskedBlock(label = 'Restricted section') {
-  return `<div class="masked-block"><strong>${escapeHtml(label)}</strong><p>${MASK}</p></div>`;
+  return '';
 }
 
 export function emptyState(title, body) {
@@ -163,7 +162,6 @@ export function filterBar(filters, options = {}) {
     <select id="filter-priority"><option value="">Any priority</option>${(options.priorities || []).map((item) => `<option value="${escapeHtml(item)}" ${filters.priority === item ? 'selected' : ''}>${escapeHtml(slugLabel(item))}</option>`).join('')}</select>
     <select id="filter-overdue"><option value="">Any deadline state</option><option value="yes" ${filters.overdue === 'yes' ? 'selected' : ''}>Overdue only</option><option value="no" ${filters.overdue === 'no' ? 'selected' : ''}>Not overdue</option></select>
     <input id="filter-institution" value="${escapeHtml(filters.institution || '')}" placeholder="Institution or agency" />
-    <select id="filter-visibility"><option value="">Any visibility</option>${(options.visibilities || []).map((item) => `<option value="${escapeHtml(item)}" ${filters.visibility === item ? 'selected' : ''}>${escapeHtml(slugLabel(item))}</option>`).join('')}</select>
     <select id="filter-academicYear"><option value="">Any academic year</option>${(options.academicYears || []).map((item) => `<option value="${escapeHtml(item)}" ${filters.academicYear === item ? 'selected' : ''}>${escapeHtml(item)}</option>`).join('')}</select>
     <input id="filter-from" type="date" value="${escapeHtml(filters.from || '')}" />
     <input id="filter-to" type="date" value="${escapeHtml(filters.to || '')}" />

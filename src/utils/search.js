@@ -17,7 +17,6 @@ export function structuredFilter(records, filters) {
     if (filters.module && record.module !== filters.module) return false;
     if (filters.status && record.status !== filters.status) return false;
     if (filters.priority && record.priority !== filters.priority) return false;
-    if (filters.visibility && record.visibility !== filters.visibility) return false;
     if (filters.institution) {
       const institutionText = [record.institution_name, record.organization_or_publisher, record.funding_agency, record.organization].filter(Boolean).join(' ').toLowerCase();
       if (!institutionText.includes(filters.institution.toLowerCase())) return false;

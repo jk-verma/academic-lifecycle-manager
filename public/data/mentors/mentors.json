@@ -18,7 +18,7 @@
       "role_description": "Supports literature review structure, weekly research hygiene, and early draft feedback for assigned students.",
       "status": "active",
       "priority": "medium",
-      "visibility": "internal",
+      "visibility": "open",
       "academic_year_start": "2025-2026",
       "academic_year_current": "2025-2026",
       "carry_forward": true,
@@ -32,7 +32,7 @@
         {
           "id": "mentor-note-meera-1",
           "text": "Senior student mentor for Masters and intern research process support.",
-          "visibility": "internal",
+          "visibility": "open",
           "created_by": "u-admin",
           "created_at": "2026-04-17T18:00:00.000Z"
         }
@@ -62,7 +62,7 @@
       "role_description": "Coordinates milestone readiness, internal review preparation, and documentation follow-up.",
       "status": "active",
       "priority": "high",
-      "visibility": "internal",
+      "visibility": "open",
       "academic_year_start": "2025-2026",
       "academic_year_current": "2025-2026",
       "carry_forward": true,
@@ -76,7 +76,7 @@
         {
           "id": "mentor-note-anita-1",
           "text": "Junior faculty mentor for milestone coordination and follow-up support.",
-          "visibility": "internal",
+          "visibility": "open",
           "created_by": "u-admin",
           "created_at": "2026-04-17T18:00:00.000Z"
         }
@@ -105,7 +105,7 @@
       "role_description": "Provides external perspective on applied validation and responsible AI evaluation.",
       "status": "active",
       "priority": "medium",
-      "visibility": "internal",
+      "visibility": "open",
       "academic_year_start": "2025-2026",
       "academic_year_current": "2025-2026",
       "carry_forward": true,
@@ -119,7 +119,7 @@
         {
           "id": "mentor-note-sen-1",
           "text": "External collaborator mentor for selected PhD work.",
-          "visibility": "internal",
+          "visibility": "open",
           "created_by": "u-admin",
           "created_at": "2026-04-17T18:00:00.000Z"
         }

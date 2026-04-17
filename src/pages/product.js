@@ -18,7 +18,7 @@ export function myWorkPage(ctx) {
       ${panel('Daily planner', planner.map((item) => recordCard({ title: item.title, meta: `${item.date} | ${item.priority}`, body: item.short_notes, badges: statusBadge(item.status), href: `#/planner/${item.id}` })).join('') || emptyState('No planner items', 'Add daily work from the planner page.'))}
       ${panel('Academic administration', adminWork.map((item) => workCard(item, `#/admin-work/${item.id}`)).join('') || emptyState('No administration records', 'No academic administration records are visible.'))}
       ${panel('External engagements', external.map((item) => workCard(item, `#/external/${item.id}`)).join('') || emptyState('No external engagements', 'No external engagement records are visible.'))}
-      ${panel('Carry-forward items', carryForward.slice(0, 8).map((item) => recordCard({ title: item.name || item.title, meta: `${item.academic_year_current || 'no year'} | ${item.status}`, body: taskCardBody(item, item.topic || item.description_or_abstract || ''), badges: `${statusBadge(item.status || 'active')} ${visibilityBadge(item.visibility || 'internal')}`, href: item.route || '#/years' })).join('') || emptyState('No carry-forward items', 'Visible records are completed or closed.'))}
+      ${panel('Carry-forward items', carryForward.slice(0, 8).map((item) => recordCard({ title: item.name || item.title, meta: `${item.academic_year_current || 'no year'} | ${item.status}`, body: taskCardBody(item, item.topic || item.description_or_abstract || ''), badges: `${statusBadge(item.status || 'active')} ${visibilityBadge(item.visibility || 'open')}`, href: item.route || '#/years' })).join('') || emptyState('No carry-forward items', 'Visible records are completed or closed.'))}
     </div>`;
 }
 

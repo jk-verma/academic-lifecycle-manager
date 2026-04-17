@@ -21,7 +21,7 @@
                                                            "text":  "Mid-semester syllabus coverage reviewed.",
                                                            "created_by":  "u-admin",
                                                            "created_at":  "2026-04-12T10:00:00.000Z",
-                                                           "visibility":  "internal"
+                                                           "visibility":  "open"
                                                        }
                                                    ],
                                          "feedback":  "Collect end-semester feedback after final lab review.",
@@ -38,7 +38,7 @@
                                                             "created_at":  "2026-04-12T10:00:00.000Z",
                                                             "updated_at":  "2026-04-12T10:00:00.000Z"
                                                         },
-                                         "visibility":  "internal",
+                                         "visibility":  "open",
                                          "final_deadline":  "2026-05-15",
                                          "subtasks":  [
                                                           {
@@ -56,7 +56,7 @@
                                                                                 "text":  "Weekly teaching plan prepared.",
                                                                                 "created_by":  "u-admin",
                                                                                 "created_at":  "2026-04-17T12:00:00.000Z",
-                                                                                "visibility":  "internal"
+                                                                                "visibility":  "open"
                                                                             }
                                                                         ],
                                                               "history":  [
@@ -84,7 +84,7 @@
                                                                                 "text":  "Focus on model evaluation lab.",
                                                                                 "created_by":  "u-admin",
                                                                                 "created_at":  "2026-04-17T12:00:00.000Z",
-                                                                                "visibility":  "internal"
+                                                                                "visibility":  "open"
                                                                             }
                                                                         ],
                                                               "history":  [
@@ -112,7 +112,7 @@
                                                                                 "text":  "Prepare feedback form and summary sheet.",
                                                                                 "created_by":  "u-admin",
                                                                                 "created_at":  "2026-04-17T12:00:00.000Z",
-                                                                                "visibility":  "internal"
+                                                                                "visibility":  "open"
                                                                             }
                                                                         ],
                                                               "history":  [
@@ -145,7 +145,7 @@
                                                              "text":  "Assistant compiled first draft of research supervision evidence.",
                                                              "created_by":  "u-assistant",
                                                              "created_at":  "2026-04-16T15:00:00.000Z",
-                                                             "visibility":  "internal"
+                                                             "visibility":  "open"
                                                          }
                                                      ],
                                            "responsibility":  "Department research documentation",
@@ -162,7 +162,7 @@
                                                               "created_at":  "2026-04-16T15:00:00.000Z",
                                                               "updated_at":  "2026-04-16T15:00:00.000Z"
                                                           },
-                                           "visibility":  "internal",
+                                           "visibility":  "open",
                                            "final_deadline":  "2026-05-30",
                                            "subtasks":  [
 
@@ -188,7 +188,7 @@
                                                                        "text":  "Topic and abstract shared with host coordinator.",
                                                                        "created_by":  "u-admin",
                                                                        "created_at":  "2026-04-17T09:30:00.000Z",
-                                                                       "visibility":  "internal"
+                                                                       "visibility":  "open"
                                                                    }
                                                                ],
                                                      "history":  [
@@ -204,7 +204,7 @@
                                                                         "created_at":  "2026-04-17T09:30:00.000Z",
                                                                         "updated_at":  "2026-04-17T09:30:00.000Z"
                                                                     },
-                                                     "visibility":  "internal",
+                                                     "visibility":  "open",
                                                      "final_deadline":  "2026-05-08",
                                                      "subtasks":  [
 
