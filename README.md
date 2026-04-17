@@ -70,6 +70,21 @@ All core records include:
 
 Incomplete records with `carry_forward: true` appear in the Academic Years view without duplicating original history. Past academic year records remain editable through the static JSON workflow by appending history entries rather than deleting older data.
 
+## Task and Subtask Model
+
+Main records can carry one overall task deadline plus an append-only subtask timeline:
+
+- `final_deadline`
+- `status`
+- `priority`
+- `notes`
+- `history`
+- `subtasks`
+
+Each subtask belongs to its parent record through `parent_record_id` and includes `title`, `subtask_type`, `due_date`, `completed_date`, `status`, `responsible_person`, append-only `notes`, append-only `history`, and `sequence_order`.
+
+Cards show the final deadline and completed-subtasks summary. Detail pages show subtasks as a vertical timeline with overdue highlighting and an ADMIN/ASSISTANT-only local form for adding new subtasks. Existing subtasks are not deleted by the UI; updates should append history entries and be exported as JSON for commit.
+
 ## Folder Structure
 
 ```text

@@ -1,4 +1,5 @@
 import { escapeHtml, slugLabel } from '../utils/html.js';
+import { isOverdue } from '../utils/date.js';
 import { MASK } from '../utils/visibility.js';
 
 export function pageHeader(title, subtitle, meta = '') {
@@ -42,6 +43,60 @@ export function recordCard({ title, meta, body, badges = '', href = '' }) {
     ${meta ? `<p class="muted">${escapeHtml(meta)}</p>` : ''}
     ${body ? `<p>${escapeHtml(body)}</p>` : ''}
   </article>`;
+}
+
+export function taskProgress(record = {}) {
+  const subtasks = record.subtasks || [];
+  const completed = subtasks.filter((item) => item.status === 'completed').length;
+  const total = subtasks.length;
+  return {
+    completed,
+    total,
+    label: `${completed}/${total} subtasks completed`
+  };
+}
+
+export function taskSummary(record = {}) {
+  const progress = taskProgress(record);
+  const deadline = record.final_deadline || record.application_deadline || record.due_date || '';
+  const overdue = isOverdue(deadline, record.status);
+  return `<div class="task-summary">
+    <span class="${overdue ? 'overdue' : ''}"><strong>Final deadline:</strong> ${escapeHtml(deadline || 'not set')}</span>
+    <span><strong>Progress:</strong> ${escapeHtml(progress.label)}</span>
+  </div>`;
+}
+
+export function subtaskTimeline(record = {}) {
+  const subtasks = [...(record.subtasks || [])].sort((a, b) => Number(a.sequence_order || 0) - Number(b.sequence_order || 0));
+  if (!subtasks.length) return emptyState('No subtasks', 'Subtasks can be added over time without deleting earlier work.');
+  return `<div class="subtask-timeline">${subtasks.map((subtask) => {
+    const overdue = isOverdue(subtask.due_date, subtask.status);
+    return `<article class="${overdue ? 'overdue-card' : ''}">
+      <div class="subtask-marker">${escapeHtml(subtask.sequence_order || '')}</div>
+      <div>
+        <div class="card-head"><strong>${escapeHtml(subtask.title)}</strong>${statusBadge(subtask.status)}</div>
+        <p class="muted">${escapeHtml(slugLabel(subtask.subtask_type || 'subtask'))} | due ${escapeHtml(subtask.due_date || 'not set')} ${subtask.completed_date ? `| completed ${escapeHtml(subtask.completed_date)}` : ''}</p>
+        <p><strong>Responsible:</strong> ${escapeHtml(subtask.responsible_person || 'not assigned')}</p>
+        ${notesPanel(subtask.notes || [])}
+        ${timelinePanel(subtask.history || [])}
+      </div>
+    </article>`;
+  }).join('')}</div>`;
+}
+
+export function subtaskForm(kind, id, module = '') {
+  return `<section class="append-panel">
+    <h4>Add subtask</h4>
+    <form class="record-form" data-add-subtask="${escapeHtml(kind)}" data-id="${escapeHtml(id)}" data-module="${escapeHtml(module)}">
+      <input name="title" required placeholder="Subtask title" />
+      <input name="subtask_type" placeholder="Subtask type" />
+      <input name="due_date" type="date" required />
+      <input name="responsible_person" placeholder="Responsible person" />
+      <select name="status"><option>pending</option><option>ongoing</option><option>completed</option><option>deferred</option><option>cancelled</option></select>
+      <input name="notes" placeholder="Append-only note" />
+      <button>Add local subtask</button>
+    </form>
+  </section>`;
 }
 
 export function notesPanel(notes = []) {

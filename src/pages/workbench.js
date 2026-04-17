@@ -1,4 +1,4 @@
-import { detailSection, emptyState, notesPanel, pageHeader, printActionBar, recordCard, statusBadge, timelinePanel, visibilityBadge } from '../components/ui.js';
+import { detailSection, emptyState, notesPanel, pageHeader, printActionBar, recordCard, statusBadge, subtaskTimeline, taskProgress, taskSummary, timelinePanel, visibilityBadge } from '../components/ui.js';
 import { isOverdue } from '../utils/date.js';
 import { escapeHtml, slugLabel } from '../utils/html.js';
 import { structuredFilter } from '../utils/search.js';
@@ -29,8 +29,8 @@ export function workbenchModulePage(ctx, module) {
     ${ctx.renderFilters({ moduleLocked: module })}
     <div class="grid">${items.map((item) => recordCard({
       title: item.title,
-      meta: `${slugLabel(item.module)} | ${item.status}`,
-      body: item.description_or_abstract,
+      meta: `${slugLabel(item.module)} | ${item.status} | final deadline: ${item.final_deadline || 'not set'}`,
+      body: `${taskProgress(item).label} | ${item.description_or_abstract || ''}`,
       badges: `${statusBadge(item.status)} ${visibilityBadge(item.visibility)}`,
       href: `#/workbench/${item.module}/${item.id}`
     })).join('') || emptyState('No records', 'No workbench records match this module and filter set.')}</div>`;
@@ -44,10 +44,13 @@ export function workbenchDetailPage(ctx, module, id) {
     ${printActionBar(`<a class="card-link" href="#/workbench/${module}">Back to module</a>`)}
     <section class="detail printable">
       <div class="metadata">${statusBadge(item.status)} ${visibilityBadge(item.visibility)} ${module === 'projects' && hasOverdueReporting(item) ? statusBadge('overdue_reporting') : ''}</div>
+      ${detailSection('Overall task', taskSummary(item))}
+      ${detailSection('Subtask timeline', subtaskTimeline(item))}
       ${projectBody}
       ${detailSection('Append-only notes', notesPanel(ctx.maskNotes(item.notes_append_only)))}
       ${detailSection('Timeline / history', timelinePanel(item.revision_history))}
       ${detailSection('Attachments / references', (item.attachments || []).map((attachment) => `<p>${escapeHtml(attachment.label)} | ${escapeHtml(attachment.url)}</p>`).join('') || '<p class="muted">No attachments.</p>')}
+      ${ctx.canWrite() ? ctx.subtaskForm('workbench', item.id, module) : ''}
       ${ctx.canWrite() ? ctx.appendNoteForm('workbench', item.id, module) : ''}
       ${ctx.canArchive() && item.status !== 'archived' ? `<button class="secondary" data-archive-kind="workbench" data-archive-module="${escapeHtml(module)}" data-archive-id="${escapeHtml(item.id)}">Archive record</button>` : ''}
     </section>`;

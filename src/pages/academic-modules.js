@@ -1,4 +1,4 @@
-import { detailSection, emptyState, notesPanel, pageHeader, printActionBar, recordCard, statusBadge, timelinePanel, visibilityBadge } from '../components/ui.js';
+import { detailSection, emptyState, notesPanel, pageHeader, printActionBar, recordCard, statusBadge, subtaskTimeline, taskProgress, taskSummary, timelinePanel, visibilityBadge } from '../components/ui.js';
 import { isOverdue } from '../utils/date.js';
 import { escapeHtml } from '../utils/html.js';
 
@@ -50,8 +50,8 @@ export function academicModulePage(ctx, module, title, subtitle) {
     ${form}
     <div class="grid">${items.map((item) => recordCard({
       title: item.title,
-      meta: `${item.academic_year_current} | ${item.category} | ${item.priority}`,
-      body: firstVisibleNote(item),
+      meta: `${item.academic_year_current} | ${item.category} | ${item.priority} | final deadline: ${item.final_deadline || item.application_deadline || 'not set'}`,
+      body: `${taskProgress(item).label} | ${firstVisibleNote(item)}`,
       badges: `${statusBadge(item.status)} ${visibilityBadge(item.visibility)} ${item.carry_forward ? statusBadge('carry_forward') : ''}`,
       href: `#/${routeName(module)}/${item.id}`
     })).join('') || emptyState('No records', 'No records are available in this module yet.')}</div>`;
@@ -64,7 +64,9 @@ export function academicModuleDetailPage(ctx, module, id) {
     ${printActionBar(`<a class="card-link" href="#/${routeName(module)}">Back</a>`)}
     <section class="detail printable">
       <div class="metadata">${statusBadge(item.status)} ${statusBadge(item.priority)} ${visibilityBadge(item.visibility)} ${item.carry_forward ? statusBadge('carry_forward') : ''}</div>
-      ${detailSection('Record summary', `<p><strong>Academic year:</strong> ${escapeHtml(item.academic_year_current)}</p><p><strong>Carry forward:</strong> ${escapeHtml(item.carry_forward)}</p><p><strong>Created by:</strong> ${escapeHtml(item.created_by)}</p>`)}
+      ${detailSection('Overall task', `${taskSummary(item)}<p><strong>Academic year:</strong> ${escapeHtml(item.academic_year_current)}</p><p><strong>Carry forward:</strong> ${escapeHtml(item.carry_forward)}</p><p><strong>Created by:</strong> ${escapeHtml(item.created_by)}</p>`)}
+      ${detailSection('Subtask timeline', subtaskTimeline(item))}
+      ${ctx.canWrite() ? ctx.subtaskForm('academic', item.id, module) : ''}
       ${detailSection('Details', `<pre>${escapeHtml(JSON.stringify(stripLargeArrays(item), null, 2))}</pre>`)}
       ${detailSection('Append-only notes', notesPanel(ctx.maskNotes(item.notes || [])))}
       ${detailSection('History', timelinePanel(item.history || []))}
@@ -75,8 +77,8 @@ function moduleList(title, subtitle, items, hrefFor) {
   return `${pageHeader(title, subtitle)}
     <div class="grid">${items.map((item) => recordCard({
       title: item.title,
-      meta: `${item.module} | ${item.status}`,
-      body: item.description_or_abstract || firstVisibleNote(item),
+      meta: `${item.module} | ${item.status} | final deadline: ${item.final_deadline || 'not set'}`,
+      body: `${taskProgress(item).label} | ${item.description_or_abstract || firstVisibleNote(item)}`,
       badges: `${statusBadge(item.status)} ${visibilityBadge(item.visibility)} ${item.carry_forward ? statusBadge('carry_forward') : ''}`,
       href: hrefFor(item)
     })).join('') || emptyState('No records', 'No records are visible for this role.')}</div>`;
@@ -89,6 +91,7 @@ function academicRecordForm(module, title, ctx) {
       <input name="title" required placeholder="Title" />
       <input name="sub_type" placeholder="Subtype" />
       ${moduleSpecificFields(module)}
+      <input name="final_deadline" type="date" />
       <input name="notes" placeholder="Initial append-only note" />
       <input name="academic_year_current" placeholder="Academic year" value="2025-2026" />
       <select name="status">${statusOptions(module)}</select>
@@ -125,7 +128,7 @@ function firstVisibleNote(item) {
 }
 
 function stripLargeArrays(item) {
-  const { notes, history, ...rest } = item;
+  const { notes, history, subtasks, ...rest } = item;
   return rest;
 }
 

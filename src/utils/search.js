@@ -17,7 +17,7 @@ export function structuredFilter(records, filters) {
     if (filters.status && record.status !== filters.status) return false;
     if (filters.visibility && record.visibility !== filters.visibility) return false;
     if (filters.academicYear && record.academic_year_current !== filters.academicYear && record.academic_year_start !== filters.academicYear) return false;
-    const date = record.date || record.submission_date || record.timestamps?.updated_at?.slice(0, 10);
+    const date = record.date || record.final_deadline || record.submission_date || record.timestamps?.updated_at?.slice(0, 10);
     return inDateRange(date, filters.from, filters.to);
   });
 }

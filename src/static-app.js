@@ -1,4 +1,4 @@
-import { filterBar } from './components/ui.js';
+import { filterBar, subtaskForm } from './components/ui.js';
 import { loadStore } from './data/load.js';
 import { activitiesPage, activityDetailPage } from './pages/activities.js';
 import { calendarDetailPage, calendarPage } from './pages/calendar.js';
@@ -115,7 +115,8 @@ function ctx() {
     canArchive: () => canArchive(store, role),
     archiveRecord,
     renderFilters,
-    appendNoteForm
+    appendNoteForm,
+    subtaskForm
   };
 }
 
@@ -228,6 +229,13 @@ function bindEvents() {
     });
   });
 
+  document.querySelectorAll('[data-add-subtask]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      addSubtask(form.dataset.addSubtask, form.dataset.id, new FormData(form), form.dataset.module || '');
+    });
+  });
+
   const exportJson = document.getElementById('export-json');
   if (exportJson) exportJson.addEventListener('click', () => downloadJson('academic-lifecycle-manager-data-export.json', store));
 
@@ -289,6 +297,66 @@ function appendNote(kind, id, formData, module) {
     item.revision_history.push({ version: item.revision_history.length + 1, summary: 'Append-only note added locally', updated_by: note.created_by, updated_at: nowIso() });
   }
   error = 'Local append-only note prepared. Export JSON to commit it.';
+  render();
+}
+
+function findTaskRecord(kind, id, module = '') {
+  if (kind === 'candidate') return store.candidates.records.find((item) => item.id === id);
+  if (kind === 'workbench') return store.workbench.modules[module]?.find((item) => item.id === id);
+  if (kind === 'academic') return store.academicLife.modules[module]?.find((item) => item.id === id);
+  return null;
+}
+
+function addSubtask(kind, id, formData, module = '') {
+  if (!canWrite(store, role)) return;
+  const record = findTaskRecord(kind, id, module);
+  if (!record) return;
+  record.subtasks = record.subtasks || [];
+  const actor = `local-${role.toLowerCase()}`;
+  const nextOrder = record.subtasks.length + 1;
+  record.subtasks.push({
+    id: uid('subtask'),
+    parent_record_id: id,
+    title: formData.get('title'),
+    subtask_type: formData.get('subtask_type'),
+    due_date: formData.get('due_date'),
+    completed_date: formData.get('status') === 'completed' ? nowIso().slice(0, 10) : '',
+    status: formData.get('status'),
+    responsible_person: formData.get('responsible_person'),
+    notes: formData.get('notes') ? [{
+      id: uid('note'),
+      text: formData.get('notes'),
+      created_by: actor,
+      created_at: nowIso(),
+      visibility: record.visibility || 'internal'
+    }] : [],
+    history: [{
+      version: 1,
+      summary: 'Subtask added locally',
+      updated_by: actor,
+      updated_at: nowIso()
+    }],
+    sequence_order: nextOrder
+  });
+  record.history = record.history || record.revision_history || [];
+  record.history.push({
+    version: record.history.length + 1,
+    summary: `Subtask added: ${formData.get('title')}`,
+    updated_by: actor,
+    updated_at: nowIso()
+  });
+  if (record.revision_history && record.revision_history !== record.history) {
+    record.revision_history.push({
+      version: record.revision_history.length + 1,
+      summary: `Subtask added: ${formData.get('title')}`,
+      updated_by: actor,
+      updated_at: nowIso()
+    });
+  }
+  record.timestamps = record.timestamps || {};
+  record.timestamps.updated_at = nowIso();
+  record.updated_by = actor;
+  error = 'Subtask added locally. Export JSON to commit it.';
   render();
 }
 
@@ -400,6 +468,7 @@ function addAcademicLifeRecord(module, formData) {
     sub_type: formData.get('sub_type'),
     academic_year_start: year,
     academic_year_current: year,
+    final_deadline: formData.get('final_deadline'),
     status: formData.get('status'),
     priority: formData.get('priority'),
     carry_forward: formData.get('status') !== 'completed',
@@ -410,6 +479,7 @@ function addAcademicLifeRecord(module, formData) {
       created_at: nowIso(),
       visibility: formData.get('visibility')
     }] : [],
+    subtasks: [],
     history: [{ version: 1, summary: `${module} record created locally`, updated_by: `local-${role.toLowerCase()}`, updated_at: nowIso() }],
     created_by: `local-${role.toLowerCase()}`,
     timestamps: { created_at: nowIso(), updated_at: nowIso() },

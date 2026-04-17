@@ -1,164 +1,370 @@
 {
-  "schema": "academic-lifecycle-manager.academic-life.v1",
-  "updated_at": "2026-04-17T00:00:00.000Z",
-  "modules": {
-    "teaching": [
-      {
-        "id": "teach-ai-ml-2025",
-        "title": "Artificial Intelligence and Machine Learning",
-        "category": "teaching",
-        "sub_type": "course",
-        "academic_year_start": "2025-2026",
-        "academic_year_current": "2025-2026",
-        "programme": "B.Tech CSE",
-        "hours": 42,
-        "status": "active",
-        "priority": "medium",
-        "carry_forward": true,
-        "notes": [
-          {
-            "id": "teach-note-1",
-            "text": "Mid-semester syllabus coverage reviewed.",
-            "created_by": "u-admin",
-            "created_at": "2026-04-12T10:00:00.000Z",
-            "visibility": "internal"
-          }
-        ],
-        "feedback": "Collect end-semester feedback after final lab review.",
-        "history": [
-          {
-            "version": 1,
-            "summary": "Teaching record created",
-            "updated_by": "u-admin",
-            "updated_at": "2026-04-12T10:00:00.000Z"
-          }
-        ],
-        "created_by": "u-admin",
-        "timestamps": {
-          "created_at": "2026-04-12T10:00:00.000Z",
-          "updated_at": "2026-04-12T10:00:00.000Z"
-        },
-        "visibility": "internal"
-      }
-    ],
-    "admin_work": [
-      {
-        "id": "admin-naac-report-2025",
-        "title": "NAAC departmental evidence report",
-        "category": "academic_administration",
-        "sub_type": "compliance_work",
-        "academic_year_start": "2025-2026",
-        "academic_year_current": "2025-2026",
-        "status": "in_progress",
-        "priority": "high",
-        "carry_forward": true,
-        "notes": [
-          {
-            "id": "admin-note-1",
-            "text": "Assistant compiled first draft of research supervision evidence.",
-            "created_by": "u-assistant",
-            "created_at": "2026-04-16T15:00:00.000Z",
-            "visibility": "internal"
-          }
-        ],
-        "responsibility": "Department research documentation",
-        "history": [
-          {
-            "version": 1,
-            "summary": "Admin work record created",
-            "updated_by": "u-assistant",
-            "updated_at": "2026-04-16T15:00:00.000Z"
-          }
-        ],
-        "created_by": "u-assistant",
-        "timestamps": {
-          "created_at": "2026-04-16T15:00:00.000Z",
-          "updated_at": "2026-04-16T15:00:00.000Z"
-        },
-        "visibility": "internal"
-      }
-    ],
-    "external_engagements": [
-      {
-        "id": "external-talk-ai-ethics-2025",
-        "title": "Invited talk on AI ethics",
-        "category": "external_engagements",
-        "sub_type": "invited_talk",
-        "academic_year_start": "2025-2026",
-        "academic_year_current": "2025-2026",
-        "status": "planned",
-        "priority": "medium",
-        "carry_forward": true,
-        "organization": "City College",
-        "engagement_date": "2026-05-08",
-        "notes": [
-          {
-            "id": "external-note-1",
-            "text": "Topic and abstract shared with host coordinator.",
-            "created_by": "u-admin",
-            "created_at": "2026-04-17T09:30:00.000Z",
-            "visibility": "internal"
-          }
-        ],
-        "history": [
-          {
-            "version": 1,
-            "summary": "External engagement created",
-            "updated_by": "u-admin",
-            "updated_at": "2026-04-17T09:30:00.000Z"
-          }
-        ],
-        "created_by": "u-admin",
-        "timestamps": {
-          "created_at": "2026-04-17T09:30:00.000Z",
-          "updated_at": "2026-04-17T09:30:00.000Z"
-        },
-        "visibility": "internal"
-      }
-    ],
-    "career_mobility": [
-      {
-        "id": "career-visiting-position-2026",
-        "title": "Visiting faculty opportunity application",
-        "category": "career_mobility",
-        "sub_type": "visiting_position",
-        "academic_year_start": "2025-2026",
-        "academic_year_current": "2025-2026",
-        "status": "planned",
-        "priority": "medium",
-        "carry_forward": true,
-        "institution_name": "National Institute of Advanced Computing",
-        "role_title": "Visiting Faculty",
-        "opportunity_type": "visiting_position",
-        "employment_basis": "short_term_contract",
-        "place_city": "Bengaluru",
-        "place_country": "India",
-        "application_deadline": "2026-05-20",
-        "application_date": "",
-        "notes": [
-          {
-            "id": "career-note-1",
-            "text": "Collect eligibility details, NOC requirements, and application documents before the deadline.",
-            "created_by": "u-admin",
-            "created_at": "2026-04-17T11:00:00.000Z",
-            "visibility": "internal"
-          }
-        ],
-        "history": [
-          {
-            "version": 1,
-            "summary": "Career mobility opportunity created",
-            "updated_by": "u-admin",
-            "updated_at": "2026-04-17T11:00:00.000Z"
-          }
-        ],
-        "created_by": "u-admin",
-        "timestamps": {
-          "created_at": "2026-04-17T11:00:00.000Z",
-          "updated_at": "2026-04-17T11:00:00.000Z"
-        },
-        "visibility": "internal"
-      }
-    ]
-  }
+    "schema":  "academic-lifecycle-manager.academic-life.v1",
+    "updated_at":  "2026-04-17T00:00:00.000Z",
+    "modules":  {
+                    "teaching":  [
+                                     {
+                                         "id":  "teach-ai-ml-2025",
+                                         "title":  "Artificial Intelligence and Machine Learning",
+                                         "category":  "teaching",
+                                         "sub_type":  "course",
+                                         "academic_year_start":  "2025-2026",
+                                         "academic_year_current":  "2025-2026",
+                                         "programme":  "B.Tech CSE",
+                                         "hours":  42,
+                                         "status":  "active",
+                                         "priority":  "medium",
+                                         "carry_forward":  true,
+                                         "notes":  [
+                                                       {
+                                                           "id":  "teach-note-1",
+                                                           "text":  "Mid-semester syllabus coverage reviewed.",
+                                                           "created_by":  "u-admin",
+                                                           "created_at":  "2026-04-12T10:00:00.000Z",
+                                                           "visibility":  "internal"
+                                                       }
+                                                   ],
+                                         "feedback":  "Collect end-semester feedback after final lab review.",
+                                         "history":  [
+                                                         {
+                                                             "version":  1,
+                                                             "summary":  "Teaching record created",
+                                                             "updated_by":  "u-admin",
+                                                             "updated_at":  "2026-04-12T10:00:00.000Z"
+                                                         }
+                                                     ],
+                                         "created_by":  "u-admin",
+                                         "timestamps":  {
+                                                            "created_at":  "2026-04-12T10:00:00.000Z",
+                                                            "updated_at":  "2026-04-12T10:00:00.000Z"
+                                                        },
+                                         "visibility":  "internal",
+                                         "final_deadline":  "2026-05-15",
+                                         "subtasks":  [
+                                                          {
+                                                              "id":  "sub-teach-plan",
+                                                              "parent_record_id":  "teach-ai-ml-2025",
+                                                              "title":  "Lecture and lab plan",
+                                                              "subtask_type":  "planning",
+                                                              "due_date":  "2026-04-20",
+                                                              "completed_date":  "2026-04-18",
+                                                              "status":  "completed",
+                                                              "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                              "notes":  [
+                                                                            {
+                                                                                "id":  "sub-teach-plan-note-1",
+                                                                                "text":  "Weekly teaching plan prepared.",
+                                                                                "created_by":  "u-admin",
+                                                                                "created_at":  "2026-04-17T12:00:00.000Z",
+                                                                                "visibility":  "internal"
+                                                                            }
+                                                                        ],
+                                                              "history":  [
+                                                                              {
+                                                                                  "version":  1,
+                                                                                  "summary":  "Subtask created",
+                                                                                  "updated_by":  "u-admin",
+                                                                                  "updated_at":  "2026-04-17T12:00:00.000Z"
+                                                                              }
+                                                                          ],
+                                                              "sequence_order":  1
+                                                          },
+                                                          {
+                                                              "id":  "sub-teach-delivery",
+                                                              "parent_record_id":  "teach-ai-ml-2025",
+                                                              "title":  "Complete remaining lab delivery",
+                                                              "subtask_type":  "delivery",
+                                                              "due_date":  "2026-05-05",
+                                                              "completed_date":  "",
+                                                              "status":  "ongoing",
+                                                              "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                              "notes":  [
+                                                                            {
+                                                                                "id":  "sub-teach-delivery-note-1",
+                                                                                "text":  "Focus on model evaluation lab.",
+                                                                                "created_by":  "u-admin",
+                                                                                "created_at":  "2026-04-17T12:00:00.000Z",
+                                                                                "visibility":  "internal"
+                                                                            }
+                                                                        ],
+                                                              "history":  [
+                                                                              {
+                                                                                  "version":  1,
+                                                                                  "summary":  "Subtask created",
+                                                                                  "updated_by":  "u-admin",
+                                                                                  "updated_at":  "2026-04-17T12:00:00.000Z"
+                                                                              }
+                                                                          ],
+                                                              "sequence_order":  2
+                                                          },
+                                                          {
+                                                              "id":  "sub-teach-feedback",
+                                                              "parent_record_id":  "teach-ai-ml-2025",
+                                                              "title":  "Collect student feedback",
+                                                              "subtask_type":  "feedback",
+                                                              "due_date":  "2026-05-15",
+                                                              "completed_date":  "",
+                                                              "status":  "pending",
+                                                              "responsible_person":  "Faculty Assistant",
+                                                              "notes":  [
+                                                                            {
+                                                                                "id":  "sub-teach-feedback-note-1",
+                                                                                "text":  "Prepare feedback form and summary sheet.",
+                                                                                "created_by":  "u-admin",
+                                                                                "created_at":  "2026-04-17T12:00:00.000Z",
+                                                                                "visibility":  "internal"
+                                                                            }
+                                                                        ],
+                                                              "history":  [
+                                                                              {
+                                                                                  "version":  1,
+                                                                                  "summary":  "Subtask created",
+                                                                                  "updated_by":  "u-admin",
+                                                                                  "updated_at":  "2026-04-17T12:00:00.000Z"
+                                                                              }
+                                                                          ],
+                                                              "sequence_order":  3
+                                                          }
+                                                      ]
+                                     }
+                                 ],
+                    "admin_work":  [
+                                       {
+                                           "id":  "admin-naac-report-2025",
+                                           "title":  "NAAC departmental evidence report",
+                                           "category":  "academic_administration",
+                                           "sub_type":  "compliance_work",
+                                           "academic_year_start":  "2025-2026",
+                                           "academic_year_current":  "2025-2026",
+                                           "status":  "in_progress",
+                                           "priority":  "high",
+                                           "carry_forward":  true,
+                                           "notes":  [
+                                                         {
+                                                             "id":  "admin-note-1",
+                                                             "text":  "Assistant compiled first draft of research supervision evidence.",
+                                                             "created_by":  "u-assistant",
+                                                             "created_at":  "2026-04-16T15:00:00.000Z",
+                                                             "visibility":  "internal"
+                                                         }
+                                                     ],
+                                           "responsibility":  "Department research documentation",
+                                           "history":  [
+                                                           {
+                                                               "version":  1,
+                                                               "summary":  "Admin work record created",
+                                                               "updated_by":  "u-assistant",
+                                                               "updated_at":  "2026-04-16T15:00:00.000Z"
+                                                           }
+                                                       ],
+                                           "created_by":  "u-assistant",
+                                           "timestamps":  {
+                                                              "created_at":  "2026-04-16T15:00:00.000Z",
+                                                              "updated_at":  "2026-04-16T15:00:00.000Z"
+                                                          },
+                                           "visibility":  "internal",
+                                           "final_deadline":  "2026-05-30",
+                                           "subtasks":  []
+                                       }
+                                   ],
+                    "external_engagements":  [
+                                                 {
+                                                     "id":  "external-talk-ai-ethics-2025",
+                                                     "title":  "Invited talk on AI ethics",
+                                                     "category":  "external_engagements",
+                                                     "sub_type":  "invited_talk",
+                                                     "academic_year_start":  "2025-2026",
+                                                     "academic_year_current":  "2025-2026",
+                                                     "status":  "planned",
+                                                     "priority":  "medium",
+                                                     "carry_forward":  true,
+                                                     "organization":  "City College",
+                                                     "engagement_date":  "2026-05-08",
+                                                     "notes":  [
+                                                                   {
+                                                                       "id":  "external-note-1",
+                                                                       "text":  "Topic and abstract shared with host coordinator.",
+                                                                       "created_by":  "u-admin",
+                                                                       "created_at":  "2026-04-17T09:30:00.000Z",
+                                                                       "visibility":  "internal"
+                                                                   }
+                                                               ],
+                                                     "history":  [
+                                                                     {
+                                                                         "version":  1,
+                                                                         "summary":  "External engagement created",
+                                                                         "updated_by":  "u-admin",
+                                                                         "updated_at":  "2026-04-17T09:30:00.000Z"
+                                                                     }
+                                                                 ],
+                                                     "created_by":  "u-admin",
+                                                     "timestamps":  {
+                                                                        "created_at":  "2026-04-17T09:30:00.000Z",
+                                                                        "updated_at":  "2026-04-17T09:30:00.000Z"
+                                                                    },
+                                                     "visibility":  "internal",
+                                                     "final_deadline":  "2026-05-08",
+                                                     "subtasks":  []
+                                                 }
+                                             ],
+                    "career_mobility":  [
+                                            {
+                                                "id":  "career-visiting-position-2026",
+                                                "title":  "Visiting faculty opportunity application",
+                                                "category":  "career_mobility",
+                                                "sub_type":  "visiting_position",
+                                                "academic_year_start":  "2025-2026",
+                                                "academic_year_current":  "2025-2026",
+                                                "status":  "planned",
+                                                "priority":  "medium",
+                                                "carry_forward":  true,
+                                                "institution_name":  "National Institute of Advanced Computing",
+                                                "role_title":  "Visiting Faculty",
+                                                "opportunity_type":  "visiting_position",
+                                                "employment_basis":  "short_term_contract",
+                                                "place_city":  "Bengaluru",
+                                                "place_country":  "India",
+                                                "application_deadline":  "2026-05-20",
+                                                "application_date":  "",
+                                                "notes":  [
+                                                              {
+                                                                  "id":  "career-note-1",
+                                                                  "text":  "Collect eligibility details, NOC requirements, and application documents before the deadline.",
+                                                                  "created_by":  "u-admin",
+                                                                  "created_at":  "2026-04-17T11:00:00.000Z",
+                                                                  "visibility":  "internal"
+                                                              }
+                                                          ],
+                                                "history":  [
+                                                                {
+                                                                    "version":  1,
+                                                                    "summary":  "Career mobility opportunity created",
+                                                                    "updated_by":  "u-admin",
+                                                                    "updated_at":  "2026-04-17T11:00:00.000Z"
+                                                                }
+                                                            ],
+                                                "created_by":  "u-admin",
+                                                "timestamps":  {
+                                                                   "created_at":  "2026-04-17T11:00:00.000Z",
+                                                                   "updated_at":  "2026-04-17T11:00:00.000Z"
+                                                               },
+                                                "visibility":  "internal",
+                                                "final_deadline":  "2026-05-20",
+                                                "subtasks":  [
+                                                                 {
+                                                                     "id":  "sub-career-cv",
+                                                                     "parent_record_id":  "career-visiting-position-2026",
+                                                                     "title":  "Update academic CV",
+                                                                     "subtask_type":  "cv",
+                                                                     "due_date":  "2026-04-25",
+                                                                     "completed_date":  "",
+                                                                     "status":  "ongoing",
+                                                                     "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                                     "notes":  [
+                                                                                   {
+                                                                                       "id":  "sub-career-cv-note-1",
+                                                                                       "text":  "Add latest publications, projects, and supervision details.",
+                                                                                       "created_by":  "u-admin",
+                                                                                       "created_at":  "2026-04-17T12:00:00.000Z",
+                                                                                       "visibility":  "internal"
+                                                                                   }
+                                                                               ],
+                                                                     "history":  [
+                                                                                     {
+                                                                                         "version":  1,
+                                                                                         "summary":  "Subtask created",
+                                                                                         "updated_by":  "u-admin",
+                                                                                         "updated_at":  "2026-04-17T12:00:00.000Z"
+                                                                                     }
+                                                                                 ],
+                                                                     "sequence_order":  1
+                                                                 },
+                                                                 {
+                                                                     "id":  "sub-career-application",
+                                                                     "parent_record_id":  "career-visiting-position-2026",
+                                                                     "title":  "Submit application package",
+                                                                     "subtask_type":  "application",
+                                                                     "due_date":  "2026-05-20",
+                                                                     "completed_date":  "",
+                                                                     "status":  "pending",
+                                                                     "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                                     "notes":  [
+                                                                                   {
+                                                                                       "id":  "sub-career-application-note-1",
+                                                                                       "text":  "Attach CV, cover letter, and evidence documents.",
+                                                                                       "created_by":  "u-admin",
+                                                                                       "created_at":  "2026-04-17T12:00:00.000Z",
+                                                                                       "visibility":  "internal"
+                                                                                   }
+                                                                               ],
+                                                                     "history":  [
+                                                                                     {
+                                                                                         "version":  1,
+                                                                                         "summary":  "Subtask created",
+                                                                                         "updated_by":  "u-admin",
+                                                                                         "updated_at":  "2026-04-17T12:00:00.000Z"
+                                                                                     }
+                                                                                 ],
+                                                                     "sequence_order":  2
+                                                                 },
+                                                                 {
+                                                                     "id":  "sub-career-noc",
+                                                                     "parent_record_id":  "career-visiting-position-2026",
+                                                                     "title":  "NOC decision tracking",
+                                                                     "subtask_type":  "noc",
+                                                                     "due_date":  "2026-05-25",
+                                                                     "completed_date":  "",
+                                                                     "status":  "pending",
+                                                                     "responsible_person":  "Faculty Assistant",
+                                                                     "notes":  [
+                                                                                   {
+                                                                                       "id":  "sub-career-noc-note-1",
+                                                                                       "text":  "Start only if institution asks for NOC.",
+                                                                                       "created_by":  "u-admin",
+                                                                                       "created_at":  "2026-04-17T12:00:00.000Z",
+                                                                                       "visibility":  "internal"
+                                                                                   }
+                                                                               ],
+                                                                     "history":  [
+                                                                                     {
+                                                                                         "version":  1,
+                                                                                         "summary":  "Subtask created",
+                                                                                         "updated_by":  "u-admin",
+                                                                                         "updated_at":  "2026-04-17T12:00:00.000Z"
+                                                                                     }
+                                                                                 ],
+                                                                     "sequence_order":  3
+                                                                 },
+                                                                 {
+                                                                     "id":  "sub-career-interview",
+                                                                     "parent_record_id":  "career-visiting-position-2026",
+                                                                     "title":  "Interview and selection follow-up",
+                                                                     "subtask_type":  "interview",
+                                                                     "due_date":  "2026-06-05",
+                                                                     "completed_date":  "",
+                                                                     "status":  "pending",
+                                                                     "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                                     "notes":  [
+                                                                                   {
+                                                                                       "id":  "sub-career-interview-note-1",
+                                                                                       "text":  "Track interview date and result.",
+                                                                                       "created_by":  "u-admin",
+                                                                                       "created_at":  "2026-04-17T12:00:00.000Z",
+                                                                                       "visibility":  "internal"
+                                                                                   }
+                                                                               ],
+                                                                     "history":  [
+                                                                                     {
+                                                                                         "version":  1,
+                                                                                         "summary":  "Subtask created",
+                                                                                         "updated_by":  "u-admin",
+                                                                                         "updated_at":  "2026-04-17T12:00:00.000Z"
+                                                                                     }
+                                                                                 ],
+                                                                     "sequence_order":  4
+                                                                 }
+                                                             ]
+                                            }
+                                        ]
+                }
 }

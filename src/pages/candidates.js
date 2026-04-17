@@ -1,4 +1,4 @@
-import { detailSection, emptyState, notesPanel, pageHeader, printActionBar, recordCard, statusBadge, timelinePanel, visibilityBadge } from '../components/ui.js';
+import { detailSection, emptyState, notesPanel, pageHeader, printActionBar, recordCard, statusBadge, subtaskTimeline, taskProgress, taskSummary, timelinePanel, visibilityBadge } from '../components/ui.js';
 import { isOverdue } from '../utils/date.js';
 import { escapeHtml } from '../utils/html.js';
 
@@ -13,8 +13,8 @@ export function candidatesListPage(ctx) {
   return `${pageHeader('Candidates', 'Research supervision workspaces by programme and phase.')}
     <div class="grid">${candidates.map((candidate) => recordCard({
       title: candidate.name,
-      meta: `${candidate.programme_type} | ${candidate.status}`,
-      body: candidate.topic,
+      meta: `${candidate.programme_type} | ${candidate.status} | final deadline: ${candidate.final_deadline || 'not set'}`,
+      body: `${taskProgress(candidate).label} | ${candidate.topic}`,
       badges: `${statusBadge(candidate.status)} ${visibilityBadge(candidate.visibility)}`,
       href: `#/candidates/${candidate.id}`
     })).join('') || emptyState('No candidates', 'No candidates are visible for this role.')}</div>`;
@@ -32,6 +32,9 @@ export function candidateDetailPage(ctx, id) {
     ${printActionBar(`<a class="card-link" href="#/candidates">Back</a>`)}
     <section class="detail printable">
       <div class="metadata">${statusBadge(candidate.status)} ${visibilityBadge(candidate.visibility)} <span class="programme-badge">${escapeHtml(candidate.programme_type)}</span></div>
+      ${detailSection('Overall task', taskSummary(candidate))}
+      ${detailSection('Subtask timeline', subtaskTimeline(candidate))}
+      ${ctx.canWrite() ? ctx.subtaskForm('candidate', candidate.id) : ''}
       <div class="grid two">
         ${detailSection('Profile summary', `<p><strong>Supervisor:</strong> ${escapeHtml(candidate.supervisor)}</p><p><strong>Start date:</strong> ${escapeHtml(candidate.start_date)}</p>`)}
         ${detailSection('Attendance summary', `<p>${attendancePresent}/${meetings.length} meetings marked present.</p>`)}

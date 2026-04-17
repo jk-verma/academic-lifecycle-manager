@@ -8,7 +8,7 @@ export function nowIso() {
 
 export function isOverdue(date, status = '') {
   if (!date) return false;
-  return String(date) < todayIso() && !['done', 'closed', 'completed', 'published', 'accepted'].includes(String(status).toLowerCase());
+  return String(date) < todayIso() && !['done', 'closed', 'completed', 'published', 'accepted', 'cancelled', 'canceled'].includes(String(status).toLowerCase());
 }
 
 export function inDateRange(date, from, to) {

@@ -55,7 +55,86 @@
                                                                       ],
                                                  "academic_year_start":  "2025-2026",
                                                  "academic_year_current":  "2025-2026",
-                                                 "carry_forward":  true
+                                                 "carry_forward":  true,
+                                                 "category":  "journal_articles",
+                                                 "sub_type":  "journal_articles",
+                                                 "final_deadline":  "2026-05-30",
+                                                 "priority":  "medium",
+                                                 "notes":  [
+                                                               {
+                                                                   "id":  "jn-1",
+                                                                   "text":  "Reviewer 2 requested additional ablation.",
+                                                                   "visibility":  "admin_only",
+                                                                   "created_by":  "u-admin",
+                                                                   "created_at":  "2026-04-01T10:00:00.000Z"
+                                                               }
+                                                           ],
+                                                 "history":  [
+                                                                 {
+                                                                     "version":  1,
+                                                                     "summary":  "Journal record created",
+                                                                     "updated_by":  "u-admin",
+                                                                     "updated_at":  "2026-01-15T10:00:00.000Z"
+                                                                 }
+                                                             ],
+                                                 "subtasks":  [
+                                                                  {
+                                                                      "id":  "sub-journal-draft",
+                                                                      "parent_record_id":  "journal-fed-biomed-001",
+                                                                      "title":  "Complete revised manuscript draft",
+                                                                      "subtask_type":  "drafting",
+                                                                      "due_date":  "2026-04-30",
+                                                                      "completed_date":  "",
+                                                                      "status":  "ongoing",
+                                                                      "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                                      "notes":  [
+                                                                                    {
+                                                                                        "id":  "sub-journal-draft-note-1",
+                                                                                        "text":  "Address reviewer comments section by section.",
+                                                                                        "created_by":  "u-admin",
+                                                                                        "created_at":  "2026-04-17T12:00:00.000Z",
+                                                                                        "visibility":  "internal"
+                                                                                    }
+                                                                                ],
+                                                                      "history":  [
+                                                                                      {
+                                                                                          "version":  1,
+                                                                                          "summary":  "Subtask created",
+                                                                                          "updated_by":  "u-admin",
+                                                                                          "updated_at":  "2026-04-17T12:00:00.000Z"
+                                                                                      }
+                                                                                  ],
+                                                                      "sequence_order":  1
+                                                                  },
+                                                                  {
+                                                                      "id":  "sub-journal-revision",
+                                                                      "parent_record_id":  "journal-fed-biomed-001",
+                                                                      "title":  "Submit revision package",
+                                                                      "subtask_type":  "revision_submission",
+                                                                      "due_date":  "2026-05-30",
+                                                                      "completed_date":  "",
+                                                                      "status":  "pending",
+                                                                      "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                                      "notes":  [
+                                                                                    {
+                                                                                        "id":  "sub-journal-revision-note-1",
+                                                                                        "text":  "Prepare response letter and marked manuscript.",
+                                                                                        "created_by":  "u-admin",
+                                                                                        "created_at":  "2026-04-17T12:00:00.000Z",
+                                                                                        "visibility":  "internal"
+                                                                                    }
+                                                                                ],
+                                                                      "history":  [
+                                                                                      {
+                                                                                          "version":  1,
+                                                                                          "summary":  "Subtask created",
+                                                                                          "updated_by":  "u-admin",
+                                                                                          "updated_at":  "2026-04-17T12:00:00.000Z"
+                                                                                      }
+                                                                                  ],
+                                                                      "sequence_order":  2
+                                                                  }
+                                                              ]
                                              }
                                          ],
                     "authored_books":  [
@@ -103,7 +182,29 @@
                                                                     ],
                                                "academic_year_start":  "2025-2026",
                                                "academic_year_current":  "2025-2026",
-                                               "carry_forward":  true
+                                               "carry_forward":  true,
+                                               "category":  "authored_books",
+                                               "sub_type":  "authored_books",
+                                               "final_deadline":  "2026-09-15",
+                                               "priority":  "medium",
+                                               "notes":  [
+                                                             {
+                                                                 "id":  "bn-1",
+                                                                 "text":  "Chapters 1-3 drafted.",
+                                                                 "visibility":  "admin_only",
+                                                                 "created_by":  "u-admin",
+                                                                 "created_at":  "2026-04-05T10:00:00.000Z"
+                                                             }
+                                                         ],
+                                               "history":  [
+                                                               {
+                                                                   "version":  1,
+                                                                   "summary":  "Book record created",
+                                                                   "updated_by":  "u-admin",
+                                                                   "updated_at":  "2026-01-20T10:00:00.000Z"
+                                                               }
+                                                           ],
+                                               "subtasks":  []
                                            }
                                        ],
                     "book_chapters":  [
@@ -149,7 +250,23 @@
                                                                    ],
                                               "academic_year_start":  "2025-2026",
                                               "academic_year_current":  "2025-2026",
-                                              "carry_forward":  true
+                                              "carry_forward":  true,
+                                              "category":  "book_chapters",
+                                              "sub_type":  "book_chapters",
+                                              "final_deadline":  "2026-06-05",
+                                              "priority":  "medium",
+                                              "notes":  [
+
+                                                        ],
+                                              "history":  [
+                                                              {
+                                                                  "version":  1,
+                                                                  "summary":  "Chapter record created",
+                                                                  "updated_by":  "u-admin",
+                                                                  "updated_at":  "2026-02-01T10:00:00.000Z"
+                                                              }
+                                                          ],
+                                              "subtasks":  []
                                           }
                                       ],
                     "conference_papers":  [
@@ -194,7 +311,23 @@
                                                                        ],
                                                   "academic_year_start":  "2025-2026",
                                                   "academic_year_current":  "2025-2026",
-                                                  "carry_forward":  true
+                                                  "carry_forward":  true,
+                                                  "category":  "conference_papers",
+                                                  "sub_type":  "conference_papers",
+                                                  "final_deadline":  "2026-05-01",
+                                                  "priority":  "medium",
+                                                  "notes":  [
+
+                                                            ],
+                                                  "history":  [
+                                                                  {
+                                                                      "version":  1,
+                                                                      "summary":  "Conference record created",
+                                                                      "updated_by":  "u-admin",
+                                                                      "updated_at":  "2026-03-15T10:00:00.000Z"
+                                                                  }
+                                                              ],
+                                                  "subtasks":  []
                                               }
                                           ],
                     "projects":  [
@@ -261,7 +394,142 @@
                                                               ],
                                          "academic_year_start":  "2025-2026",
                                          "academic_year_current":  "2025-2026",
-                                         "carry_forward":  true
+                                         "carry_forward":  true,
+                                         "category":  "projects",
+                                         "sub_type":  "sponsored_project",
+                                         "final_deadline":  "2026-07-31",
+                                         "priority":  "medium",
+                                         "notes":  [
+                                                       {
+                                                           "id":  "pn-1",
+                                                           "text":  "Follow-up email sent to funding agency.",
+                                                           "visibility":  "admin_only",
+                                                           "created_by":  "u-admin",
+                                                           "created_at":  "2026-04-01T10:00:00.000Z"
+                                                       }
+                                                   ],
+                                         "history":  [
+                                                         {
+                                                             "version":  1,
+                                                             "summary":  "Project record created",
+                                                             "updated_by":  "u-admin",
+                                                             "updated_at":  "2026-01-20T10:00:00.000Z"
+                                                         }
+                                                     ],
+                                         "subtasks":  [
+                                                          {
+                                                              "id":  "sub-project-concept",
+                                                              "parent_record_id":  "proj-rural-health-ai-001",
+                                                              "title":  "Concept note finalization",
+                                                              "subtask_type":  "concept_note",
+                                                              "due_date":  "2026-04-20",
+                                                              "completed_date":  "2026-04-18",
+                                                              "status":  "completed",
+                                                              "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                              "notes":  [
+                                                                            {
+                                                                                "id":  "sub-project-concept-note-1",
+                                                                                "text":  "Concept note approved for budget preparation.",
+                                                                                "created_by":  "u-admin",
+                                                                                "created_at":  "2026-04-17T12:00:00.000Z",
+                                                                                "visibility":  "internal"
+                                                                            }
+                                                                        ],
+                                                              "history":  [
+                                                                              {
+                                                                                  "version":  1,
+                                                                                  "summary":  "Subtask created",
+                                                                                  "updated_by":  "u-admin",
+                                                                                  "updated_at":  "2026-04-17T12:00:00.000Z"
+                                                                              }
+                                                                          ],
+                                                              "sequence_order":  1
+                                                          },
+                                                          {
+                                                              "id":  "sub-project-budget",
+                                                              "parent_record_id":  "proj-rural-health-ai-001",
+                                                              "title":  "Budget and team worksheet",
+                                                              "subtask_type":  "budget",
+                                                              "due_date":  "2026-05-05",
+                                                              "completed_date":  "",
+                                                              "status":  "ongoing",
+                                                              "responsible_person":  "Faculty Assistant",
+                                                              "notes":  [
+                                                                            {
+                                                                                "id":  "sub-project-budget-note-1",
+                                                                                "text":  "Collect equipment and manpower estimates.",
+                                                                                "created_by":  "u-admin",
+                                                                                "created_at":  "2026-04-17T12:00:00.000Z",
+                                                                                "visibility":  "internal"
+                                                                            }
+                                                                        ],
+                                                              "history":  [
+                                                                              {
+                                                                                  "version":  1,
+                                                                                  "summary":  "Subtask created",
+                                                                                  "updated_by":  "u-admin",
+                                                                                  "updated_at":  "2026-04-17T12:00:00.000Z"
+                                                                              }
+                                                                          ],
+                                                              "sequence_order":  2
+                                                          },
+                                                          {
+                                                              "id":  "sub-project-noc",
+                                                              "parent_record_id":  "proj-rural-health-ai-001",
+                                                              "title":  "Office NOC processing",
+                                                              "subtask_type":  "noc",
+                                                              "due_date":  "2026-05-18",
+                                                              "completed_date":  "",
+                                                              "status":  "pending",
+                                                              "responsible_person":  "Faculty Assistant",
+                                                              "notes":  [
+                                                                            {
+                                                                                "id":  "sub-project-noc-note-1",
+                                                                                "text":  "Submit NOC file after budget freeze.",
+                                                                                "created_by":  "u-admin",
+                                                                                "created_at":  "2026-04-17T12:00:00.000Z",
+                                                                                "visibility":  "internal"
+                                                                            }
+                                                                        ],
+                                                              "history":  [
+                                                                              {
+                                                                                  "version":  1,
+                                                                                  "summary":  "Subtask created",
+                                                                                  "updated_by":  "u-admin",
+                                                                                  "updated_at":  "2026-04-17T12:00:00.000Z"
+                                                                              }
+                                                                          ],
+                                                              "sequence_order":  3
+                                                          },
+                                                          {
+                                                              "id":  "sub-project-followup",
+                                                              "parent_record_id":  "proj-rural-health-ai-001",
+                                                              "title":  "Funding agency follow-up",
+                                                              "subtask_type":  "follow_up",
+                                                              "due_date":  "2026-06-15",
+                                                              "completed_date":  "",
+                                                              "status":  "pending",
+                                                              "responsible_person":  "Dr. Jitendra Kumar Verma",
+                                                              "notes":  [
+                                                                            {
+                                                                                "id":  "sub-project-followup-note-1",
+                                                                                "text":  "Track agency response after submission.",
+                                                                                "created_by":  "u-admin",
+                                                                                "created_at":  "2026-04-17T12:00:00.000Z",
+                                                                                "visibility":  "internal"
+                                                                            }
+                                                                        ],
+                                                              "history":  [
+                                                                              {
+                                                                                  "version":  1,
+                                                                                  "summary":  "Subtask created",
+                                                                                  "updated_by":  "u-admin",
+                                                                                  "updated_at":  "2026-04-17T12:00:00.000Z"
+                                                                              }
+                                                                          ],
+                                                              "sequence_order":  4
+                                                          }
+                                                      ]
                                      }
                                  ],
                     "consultancy":  [
@@ -310,7 +578,23 @@
                                                                  ],
                                             "academic_year_start":  "2025-2026",
                                             "academic_year_current":  "2025-2026",
-                                            "carry_forward":  true
+                                            "carry_forward":  true,
+                                            "category":  "consultancy",
+                                            "sub_type":  "consultancy",
+                                            "final_deadline":  "2026-06-10",
+                                            "priority":  "medium",
+                                            "notes":  [
+
+                                                      ],
+                                            "history":  [
+                                                            {
+                                                                "version":  1,
+                                                                "summary":  "Consultancy record created",
+                                                                "updated_by":  "u-admin",
+                                                                "updated_at":  "2026-03-20T10:00:00.000Z"
+                                                            }
+                                                        ],
+                                            "subtasks":  []
                                         }
                                     ],
                     "moocs":  [
@@ -359,7 +643,29 @@
                                                            ],
                                       "academic_year_start":  "2025-2026",
                                       "academic_year_current":  "2025-2026",
-                                      "carry_forward":  true
+                                      "carry_forward":  true,
+                                      "category":  "moocs",
+                                      "sub_type":  "moocs",
+                                      "final_deadline":  "2026-08-01",
+                                      "priority":  "medium",
+                                      "notes":  [
+                                                    {
+                                                        "id":  "mn-1",
+                                                        "text":  "Module 1 slides ready.",
+                                                        "visibility":  "admin_only",
+                                                        "created_by":  "u-assistant",
+                                                        "created_at":  "2026-04-10T10:00:00.000Z"
+                                                    }
+                                                ],
+                                      "history":  [
+                                                      {
+                                                          "version":  1,
+                                                          "summary":  "MOOC record created",
+                                                          "updated_by":  "u-admin",
+                                                          "updated_at":  "2026-02-10T10:00:00.000Z"
+                                                      }
+                                                  ],
+                                      "subtasks":  []
                                   }
                               ],
                     "custom_activities":  [
@@ -396,7 +702,23 @@
                                                                        ],
                                                   "academic_year_start":  "2025-2026",
                                                   "academic_year_current":  "2025-2026",
-                                                  "carry_forward":  true
+                                                  "carry_forward":  true,
+                                                  "category":  "custom_activities",
+                                                  "sub_type":  "custom_activities",
+                                                  "final_deadline":  "2026-05-22",
+                                                  "priority":  "medium",
+                                                  "notes":  [
+
+                                                            ],
+                                                  "history":  [
+                                                                  {
+                                                                      "version":  1,
+                                                                      "summary":  "Custom activity created",
+                                                                      "updated_by":  "u-admin",
+                                                                      "updated_at":  "2026-04-01T10:00:00.000Z"
+                                                                  }
+                                                              ],
+                                                  "subtasks":  []
                                               }
                                           ]
                 }
