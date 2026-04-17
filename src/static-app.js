@@ -33,6 +33,10 @@ function canSee(visibility) {
   return store.permissions.roles[role].visible_levels.includes(visibility);
 }
 
+function canWrite() {
+  return Boolean(store.permissions.roles[role].can_edit_local);
+}
+
 function mask(value, visibility) {
   return canSee(visibility) ? value : (store.permissions.masked_text || MASK);
 }
@@ -217,11 +221,21 @@ function searchPage() {
 }
 
 function dataPage() {
+  const writerTools = canWrite() ? `
+      <section class="panel">
+        <h3>Writer tools</h3>
+        <p>ADMIN and WRITER can prepare local JSON changes for commit. VIEWER and RESTRICTED_EXTERNAL remain read-only.</p>
+        <button id="export-json">Export JSON bundle</button>
+      </section>` : `
+      <section class="panel">
+        <h3>Read-only role</h3>
+        <p>The current role cannot create, edit, archive, or export prepared writing changes.</p>
+      </section>`;
   return `
     ${pageTitle('JSON Import and Export', 'Prepare Git-friendly JSON changes locally, then commit them to the repository.')}
     <div class="grid two">
-      <section class="panel"><h3>Export</h3><p>Download the current static data bundle.</p><button id="export-json">Export JSON bundle</button></section>
-      <section class="panel"><h3>Static role model</h3><p>Current role: <strong>${escapeHtml(role)}</strong></p><p>This is not authentication. True passwords require a future backend or protected hosting layer.</p></section>
+      ${writerTools}
+      <section class="panel"><h3>Static role model</h3><p>Current role: <strong>${escapeHtml(role)}</strong></p><p>Writing rights are available only to ADMIN and WRITER. This is not authentication. True passwords require a future backend or protected hosting layer.</p></section>
     </div>`;
 }
 
@@ -244,7 +258,7 @@ function render() {
     searchInput.focus();
   }
   const exportButton = document.getElementById('export-json');
-  if (exportButton) {
+  if (exportButton && canWrite()) {
     exportButton.addEventListener('click', () => {
       const blob = new Blob([JSON.stringify(store, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);

@@ -27,6 +27,8 @@ Roles are logical UI modes loaded from `public/config/users.json` and `public/co
 - `VIEWER`: read-only mode
 - `RESTRICTED_EXTERNAL`: sees only sanitized content
 
+Writing rights in the static UI are available only to `ADMIN` and `WRITER`. `VIEWER` and `RESTRICTED_EXTERNAL` do not receive local editor/export controls for prepared writing changes.
+
 These roles are not secure authentication. They are data and UI policies for a static trusted-user portal. The code is structured so these roles can later map to real backend auth.
 
 ## Data Files
