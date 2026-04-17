@@ -16,6 +16,7 @@ export function dashboardPage(ctx) {
   ];
   const masters = candidates.filter((item) => item.programme_type === 'Masters').length;
   const phd = candidates.filter((item) => item.programme_type === 'PhD').length;
+  const ug = candidates.filter((item) => item.programme_type === 'UG').length;
   const interns = candidates.filter((item) => item.programme_type === 'Intern').length;
   const upcomingMeetings = meetings.filter((item) => item.next_meeting_date && item.status !== 'archived');
   const overdueActions = meetings.flatMap((meeting) => (meeting.action_items || []).map((action) => ({ ...action, meeting }))).filter((item) => isOverdue(item.due_date, item.status));
@@ -38,7 +39,7 @@ export function dashboardPage(ctx) {
   return `${pageHeader('Home', 'Your academic command center for today, this week, and the current academic year.', `Data updated ${store.candidates.updated_at?.slice(0, 10) || 'unknown'}`)}
     <div class="metrics">
       ${metric('Total candidates', candidates.length)}
-      ${metric('Masters / PhD / Intern', `${masters} / ${phd} / ${interns}`)}
+      ${metric('Masters / PhD / UG / Intern', `${masters} / ${phd} / ${ug} / ${interns}`)}
       ${metric('Upcoming meetings', upcomingMeetings.length)}
       ${metric('Today tasks', todaysTasks.length)}
       ${metric('Overdue actions', overdueActions.length + overdueCalendar.length, overdueActions.length + overdueCalendar.length ? 'danger' : '')}
