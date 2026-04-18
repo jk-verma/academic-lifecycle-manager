@@ -232,7 +232,7 @@ function render() {
 }
 
 function bindEvents() {
-  ['q', 'programme', 'candidate', 'phase', 'module', 'status', 'priority', 'overdue', 'institution', 'academicYear', 'from', 'to'].forEach((key) => {
+  ['q', 'programme', 'candidate', 'phase', 'module', 'status', 'priority', 'overdue', 'institution', 'academicYear', 'teachingYear', 'from', 'to'].forEach((key) => {
     const el = document.getElementById(`filter-${key}`);
     if (el) {
       el.addEventListener('input', (event) => {
@@ -861,7 +861,9 @@ function addAcademicLifeRecord(module, formData) {
     updateCourseDetails(formData.get('record_id'), formData);
     return;
   }
-  const year = formData.get('academic_year_current') || academicYearForDate();
+  const year = module === 'teaching'
+    ? academicYearForDate(formData.get('course_start_date') || formData.get('course_end_date') || undefined)
+    : (formData.get('academic_year_current') || academicYearForDate());
   const record = {
     id: uid(module),
     title: formData.get('title'),
@@ -924,6 +926,10 @@ function prepareTeachingCourseForm(course = null) {
   const panel = document.getElementById('teaching-course-form');
   const form = panel?.querySelector('form[data-academic-module="teaching"]');
   if (!panel || !form) return;
+  if (!course && !panel.hidden) {
+    panel.hidden = true;
+    return;
+  }
   panel.hidden = false;
   form.reset();
   const heading = panel.querySelector('h3');
@@ -949,6 +955,9 @@ function prepareTeachingCourseForm(course = null) {
     record_id: course.id,
     title: course.title,
     course_type: course.course_type,
+    programme: course.programme,
+    batch: course.batch,
+    section: course.section,
     total_hours: course.total_hours || course.hours,
     lecture_duration: course.lecture_duration,
     total_lectures: course.total_lectures,
@@ -958,7 +967,6 @@ function prepareTeachingCourseForm(course = null) {
     external_component_marks: course.external_component_marks,
     course_start_date: course.course_start_date,
     course_end_date: course.course_end_date,
-    academic_year_current: course.academic_year_current,
     feedback_score: course.feedback_score
   };
   Object.entries(values).forEach(([key, value]) => {
@@ -972,7 +980,9 @@ function updateCourseDetails(id, formData) {
   const course = store.academicLife.modules.teaching?.find((item) => item.id === id);
   if (!course) return;
   applyCourseFields(course, formData);
-  course.academic_year_current = formData.get('academic_year_current') || course.academic_year_current;
+  const year = academicYearForDate(course.course_start_date || course.course_end_date || undefined);
+  course.academic_year_start = year;
+  course.academic_year_current = year;
   course.status = courseStatusFromDates(formData);
   const actor = `local-${role.toLowerCase()}`;
   course.updated_by = actor;
@@ -984,7 +994,11 @@ function updateCourseDetails(id, formData) {
 }
 
 function applyCourseFields(course, formData) {
+  course.title = formData.get('title') || course.title || '';
   course.course_type = formData.get('course_type') || course.course_type || '';
+  course.programme = formData.get('programme') || course.programme || '';
+  course.batch = formData.get('batch') || course.batch || '';
+  course.section = formData.get('section') || course.section || '';
   course.total_hours = parseNumber(formData.get('total_hours')) || parseNumber(course.total_hours);
   delete course.hours;
   course.total_participants = formData.get('total_participants') || course.total_participants || '';

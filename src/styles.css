@@ -262,6 +262,7 @@ nav a:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
+  align-items: end;
   gap: 8px;
 }
 
@@ -274,6 +275,31 @@ nav a:hover {
 
 .teaching-ribbon {
   grid-column: 1 / -1;
+}
+
+.ribbon-filter {
+  display: grid;
+  gap: 4px;
+  min-width: 180px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.ribbon-filter select {
+  min-height: 42px;
+  padding: 9px 12px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.year-section {
+  margin-top: 18px;
+}
+
+.year-section > h3 {
+  margin: 0 0 10px;
 }
 
 .chip-list {

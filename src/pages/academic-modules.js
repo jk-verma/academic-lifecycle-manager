@@ -1,5 +1,6 @@
 import { detailSection, emptyState, nextPendingSubtask, notesPanel, pageHeader, printActionBar, recordCard, statusBadge, subtaskTimeline, taskProgress, taskSummary, timelinePanel, visibilityBadge } from '../components/ui.js';
 import { administrationGroups, careerGroups, mentorGroups, optionList, projectGroups, researchGroups, subscriptionGroups, supervisionGroups, teachingGroups } from '../data/structure.js';
+import { academicYearForDate } from '../utils/academic-year.js';
 import { isOverdue } from '../utils/date.js';
 import { escapeHtml, slugLabel } from '../utils/html.js';
 
@@ -15,21 +16,16 @@ export function researchPage(ctx) {
 }
 
 export function teachingPage(ctx) {
-  const items = ctx.visibleAcademicLife().filter((item) => item.module === 'teaching');
+  const allItems = ctx.visibleAcademicLife().filter((item) => item.module === 'teaching');
+  const selectedYear = ctx.filters.teachingYear || currentAcademicYear();
+  const items = selectedYear === 'all'
+    ? sortTeachingItems(allItems)
+    : sortTeachingItems(allItems.filter((item) => courseAcademicYear(item) === selectedYear));
   const form = ctx.canWrite() ? academicRecordForm('teaching', 'Teaching', ctx, { hidden: true }) : '<p class="notice">Local data entry is currently unavailable in this view.</p>';
   return `${pageHeader('Teaching', 'Manage course plans, activities, assessments, and teaching deadlines.')}
-    ${teachingRibbon(ctx)}
+    ${teachingRibbon(ctx, allItems, selectedYear)}
     ${form}
-    <div class="grid">${items.map((item) => recordCard({
-      title: item.title,
-      metaHtml: teachingCardMeta(item),
-      bodyHtml: teachingCardBody(item),
-      badges: statusBadge(courseDateStatus(item)),
-      href: `#/teaching/${item.id}`,
-      actions: ctx.cardActions('academic', item.id, 'teaching'),
-      inlineEditor: ctx.canWrite() ? teachingInlineEditor(item) : '',
-      className: 'teaching-card'
-    })).join('') || emptyState('No records', 'No teaching records are available yet.')}</div>`;
+    ${selectedYear === 'all' ? teachingYearSections(items, ctx) : teachingGrid(items, ctx)}`;
 }
 
 export function supervisionPage(ctx) {
@@ -170,7 +166,7 @@ function academicRecordForm(module, title, ctx, options = {}) {
       ${moduleSpecificFields(module)}
       ${module === 'teaching' ? '' : '<input name="final_deadline" type="date" />'}
       ${module === 'teaching' ? '' : '<input name="notes" placeholder="Initial append-only note" />'}
-      ${module === 'teaching' ? academicYearSelect() : '<input name="academic_year_current" placeholder="Academic year" value="2025-2026" />'}
+      ${module === 'teaching' ? '' : '<input name="academic_year_current" placeholder="Academic year" value="2025-2026" />'}
       ${module === 'teaching' ? '<input name="feedback_score" placeholder="Feedback Score" />' : ''}
       ${module === 'teaching' ? '' : `<select name="status">${statusOptions(module)}</select>`}
       ${module === 'teaching' ? '' : '<select name="priority"><option>low</option><option>medium</option><option>high</option></select>'}
@@ -233,13 +229,14 @@ function statusOptions(module) {
   return statuses.map((status) => `<option>${escapeHtml(status)}</option>`).join('');
 }
 
-function teachingRibbon(ctx) {
+function teachingRibbon(ctx, records = [], selectedYear = currentAcademicYear()) {
   const group = teachingGroups[0];
   return `<div class="structure-grid">
     <section class="structure-panel teaching-ribbon">
       <div class="ribbon-head">
         <h3>${escapeHtml(group.title)}</h3>
         <div class="ribbon-actions">
+          <label class="ribbon-filter"><span>Academic Year</span>${teachingYearSelect(records, selectedYear)}</label>
           ${ctx.canWrite() ? '<button data-new-course="true">Add Course</button>' : ''}
           <button class="secondary" data-copy-json="teaching">Copy JSON</button>
           <a class="button-link" href="https://github.com/jk-verma/academic-lifecycle-manager/edit/main/public/data/teaching/teaching.json" target="_blank" rel="noreferrer">Open GitHub Editor</a>
@@ -249,12 +246,44 @@ function teachingRibbon(ctx) {
   </div>`;
 }
 
+function teachingGrid(items, ctx) {
+  return `<div class="grid">${items.map((item) => teachingCard(item, ctx)).join('') || emptyState('No records', 'No teaching records are available for the selected academic year.')}</div>`;
+}
+
+function teachingYearSections(items, ctx) {
+  const groups = items.reduce((acc, item) => {
+    const year = courseAcademicYear(item);
+    acc[year] = acc[year] || [];
+    acc[year].push(item);
+    return acc;
+  }, {});
+  const years = Object.keys(groups).sort().reverse();
+  if (!years.length) return emptyState('No records', 'No teaching records are available yet.');
+  return years.map((year) => `<section class="year-section"><h3>${escapeHtml(year)}</h3>${teachingGrid(groups[year], ctx)}</section>`).join('');
+}
+
+function teachingCard(item, ctx) {
+  return recordCard({
+    title: item.title,
+    metaHtml: teachingCardMeta(item),
+    bodyHtml: teachingCardBody(item),
+    badges: statusBadge(courseDateStatus(item)),
+    href: `#/teaching/${item.id}`,
+    actions: ctx.cardActions('academic', item.id, 'teaching'),
+    inlineEditor: ctx.canWrite() ? teachingInlineEditor(item) : '',
+    className: 'teaching-card'
+  });
+}
+
 function teachingCardMeta(item) {
   const progress = taskProgress(item);
   const upcoming = nextPendingSubtask(item);
   return `<p class="muted teaching-card-meta">
-    <span>${escapeHtml(item.academic_year_current || 'no year')}</span>
+    <span>${escapeHtml(courseAcademicYear(item))}</span>
     <span>${escapeHtml(item.course_type || 'course')}</span>
+    ${item.programme ? `<span>Programme: ${escapeHtml(item.programme)}</span>` : ''}
+    ${item.batch ? `<span>Batch: ${escapeHtml(item.batch)}</span>` : ''}
+    ${item.section ? `<span>Section: ${escapeHtml(item.section)}</span>` : ''}
     <span>Participants: ${escapeHtml(item.total_participants || 'not set')}</span>
     <span>Duration: ${escapeHtml(item.total_hours || item.hours || 'not set')}</span>
     <span>${escapeHtml(`${progress.completed}/${progress.total} activities completed`)}</span>
@@ -274,6 +303,9 @@ function teachingInlineEditor(item) {
       <input name="title" required placeholder="Course Title" value="${escapeHtml(item.title || '')}" />
       <input name="sub_type" type="hidden" value="course" />
       ${courseTypeSelect(item.course_type || '')}
+      <input name="programme" placeholder="Programme" value="${escapeHtml(item.programme || '')}" />
+      <input name="batch" placeholder="Batch, e.g. 2025-30" value="${escapeHtml(item.batch || '')}" />
+      <input name="section" placeholder="Section" value="${escapeHtml(item.section || '')}" />
       <input name="total_participants" type="number" min="0" placeholder="Total Participants" value="${escapeHtml(item.total_participants || '')}" />
       <input name="total_hours" type="number" min="0" step="0.25" placeholder="Total Hours" value="${escapeHtml(item.total_hours || item.hours || '')}" />
       <input name="lecture_duration" type="number" min="0.1" step="0.1" placeholder="Lecture Hour" value="${escapeHtml(item.lecture_duration || '')}" />
@@ -284,11 +316,29 @@ function teachingInlineEditor(item) {
       <input name="total_marks" type="number" min="0" placeholder="Total marks" value="${escapeHtml((calculatedInternalMarks(item) + calculatedExternalMarks(item)) || '')}" readonly />
       <input name="course_start_date" type="date" value="${escapeHtml(item.course_start_date || '')}" />
       <input name="course_end_date" type="date" value="${escapeHtml(item.course_end_date || '')}" />
-      ${academicYearSelect(item.academic_year_current || '')}
       <input name="feedback_score" placeholder="Feedback Score" value="${escapeHtml(item.feedback_score || '')}" />
       <button>Update Course</button>
     </form>
   </section>`;
+}
+
+function teachingYearSelect(records = [], selected = currentAcademicYear()) {
+  const years = new Set(records.map(courseAcademicYear));
+  for (let year = 2011; year <= academicYearStartForToday() + 5; year += 1) years.add(`${year}-${year + 1}`);
+  const options = [...years].filter(Boolean).sort().reverse();
+  return `<select id="filter-teachingYear"><option value="all" ${selected === 'all' ? 'selected' : ''}>All years / All Courses</option>${options.map((year) => `<option value="${escapeHtml(year)}" ${selected === year ? 'selected' : ''}>${escapeHtml(year)}</option>`).join('')}</select>`;
+}
+
+function sortTeachingItems(items = []) {
+  return [...items].sort((a, b) => courseAcademicYear(b).localeCompare(courseAcademicYear(a)) || String(a.title || '').localeCompare(String(b.title || '')));
+}
+
+function courseAcademicYear(item = {}) {
+  return academicYearForDate(item.course_start_date || item.course_end_date || item.final_deadline || undefined);
+}
+
+function currentAcademicYear() {
+  return academicYearForDate();
 }
 
 function structureOverview(groups, hrefFor = () => '') {
@@ -362,6 +412,9 @@ function courseSummary(item) {
   const fields = [
     ['Total participants', item.total_participants],
     ['Course type', item.course_type],
+    ['Programme', item.programme],
+    ['Batch', item.batch],
+    ['Section', item.section],
     ['Total hours', item.total_hours || item.hours],
     ['Total lectures', calculatedLectureCount(item)],
     ['Lecture Hour', item.lecture_duration],
@@ -370,7 +423,6 @@ function courseSummary(item) {
     ['External marks', externalMarks],
     ['Course start date', item.course_start_date],
     ['Course end date', item.course_end_date],
-    ['Academic year', item.academic_year_current],
     ['Feedback score', item.feedback_score]
   ].filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== '');
   return `<div class="summary-grid single-row-summary">${fields.map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join('')}</div>`;
@@ -428,6 +480,9 @@ function parseCourseNumber(value = '') {
 function courseFields() {
   return `<input name="sub_type" type="hidden" value="course" />
       ${courseTypeSelect()}
+      <input name="programme" placeholder="Programme" />
+      <input name="batch" placeholder="Batch, e.g. 2025-30" />
+      <input name="section" placeholder="Section" />
       <input name="total_participants" type="number" min="0" placeholder="Total Participants" />
       <input name="total_hours" type="number" min="0" step="0.25" placeholder="Total Hours" />
       <input name="lecture_duration" type="number" min="0.1" step="0.1" placeholder="Lecture Hour" />
