@@ -1,6 +1,6 @@
 {
   "schema": "academic-lifecycle-manager.academic-life.v1",
-  "updated_at": "2026-04-18T10:00:00.000Z",
+  "updated_at": "2026-04-18T11:00:00.000Z",
   "modules": {
     "teaching": [
       {
@@ -21,7 +21,7 @@
         "created_by": "u-admin",
         "timestamps": {
           "created_at": "2026-04-12T10:00:00.000Z",
-          "updated_at": "2026-04-18T10:00:00.000Z"
+          "updated_at": "2026-04-18T11:00:00.000Z"
         },
         "visibility": "open",
         "final_deadline": "2026-05-15",
@@ -335,7 +335,7 @@
           {
             "id": "sub-teach-ai-ml-mid-term-pre-process",
             "parent_record_id": "teach-ai-ml-2025",
-            "title": "Mid Term Pre-Process",
+            "title": "Mid Term Pre Process Activities",
             "subtask_type": "pre_process",
             "due_date": "",
             "due_datetime": "",
@@ -349,7 +349,7 @@
             "notes": [
               {
                 "id": "sub-teach-ai-ml-mid-term-pre-process-details",
-                "text": "Due date should match Lecture-7 due date.",
+                "text": "Activity group for Assignment-1 questions, project title set-1, Quiz-1 questions, and UG question paper setting. Due date should match Lecture-7 due date.",
                 "visibility": "open",
                 "created_by": "u-admin",
                 "created_at": "2026-04-18T10:00:00.000Z"
@@ -967,7 +967,7 @@
           {
             "id": "sub-teach-ai-ml-end-term-pre-process",
             "parent_record_id": "teach-ai-ml-2025",
-            "title": "End Term Pre Process",
+            "title": "End Term Pre Process Activities",
             "subtask_type": "pre_process",
             "due_date": "",
             "due_datetime": "",
@@ -981,7 +981,7 @@
             "notes": [
               {
                 "id": "sub-teach-ai-ml-end-term-pre-process-details",
-                "text": "Due date should match Lecture-17 due date.",
+                "text": "Activity group for Assignment-2 questions, project title set-2, Quiz-2 questions, and end-term question paper setting. Due date should match Lecture-17 due date.",
                 "visibility": "open",
                 "created_by": "u-admin",
                 "created_at": "2026-04-18T10:00:00.000Z"

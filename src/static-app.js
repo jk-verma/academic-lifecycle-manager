@@ -863,7 +863,7 @@ function defaultCourseSubtasks(parentId) {
   add('outline-dg', 'Course Outline Circulation DG', 'course_outline');
   add('outline-pd-students', 'Course Outline Circulation PD/Students', 'course_outline');
   Array.from({ length: 7 }, (_, index) => add(`lecture-${index + 1}`, `Lecture-${index + 1}: Lecture on pre-defined topics`, 'lecture', '', 'Details can be added here.'));
-  add('mid-term-pre-process', 'Mid Term Pre-Process', 'pre_process');
+  add('mid-term-pre-process', 'Mid Term Pre Process Activities', 'pre_process', '', 'Activity group for Assignment-1 questions, project title set-1, Quiz-1 questions, and UG question paper setting. Due date should match Lecture-7 due date.');
   add('assignment-1', 'Assignment-1 Questions', 'assignment', `sub-${parentId}-mid-term-pre-process`);
   add('project-set-1', 'Project Title Set-1 + Sample Report (Ranchoddas Shamaldas Chanchad Alias Rancho)', 'project', `sub-${parentId}-mid-term-pre-process`);
   add('quiz-1', 'Quiz-1 Questions', 'quiz', `sub-${parentId}-mid-term-pre-process`, 'Details can be added here.');
@@ -875,7 +875,7 @@ function defaultCourseSubtasks(parentId) {
   add('mid-term-answer-script', 'Answer Script Collection: Collection Date', 'answer_script_collection', `sub-${parentId}-mid-term-process`);
   add('mid-term-evaluation', 'Evaluation: Target Completion and Display Date (Maximum 20 days)', 'evaluation', `sub-${parentId}-mid-term-process`);
   Array.from({ length: 7 }, (_, index) => add(`lecture-${index + 11}`, `Lecture-${index + 11}: Lecture on pre-defined topics`, 'lecture', '', 'Details can be added here.'));
-  add('end-term-pre-process', 'End Term Pre Process', 'pre_process');
+  add('end-term-pre-process', 'End Term Pre Process Activities', 'pre_process', '', 'Activity group for Assignment-2 questions, project title set-2, Quiz-2 questions, and end-term question paper setting. Due date should match Lecture-17 due date.');
   add('assignment-2', 'Assignment-2 Questions', 'assignment', `sub-${parentId}-end-term-pre-process`);
   add('project-set-2', 'Project Title Set-2 + Sample Report (Chatur Ramalingam Alias Silencer)', 'project', `sub-${parentId}-end-term-pre-process`);
   add('quiz-2', 'Quiz-2 Questions (If needed paper + OMR based)', 'quiz', `sub-${parentId}-end-term-pre-process`);
