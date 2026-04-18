@@ -317,6 +317,10 @@ function bindEvents() {
     button.addEventListener('click', () => editRecord(button.dataset.editKind, button.dataset.editId, button.dataset.editModule || ''));
   });
 
+  document.querySelectorAll('[data-new-course]').forEach((button) => {
+    button.addEventListener('click', () => prepareTeachingCourseForm());
+  });
+
   document.querySelectorAll('[data-toggle-panel]').forEach((button) => {
     button.addEventListener('click', () => {
       const panel = document.getElementById(button.dataset.togglePanel);
@@ -666,6 +670,14 @@ function editRecord(kind, id, module = '') {
   if (role !== 'ADMIN') return;
   const record = findEditableRecord(kind, id, module);
   if (!record) return;
+  if (kind === 'academic' && module === 'teaching') {
+    if (routeKey() !== 'teaching') location.hash = '#/teaching';
+    setTimeout(() => {
+      render();
+      prepareTeachingCourseForm(record);
+    }, 0);
+    return;
+  }
   draft = structuredClone(record);
   draft.updated_by = `local-${role.toLowerCase()}`;
   draft.timestamps = { ...(draft.timestamps || {}), updated_at: nowIso() };
@@ -762,6 +774,10 @@ function addCalendarItem(formData) {
 
 function addAcademicLifeRecord(module, formData) {
   if (!canWrite(store, role)) return;
+  if (module === 'teaching' && formData.get('record_id')) {
+    updateCourseDetails(formData.get('record_id'), formData);
+    return;
+  }
   const year = formData.get('academic_year_current') || academicYearForDate();
   const record = {
     id: uid(module),
@@ -788,7 +804,7 @@ function addAcademicLifeRecord(module, formData) {
   };
   if (module === 'teaching') {
     applyCourseFields(record, formData);
-    record.subtasks = defaultCourseSubtasks(record.id);
+    record.subtasks = defaultCourseSubtasks(record.id, record.total_lectures);
   }
   ['institution_name', 'role_title', 'opportunity_type', 'employment_basis', 'place_city', 'place_country', 'application_deadline', 'application_date', 'starting_date', 'ending_date', 'payment', 'payment_status'].forEach((field) => {
     if (formData.has(field) && formData.get(field)) record[field] = formData.get(field);
@@ -796,6 +812,56 @@ function addAcademicLifeRecord(module, formData) {
   store.academicLife.modules[module].unshift(record);
   error = 'Academic life record added locally. Export JSON to commit it.';
   render();
+}
+
+function prepareTeachingCourseForm(course = null) {
+  const panel = document.getElementById('teaching-course-form');
+  const form = panel?.querySelector('form[data-academic-module="teaching"]');
+  if (!panel || !form) return;
+  panel.hidden = false;
+  form.reset();
+  const heading = panel.querySelector('h3');
+  if (heading) heading.textContent = course ? 'Edit course details' : 'Course details';
+  const submit = form.querySelector('button');
+  if (submit) submit.textContent = 'Update Course';
+  if (!course) {
+    if (form.elements.record_id) form.elements.record_id.value = '';
+    panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  const internal = course.internal_components || {};
+  const assessmentComponents = Array.isArray(course.assessment_components) && course.assessment_components.length
+    ? course.assessment_components.join('\n')
+    : [
+      internal.quiz_1 ? `Quiz-1: ${internal.quiz_1}` : '',
+      internal.quiz_2 ? `Quiz-2: ${internal.quiz_2}` : '',
+      internal.class_participation ? `Class Participation: ${internal.class_participation}` : '',
+      internal.assignments ? `Assignment(s): ${internal.assignments}` : '',
+      internal.projects ? `Project(s): ${internal.projects}` : ''
+    ].filter(Boolean).join('\n');
+  const values = {
+    record_id: course.id,
+    title: course.title,
+    course_outline_circulation_date: course.course_outline_circulation_date,
+    course_type: course.course_type,
+    total_hours: course.total_hours || course.hours,
+    total_lectures: course.total_lectures,
+    lecture_duration: course.lecture_duration,
+    total_marks: course.total_marks,
+    internal_component_marks: course.internal_component_marks,
+    assessment_components: assessmentComponents,
+    external_component_marks: course.external_component_marks,
+    course_start_date: course.course_start_date,
+    course_end_date: course.course_end_date,
+    final_deadline: course.final_deadline,
+    notes: '',
+    academic_year_current: course.academic_year_current,
+    status: course.status
+  };
+  Object.entries(values).forEach(([key, value]) => {
+    if (form.elements[key]) form.elements[key].value = value || '';
+  });
+  panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 function updateCourseDetails(id, formData) {
@@ -831,16 +897,15 @@ function applyCourseFields(course, formData) {
   course.external_component_marks = Number(formData.get('external_component_marks') || course.external_component_marks || 50);
   course.course_start_date = formData.get('course_start_date') || course.course_start_date || '';
   course.course_end_date = formData.get('course_end_date') || course.course_end_date || '';
-  course.internal_components = {
-    quiz_1: formData.get('quiz_1') || course.internal_components?.quiz_1 || '5',
-    quiz_2: formData.get('quiz_2') || course.internal_components?.quiz_2 || '5',
-    class_participation: formData.get('class_participation') || course.internal_components?.class_participation || '5',
-    assignments: formData.get('assignments') || course.internal_components?.assignments || '10',
-    projects: formData.get('projects') || course.internal_components?.projects || '10'
-  };
+  course.assessment_components = parseAssessmentComponents(formData.get('assessment_components'));
+  course.internal_components = {};
 }
 
-function defaultCourseSubtasks(parentId) {
+function parseAssessmentComponents(value = '') {
+  return String(value || '').split(/\r?\n/).map((item) => item.trim()).filter(Boolean);
+}
+
+function defaultCourseSubtasks(parentId, totalLectures = 20) {
   const now = nowIso();
   const items = [];
   const add = (id, title, type, parentSubtaskId = '', note = '') => {
@@ -863,25 +928,28 @@ function defaultCourseSubtasks(parentId) {
   };
   add('outline-dg', 'Course Outline Circulation DG', 'course_outline');
   add('outline-pd-students', 'Course Outline Circulation PD/Students', 'course_outline');
-  Array.from({ length: 7 }, (_, index) => add(`lecture-${index + 1}`, `Lecture-${index + 1}: Lecture on pre-defined topics`, 'lecture', '', 'Details can be added here.'));
-  add('mid-term-pre-process', 'Mid Term Pre Process Activities', 'pre_process', '', 'Activity group for Assignment-1 questions, project title set-1, Quiz-1 questions, and UG question paper setting. Due date should match Lecture-7 due date.');
+  const count = Math.max(1, Number(totalLectures || 20));
+  const midPrepAt = Math.max(1, Math.min(count, Math.ceil(count * 0.35)));
+  const midProcessAt = Math.max(midPrepAt, Math.min(count, Math.ceil(count * 0.5)));
+  const endPrepAt = Math.min(count, Math.max(midProcessAt + 1, Math.ceil(count * 0.85)));
+  for (let lecture = 1; lecture <= count; lecture += 1) {
+    add(`lecture-${lecture}`, `Lecture-${lecture}: Lecture on pre-defined topics`, 'lecture', '', 'Details can be added here.');
+    if (lecture === midPrepAt) add('mid-term-pre-process', 'Mid Term Pre Process Activities', 'pre_process', '', `Activity group before mid term. Due date should match Lecture-${midPrepAt} due date.`);
+    if (lecture === midProcessAt) add('mid-term-process', 'Mid Term Process (If UG Course)', 'mid_term_process');
+    if (lecture === endPrepAt) add('end-term-pre-process', 'End Term Pre Process Activities', 'pre_process', '', `Activity group before end term. Due date should match Lecture-${endPrepAt} due date.`);
+  }
   add('assignment-1', 'Assignment-1 Questions', 'assignment', `sub-${parentId}-mid-term-pre-process`);
   add('project-set-1', 'Project Title Set-1 + Sample Report (Ranchoddas Shamaldas Chanchad Alias Rancho)', 'project', `sub-${parentId}-mid-term-pre-process`);
   add('quiz-1', 'Quiz-1 Questions', 'quiz', `sub-${parentId}-mid-term-pre-process`, 'Details can be added here.');
   add('question-paper-ug', 'Question Paper Setting (If UG Course)', 'question_paper_setting', `sub-${parentId}-mid-term-pre-process`, 'Details can be added here.');
-  Array.from({ length: 3 }, (_, index) => add(`lecture-${index + 8}`, `Lecture-${index + 8}: Lecture on pre-defined topics`, 'lecture', '', 'Details can be added here.'));
-  add('in-class-quiz-1', 'In-Class Quiz-1', 'quiz', `sub-${parentId}-lecture-10`, 'Details can be added here.');
-  add('mid-term-process', 'Mid Term Process (If UG Course)', 'mid_term_process');
+  add('in-class-quiz-1', 'In-Class Quiz-1', 'quiz', `sub-${parentId}-lecture-${midProcessAt}`, 'Details can be added here.');
   add('mid-term-exam', 'Mid Term Exam: Held on Date', 'mid_term_exam', `sub-${parentId}-mid-term-process`);
   add('mid-term-answer-script', 'Answer Script Collection: Collection Date', 'answer_script_collection', `sub-${parentId}-mid-term-process`);
   add('mid-term-evaluation', 'Evaluation: Target Completion and Display Date (Maximum 20 days)', 'evaluation', `sub-${parentId}-mid-term-process`);
-  Array.from({ length: 7 }, (_, index) => add(`lecture-${index + 11}`, `Lecture-${index + 11}: Lecture on pre-defined topics`, 'lecture', '', 'Details can be added here.'));
-  add('end-term-pre-process', 'End Term Pre Process Activities', 'pre_process', '', 'Activity group for Assignment-2 questions, project title set-2, Quiz-2 questions, and end-term question paper setting. Due date should match Lecture-17 due date.');
   add('assignment-2', 'Assignment-2 Questions', 'assignment', `sub-${parentId}-end-term-pre-process`);
   add('project-set-2', 'Project Title Set-2 + Sample Report (Chatur Ramalingam Alias Silencer)', 'project', `sub-${parentId}-end-term-pre-process`);
   add('quiz-2', 'Quiz-2 Questions (If needed paper + OMR based)', 'quiz', `sub-${parentId}-end-term-pre-process`);
   add('end-term-question-paper', 'Question Paper Setting', 'question_paper_setting', `sub-${parentId}-end-term-pre-process`);
-  Array.from({ length: 3 }, (_, index) => add(`lecture-${index + 18}`, `Lecture-${index + 18}: Lecture on pre-defined topics`, 'lecture', '', 'Details can be added here.'));
   add('end-term-exam', 'End-Term Exam: Held on', 'end_term_exam');
   add('end-term-answer-script', 'Answer Script Collection: Collection Date', 'answer_script_collection');
   add('end-term-evaluation', 'Evaluation: Target Completion and Display Date (Maximum 20 days)', 'evaluation');

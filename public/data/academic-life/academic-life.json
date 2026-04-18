@@ -1316,15 +1316,16 @@
         "total_marks": 100,
         "internal_component_marks": 50,
         "external_component_marks": 50,
-        "internal_components": {
-          "quiz_1": 5,
-          "quiz_2": 5,
-          "class_participation": 5,
-          "assignments": 10,
-          "projects": 10
-        },
+        "internal_components": {},
         "course_start_date": "",
-        "course_end_date": ""
+        "course_end_date": "",
+        "assessment_components": [
+          "Quiz-1: 5",
+          "Quiz-2: 5",
+          "Class Participation: 5",
+          "Assignment(s): 10",
+          "Project(s): 10"
+        ]
       }
     ],
     "admin_work": [

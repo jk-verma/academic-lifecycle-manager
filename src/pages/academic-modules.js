@@ -162,6 +162,7 @@ function academicRecordForm(module, title, ctx, options = {}) {
   return `<section class="${panelClass}"${panelAttrs}>
     <h3>${escapeHtml(heading)}</h3>
     <form class="record-form" data-academic-module="${escapeHtml(module)}">
+      ${module === 'teaching' ? '<input name="record_id" type="hidden" />' : ''}
       <input name="title" required placeholder="Title" />
       ${hasStructuredSubtype(module) ? '' : '<input name="sub_type" placeholder="Subtype" />'}
       ${moduleSpecificFields(module)}
@@ -235,7 +236,7 @@ function teachingRibbon(ctx) {
     <section class="structure-panel teaching-ribbon">
       <div class="ribbon-head">
         <h3>${escapeHtml(group.title)}</h3>
-        ${ctx.canWrite() ? '<button class="compact" data-toggle-panel="teaching-course-form">Add Course</button>' : ''}
+        ${ctx.canWrite() ? '<button class="compact" data-new-course="true">Add Course</button>' : ''}
       </div>
       <div class="chip-list">${group.items.map(([, label]) => `<span class="chip">${escapeHtml(label)}</span>`).join('')}</div>
     </section>
@@ -309,6 +310,10 @@ function courseSummary(item) {
 }
 
 function assessmentSummary(item) {
+  const custom = Array.isArray(item.assessment_components) ? item.assessment_components : [];
+  if (custom.length) {
+    return `<div class="summary-grid">${custom.map((value, index) => `<article><span>Component ${index + 1}</span><strong>${escapeHtml(value)}</strong></article>`).join('')}</div>`;
+  }
   const internal = item.internal_components || {};
   const fields = [
     ['Internal component marks', item.internal_component_marks],
@@ -323,7 +328,6 @@ function assessmentSummary(item) {
 }
 
 function courseEditForm(item) {
-  const internal = item.internal_components || {};
   return `<section class="append-panel collapsible-panel" id="course-edit-${escapeHtml(item.id)}" hidden>
     <h4>Edit course details</h4>
     <form class="record-form" data-update-course="${escapeHtml(item.id)}">
@@ -334,11 +338,7 @@ function courseEditForm(item) {
       <input name="lecture_duration" placeholder="Lecture duration" value="${escapeHtml(item.lecture_duration || '')}" />
       <input name="total_marks" type="number" min="0" placeholder="Total marks" value="${escapeHtml(item.total_marks || '')}" />
       <input name="internal_component_marks" type="number" min="0" placeholder="Internal component marks" value="${escapeHtml(item.internal_component_marks || '')}" />
-      <input name="quiz_1" placeholder="Quiz-1 details" value="${escapeHtml(internal.quiz_1 || '')}" />
-      <input name="quiz_2" placeholder="Quiz-2 details" value="${escapeHtml(internal.quiz_2 || '')}" />
-      <input name="class_participation" placeholder="Class participation details" value="${escapeHtml(internal.class_participation || '')}" />
-      <input name="assignments" placeholder="Assignment(s) details" value="${escapeHtml(internal.assignments || '')}" />
-      <input name="projects" placeholder="Project(s) details" value="${escapeHtml(internal.projects || '')}" />
+      <textarea name="assessment_components" placeholder="Assessment components, one per line">${escapeHtml(assessmentLines(item))}</textarea>
       <input name="external_component_marks" type="number" min="0" placeholder="External component marks" value="${escapeHtml(item.external_component_marks || '')}" />
       <input name="course_start_date" type="date" value="${escapeHtml(item.course_start_date || '')}" />
       <input name="course_end_date" type="date" value="${escapeHtml(item.course_end_date || '')}" />
@@ -355,18 +355,26 @@ function courseFields() {
       <input name="course_outline_circulation_date" type="date" title="Course outline circulation date" />
       <input name="course_type" placeholder="Course type: UG / PG / Ph.D." />
       <input name="total_hours" placeholder="Total hours" />
-      <input name="total_lectures" type="number" min="1" placeholder="Total lectures" />
+      <input name="total_lectures" type="number" min="1" placeholder="Total lectures" required />
       <input name="lecture_duration" placeholder="Lecture duration" />
       <input name="total_marks" type="number" min="0" placeholder="Total marks" />
       <input name="internal_component_marks" type="number" min="0" placeholder="Internal component marks" />
-      <input name="quiz_1" placeholder="Quiz-1 details" />
-      <input name="quiz_2" placeholder="Quiz-2 details" />
-      <input name="class_participation" placeholder="Class participation details" />
-      <input name="assignments" placeholder="Assignment(s) details" />
-      <input name="projects" placeholder="Project(s) details" />
+      <textarea name="assessment_components" placeholder="Assessment components, one per line. Example: Quiz-1: 5"></textarea>
       <input name="external_component_marks" type="number" min="0" placeholder="External component marks" />
       <input name="course_start_date" type="date" />
       <input name="course_end_date" type="date" />`;
+}
+
+function assessmentLines(item = {}) {
+  if (Array.isArray(item.assessment_components) && item.assessment_components.length) return item.assessment_components.join('\n');
+  const internal = item.internal_components || {};
+  return [
+    internal.quiz_1 ? `Quiz-1: ${internal.quiz_1}` : '',
+    internal.quiz_2 ? `Quiz-2: ${internal.quiz_2}` : '',
+    internal.class_participation ? `Class Participation: ${internal.class_participation}` : '',
+    internal.assignments ? `Assignment(s): ${internal.assignments}` : '',
+    internal.projects ? `Project(s): ${internal.projects}` : ''
+  ].filter(Boolean).join('\n');
 }
 
 function academicYearSelect(selected = '') {
