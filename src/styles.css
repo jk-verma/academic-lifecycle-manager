@@ -213,13 +213,6 @@ nav a:hover {
   align-items: stretch;
 }
 
-.dashboard-metrics .metric {
-  min-height: 112px;
-  align-content: center;
-  justify-items: center;
-  text-align: center;
-}
-
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -400,6 +393,10 @@ nav a:hover {
   display: grid;
   gap: 6px;
   padding: 18px;
+  min-height: 112px;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
 }
 
 .metric strong {
