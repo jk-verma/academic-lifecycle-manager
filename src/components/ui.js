@@ -96,8 +96,9 @@ export function subtaskTimeline(record = {}, options = {}) {
           <button class="secondary compact" data-edit-subtask="true" data-kind="${escapeHtml(options.kind)}" data-id="${escapeHtml(options.id || record.id || '')}" data-module="${escapeHtml(options.module || record.module || '')}" data-subtask-id="${escapeHtml(subtask.id)}">Edit</button>
           <button class="secondary compact danger-action" data-delete-subtask="true" data-kind="${escapeHtml(options.kind)}" data-id="${escapeHtml(options.id || record.id || '')}" data-module="${escapeHtml(options.module || record.module || '')}" data-subtask-id="${escapeHtml(subtask.id)}">Delete</button>
         </div>` : '';
+    const displayOrder = subtask.display_order || subtask.sequence_order || '';
     return `<article class="${overdue ? 'overdue-card' : ''} ${options.kind ? 'draggable-subtask' : ''} hierarchy-level-${hierarchyLevel}" ${dragAttrs}>
-      <div class="subtask-marker">${escapeHtml(subtask.sequence_order || '')}</div>
+      <div class="subtask-marker">${escapeHtml(displayOrder)}</div>
       <div class="subtask-body">
         <div class="card-head"><strong>${escapeHtml(subtask.title)}</strong><span>${statusBadge(subtask.status)}${overdue ? statusBadge('overdue') : ''}</span></div>
         <div class="subtask-meta">
@@ -127,6 +128,8 @@ export function subtaskForm(kind, id, module = '') {
       <input name="responsible_person" placeholder="Responsible person" />
       <input name="responsible_contact" placeholder="Mobile or extension number" />
       <input name="insert_after_order" type="number" min="0" step="1" placeholder="Insert after sequence no." />
+      <input name="parent_subtask_id" placeholder="Parent activity id for sub-activity" />
+      <select name="hierarchy_level"><option value="0">Activity</option><option value="1">Sub-activity</option><option value="2">Sub-sub-activity</option></select>
       <select name="status"><option>pending</option><option>completed</option><option>deferred</option><option>cancelled</option></select>
       <input name="notes" placeholder="Append-only note" />
       <button>Add local subtask</button>

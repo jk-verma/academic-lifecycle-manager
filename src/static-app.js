@@ -410,14 +410,21 @@ function addSubtask(kind, id, formData, module = '') {
   const actor = `local-${role.toLowerCase()}`;
   const editingId = formData.get('subtask_id');
   const existing = editingId ? record.subtasks.find((item) => item.id === editingId) : null;
-  const insertAfter = Number(formData.get('insert_after_order') || record.subtasks.length);
+  const insertAfterRaw = formData.get('insert_after_order');
+  const parentSubtaskId = formData.get('parent_subtask_id') || '';
+  const hierarchyLevelRaw = formData.get('hierarchy_level');
+  const hierarchyLevelValue = Number(hierarchyLevelRaw === null || hierarchyLevelRaw === '' ? (parentSubtaskId ? 1 : 0) : hierarchyLevelRaw);
+  const hierarchyLevel = parentSubtaskId && hierarchyLevelValue === 0 ? 1 : Math.max(0, Math.min(2, hierarchyLevelValue));
+  const insertAfter = insertAfterRaw === null || insertAfterRaw === ''
+    ? nextSubtaskInsertOrder(record.subtasks, parentSubtaskId)
+    : Number(insertAfterRaw);
   const dueDatetime = formData.get('due_datetime');
   const completedDatetime = formData.get('completed_datetime') || (formData.get('status') === 'completed' ? nowIso().slice(0, 16) : '');
   const subtask = existing || {
     id: uid('subtask'),
     parent_record_id: id,
-    hierarchy_level: 0,
-    parent_subtask_id: '',
+    hierarchy_level: hierarchyLevel,
+    parent_subtask_id: parentSubtaskId,
     notes: [],
     history: [],
     sequence_order: insertAfter + 1
@@ -431,7 +438,9 @@ function addSubtask(kind, id, formData, module = '') {
     completed_date: completedDatetime ? completedDatetime.slice(0, 10) : '',
     status: formData.get('status'),
     responsible_person: formData.get('responsible_person'),
-    responsible_contact: formData.get('responsible_contact')
+    responsible_contact: formData.get('responsible_contact'),
+    hierarchy_level: hierarchyLevel,
+    parent_subtask_id: hierarchyLevel > 0 ? parentSubtaskId : ''
   });
   if (formData.get('notes')) {
     subtask.notes = subtask.notes || [];
@@ -439,10 +448,11 @@ function addSubtask(kind, id, formData, module = '') {
   }
   subtask.history = subtask.history || [];
   subtask.history.push({ version: subtask.history.length + 1, summary: existing ? 'Subtask updated locally' : 'Subtask added locally', updated_by: actor, updated_at: nowIso() });
-  if (!existing) record.subtasks.push(subtask);
-  record.subtasks = record.subtasks
-    .sort((a, b) => Number(a.sequence_order || 0) - Number(b.sequence_order || 0))
-    .map((item, index) => ({ ...item, sequence_order: index + 1 }));
+  if (!existing) {
+    record.subtasks = record.subtasks.map((item) => Number(item.sequence_order || 0) > insertAfter ? { ...item, sequence_order: Number(item.sequence_order || 0) + 1 } : item);
+    record.subtasks.push(subtask);
+  }
+  record.subtasks = renumberSubtasks(record.subtasks);
   record.history = record.history || record.revision_history || [];
   record.history.push({
     version: record.history.length + 1,
@@ -480,7 +490,7 @@ function reorderSubtask(source, targetSubtaskId, hierarchyLevel = 0) {
   const clampedLevel = Math.max(0, Math.min(2, Number(hierarchyLevel || 0)));
   const movingPosition = subtasks.findIndex((item) => item.id === moving.id);
   const parent = findHierarchyParent(subtasks, movingPosition, clampedLevel);
-  record.subtasks = subtasks.map((item, index) => {
+  record.subtasks = renumberSubtasks(subtasks.map((item, index) => {
     if (item.id !== moving.id) return { ...item, sequence_order: index + 1 };
     return {
       ...item,
@@ -488,7 +498,7 @@ function reorderSubtask(source, targetSubtaskId, hierarchyLevel = 0) {
       hierarchy_level: clampedLevel,
       parent_subtask_id: parent?.id || ''
     };
-  });
+  }));
   const actor = `local-${role.toLowerCase()}`;
   const hierarchyLabel = clampedLevel === 2 ? 'sub-sub-activity' : clampedLevel === 1 ? 'sub-activity' : 'activity';
   const summary = `Subtask reordered as ${hierarchyLabel}: ${moving.title}`;
@@ -522,6 +532,8 @@ function fillSubtaskEditForm(kind, id, module, subtaskId) {
   if (form.elements.status) form.elements.status.value = subtask.status === 'ongoing' ? 'pending' : (subtask.status || 'pending');
   if (form.elements.responsible_person) form.elements.responsible_person.value = subtask.responsible_person || '';
   if (form.elements.responsible_contact) form.elements.responsible_contact.value = subtask.responsible_contact || '';
+  if (form.elements.parent_subtask_id) form.elements.parent_subtask_id.value = subtask.parent_subtask_id || '';
+  if (form.elements.hierarchy_level) form.elements.hierarchy_level.value = String(subtask.hierarchy_level || 0);
   if (form.elements.notes) form.elements.notes.value = '';
   form.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
@@ -579,6 +591,49 @@ function findHierarchyParent(subtasks, movingPosition, hierarchyLevel) {
     if (hierarchyLevel === 2 && candidateLevel === 1) return subtasks[index];
   }
   return hierarchyLevel === 1 ? subtasks[movingPosition - 1] : findHierarchyParent(subtasks, movingPosition, 1);
+}
+
+function nextSubtaskInsertOrder(subtasks = [], parentSubtaskId = '') {
+  const sorted = [...subtasks].sort((a, b) => Number(a.sequence_order || 0) - Number(b.sequence_order || 0));
+  if (!parentSubtaskId) return sorted.length;
+  const parentIndex = sorted.findIndex((item) => item.id === parentSubtaskId);
+  if (parentIndex < 0) return sorted.length;
+  const parentLevel = Number(sorted[parentIndex].hierarchy_level || 0);
+  let insertIndex = parentIndex;
+  for (let index = parentIndex + 1; index < sorted.length; index += 1) {
+    if (Number(sorted[index].hierarchy_level || 0) <= parentLevel) break;
+    insertIndex = index;
+  }
+  return insertIndex + 1;
+}
+
+function renumberSubtasks(subtasks = []) {
+  const sorted = [...subtasks].sort((a, b) => Number(a.sequence_order || 0) - Number(b.sequence_order || 0));
+  const byId = new Map();
+  const childCounts = new Map();
+  let topCount = 0;
+  return sorted.map((item, index) => {
+    const level = Math.max(0, Math.min(2, Number(item.hierarchy_level || 0)));
+    let displayOrder = '';
+    if (level === 0 || !item.parent_subtask_id || !byId.has(item.parent_subtask_id)) {
+      topCount += 1;
+      displayOrder = String(topCount);
+    } else {
+      const parent = byId.get(item.parent_subtask_id);
+      const nextChild = (childCounts.get(parent.id) || 0) + 1;
+      childCounts.set(parent.id, nextChild);
+      displayOrder = `${parent.display_order || parent.sequence_order}.${nextChild}`;
+    }
+    const normalized = {
+      ...item,
+      hierarchy_level: level,
+      parent_subtask_id: level === 0 ? '' : item.parent_subtask_id,
+      sequence_order: index + 1,
+      display_order: displayOrder
+    };
+    byId.set(normalized.id, normalized);
+    return normalized;
+  });
 }
 
 function archiveRecord(kind, id, module = '') {
@@ -786,50 +841,51 @@ function applyCourseFields(course, formData) {
 
 function defaultCourseSubtasks(parentId) {
   const now = nowIso();
-  const base = Array.from({ length: 20 }, (_, index) => ({
-    id: `sub-${parentId}-lecture-${index + 1}`,
-    parent_record_id: parentId,
-    title: `Lecture-${index + 1}: Lecture on pre-defined topics`,
-    subtask_type: 'lecture',
-    due_date: '',
-    completed_date: '',
-    status: 'pending',
-    responsible_person: 'Dr. Jitendra Kumar Verma',
-    notes: [],
-    history: [{ version: 1, summary: 'Course lecture item created', updated_by: 'local-admin', updated_at: now }],
-    sequence_order: index + 1
-  }));
-  const inserts = [
-    [7.1, 'Assignment-1 questions', 'assignment'],
-    [7.2, 'Project title set-1 + sample report (Ranchoddas Shamaldas Chanchad Alias Rancho)', 'project'],
-    [7.3, 'Quiz-1 questions', 'quiz'],
-    [7.4, 'Question paper setting if UG course', 'question_paper_setting'],
-    [10.1, 'In-class Quiz-1', 'quiz'],
-    [10.2, 'Mid Term Exam: held on date', 'mid_term_exam'],
-    [10.3, 'Answer script collection: collection date', 'answer_script_collection'],
-    [10.4, 'Evaluation target completion and display date', 'evaluation'],
-    [17.1, 'Assignment-2 questions', 'assignment'],
-    [17.2, 'Project title set-2 + sample report (Chatur Ramalingam Alias Silencer)', 'project'],
-    [17.3, 'Quiz-2 questions if needed paper + OMR based', 'quiz'],
-    [17.4, 'Question paper setting', 'question_paper_setting'],
-    [20.1, 'End-Term Exam: held on date', 'end_term_exam'],
-    [20.2, 'Answer script collection: collection date', 'answer_script_collection'],
-    [20.3, 'Evaluation target completion and display date', 'evaluation'],
-    [20.4, 'Append notes: exceptional students, undisciplined students, difficult question paper if needed', 'discipline_note']
-  ].map(([order, title, type]) => ({
-    id: `sub-${parentId}-${String(order).replace('.', '-')}`,
-    parent_record_id: parentId,
-    title,
-    subtask_type: type,
-    due_date: '',
-    completed_date: '',
-    status: 'pending',
-    responsible_person: 'Dr. Jitendra Kumar Verma',
-    notes: [],
-    history: [{ version: 1, summary: 'Course task item created', updated_by: 'local-admin', updated_at: now }],
-    sequence_order: order
-  }));
-  return [...base, ...inserts].sort((a, b) => Number(a.sequence_order) - Number(b.sequence_order)).map((item, index) => ({ ...item, sequence_order: index + 1 }));
+  const items = [];
+  const add = (id, title, type, parentSubtaskId = '', note = '') => {
+    const parent = items.find((item) => item.id === parentSubtaskId);
+    items.push({
+      id: `sub-${parentId}-${id}`,
+      parent_record_id: parentId,
+      title,
+      subtask_type: type,
+      due_date: '',
+      completed_date: '',
+      status: 'pending',
+      responsible_person: 'Dr. Jitendra Kumar Verma',
+      parent_subtask_id: parentSubtaskId,
+      hierarchy_level: parent ? Number(parent.hierarchy_level || 0) + 1 : 0,
+      notes: note ? [{ id: uid('note'), text: note, created_by: 'local-admin', created_at: now, visibility: 'open' }] : [],
+      history: [{ version: 1, summary: 'Course plan item created', updated_by: 'local-admin', updated_at: now }],
+      sequence_order: items.length + 1
+    });
+  };
+  add('outline-dg', 'Course Outline Circulation DG', 'course_outline');
+  add('outline-pd-students', 'Course Outline Circulation PD/Students', 'course_outline');
+  Array.from({ length: 7 }, (_, index) => add(`lecture-${index + 1}`, `Lecture-${index + 1}: Lecture on pre-defined topics`, 'lecture', '', 'Details can be added here.'));
+  add('mid-term-pre-process', 'Mid Term Pre-Process', 'pre_process');
+  add('assignment-1', 'Assignment-1 Questions', 'assignment', `sub-${parentId}-mid-term-pre-process`);
+  add('project-set-1', 'Project Title Set-1 + Sample Report (Ranchoddas Shamaldas Chanchad Alias Rancho)', 'project', `sub-${parentId}-mid-term-pre-process`);
+  add('quiz-1', 'Quiz-1 Questions', 'quiz', `sub-${parentId}-mid-term-pre-process`, 'Details can be added here.');
+  add('question-paper-ug', 'Question Paper Setting (If UG Course)', 'question_paper_setting', `sub-${parentId}-mid-term-pre-process`, 'Details can be added here.');
+  Array.from({ length: 3 }, (_, index) => add(`lecture-${index + 8}`, `Lecture-${index + 8}: Lecture on pre-defined topics`, 'lecture', '', 'Details can be added here.'));
+  add('in-class-quiz-1', 'In-Class Quiz-1', 'quiz', `sub-${parentId}-lecture-10`, 'Details can be added here.');
+  add('mid-term-process', 'Mid Term Process (If UG Course)', 'mid_term_process');
+  add('mid-term-exam', 'Mid Term Exam: Held on Date', 'mid_term_exam', `sub-${parentId}-mid-term-process`);
+  add('mid-term-answer-script', 'Answer Script Collection: Collection Date', 'answer_script_collection', `sub-${parentId}-mid-term-process`);
+  add('mid-term-evaluation', 'Evaluation: Target Completion and Display Date (Maximum 20 days)', 'evaluation', `sub-${parentId}-mid-term-process`);
+  Array.from({ length: 7 }, (_, index) => add(`lecture-${index + 11}`, `Lecture-${index + 11}: Lecture on pre-defined topics`, 'lecture', '', 'Details can be added here.'));
+  add('end-term-pre-process', 'End Term Pre Process', 'pre_process');
+  add('assignment-2', 'Assignment-2 Questions', 'assignment', `sub-${parentId}-end-term-pre-process`);
+  add('project-set-2', 'Project Title Set-2 + Sample Report (Chatur Ramalingam Alias Silencer)', 'project', `sub-${parentId}-end-term-pre-process`);
+  add('quiz-2', 'Quiz-2 Questions (If needed paper + OMR based)', 'quiz', `sub-${parentId}-end-term-pre-process`);
+  add('end-term-question-paper', 'Question Paper Setting', 'question_paper_setting', `sub-${parentId}-end-term-pre-process`);
+  Array.from({ length: 3 }, (_, index) => add(`lecture-${index + 18}`, `Lecture-${index + 18}: Lecture on pre-defined topics`, 'lecture', '', 'Details can be added here.'));
+  add('end-term-exam', 'End-Term Exam: Held on', 'end_term_exam');
+  add('end-term-answer-script', 'Answer Script Collection: Collection Date', 'answer_script_collection');
+  add('end-term-evaluation', 'Evaluation: Target Completion and Display Date (Maximum 20 days)', 'evaluation');
+  add('course-notes', 'Notes: Exceptional Students, Undisciplined Students, Majority of Batch is Undisciplined then Difficult Question Paper', 'note');
+  return renumberSubtasks(items);
 }
 
 function phaseTemplate(programmeType) {
