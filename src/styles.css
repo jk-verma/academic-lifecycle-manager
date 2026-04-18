@@ -420,6 +420,10 @@ nav a:hover {
   margin: 0 0 10px;
 }
 
+.collapsible-panel[hidden] {
+  display: none;
+}
+
 .detail-head,
 .card-head {
   display: flex;

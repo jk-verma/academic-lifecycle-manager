@@ -317,6 +317,15 @@ function bindEvents() {
     button.addEventListener('click', () => editRecord(button.dataset.editKind, button.dataset.editId, button.dataset.editModule || ''));
   });
 
+  document.querySelectorAll('[data-toggle-panel]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const panel = document.getElementById(button.dataset.togglePanel);
+      if (!panel) return;
+      panel.hidden = !panel.hidden;
+      if (!panel.hidden) panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  });
+
   const activityForm = document.getElementById('activity-form');
   if (activityForm) activityForm.addEventListener('submit', (event) => {
     event.preventDefault();

@@ -255,7 +255,7 @@ function teachingDetailPage(ctx, item) {
     ${printActionBar('<a class="card-link" href="#/teaching">Back</a>')}
     <section class="detail printable">
       <div class="metadata">${statusBadge(item.status)} ${statusBadge(item.priority)} ${item.carry_forward ? statusBadge('carry_forward') : ''}</div>
-      ${detailSection('Course details', courseSummary(item))}
+      ${detailSection('Course details', `${courseSummary(item)}${ctx.canWrite() ? `<button class="secondary compact" data-toggle-panel="course-edit-${escapeHtml(item.id)}">Edit</button>` : ''}`)}
       ${ctx.canWrite() ? courseEditForm(item) : ''}
       ${detailSection('Assessment structure', assessmentSummary(item))}
       ${detailSection('Lecture, exam, and task plan', subtaskTimeline(item, { kind: 'academic', id: item.id, module: 'teaching' }))}
@@ -292,7 +292,7 @@ function assessmentSummary(item) {
 
 function courseEditForm(item) {
   const internal = item.internal_components || {};
-  return `<section class="append-panel">
+  return `<section class="append-panel collapsible-panel" id="course-edit-${escapeHtml(item.id)}" hidden>
     <h4>Edit course details</h4>
     <form class="record-form" data-update-course="${escapeHtml(item.id)}">
       <input name="course_outline_circulation_date" type="date" value="${escapeHtml(item.course_outline_circulation_date || '')}" />
