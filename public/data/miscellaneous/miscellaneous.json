@@ -18,21 +18,16 @@
           {
             "id": "external-note-1",
             "text": "Topic and abstract shared with host coordinator.",
-            "created_by": "u-admin",
             "created_at": "2026-04-17T09:30:00.000Z"
           }
         ],
         "history": [
           {
-            "version": 1,
             "summary": "External engagement created",
-            "updated_by": "u-admin",
             "updated_at": "2026-04-17T09:30:00.000Z"
           }
         ],
-        "created_by": "u-admin",
         "timestamps": {
-          "created_at": "2026-04-17T09:30:00.000Z",
           "updated_at": "2026-04-17T09:30:00.000Z"
         },
         "final_deadline": "2026-05-08"
@@ -54,62 +49,39 @@
         "priority": "medium",
         "notes": [
           {
-            "created_at": "2026-04-18T09:00:00.000Z",
             "id": "sub-ieee-note-1",
             "text": "Track renewal window, payment proof, and receipt upload.",
-            "created_by": "u-admin"
+            "created_at": "2026-04-18T09:00:00.000Z"
           }
         ],
         "history": [
           {
             "summary": "Subscription record created",
-            "updated_by": "u-admin",
-            "version": 1,
             "updated_at": "2026-04-18T09:00:00.000Z"
           }
         ],
-        "created_by": "u-admin",
         "timestamps": {
-          "created_at": "2026-04-18T09:00:00.000Z",
           "updated_at": "2026-04-18T09:00:00.000Z"
         },
         "final_deadline": "2026-12-31",
         "subtasks": [
           {
-            "sequence_order": 1,
-            "responsible_person": "Dr. Jitendra Kumar Verma",
             "id": "sub-ieee-payment",
-            "history": [
-              {
-                "summary": "Subtask created",
-                "updated_by": "u-admin",
-                "version": 1,
-                "updated_at": "2026-04-18T09:00:00.000Z"
-              }
-            ],
             "parent_record_id": "sub-ieee-2026",
-            "subtask_type": "payment",
-            "status": "pending",
             "title": "Complete subscription payment",
-            "due_date": "2026-12-15"
+            "due_date": "2026-12-15",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "sequence_order": 1
           },
           {
-            "sequence_order": 2,
-            "responsible_person": "Faculty Assistant",
             "id": "sub-ieee-receipt",
-            "history": [
-              {
-                "summary": "Subtask created",
-                "updated_by": "u-admin",
-                "version": 1,
-                "updated_at": "2026-04-18T09:00:00.000Z"
-              }
-            ],
             "parent_record_id": "sub-ieee-2026",
-            "subtask_type": "documentation",
-            "status": "pending",
             "title": "Archive receipt and membership proof",
-            "due_date": "2026-12-31"
+            "due_date": "2026-12-31",
+            "status": "pending",
+            "responsible_person": "Faculty Assistant",
+            "sequence_order": 2
           }
         ]
       }
@@ -125,17 +97,12 @@
         "organization_or_publisher": "Home Institution",
         "description_or_abstract": "Faculty development programme planning record.",
         "status": "planning",
-        "created_by": "u-admin",
-        "updated_by": "u-admin",
         "timestamps": {
-          "created_at": "2026-04-01T10:00:00.000Z",
           "updated_at": "2026-04-01T10:00:00.000Z"
         },
         "revision_history": [
           {
-            "version": 1,
             "summary": "Custom activity created",
-            "updated_by": "u-admin",
             "updated_at": "2026-04-01T10:00:00.000Z"
           }
         ],
@@ -147,9 +114,7 @@
         "priority": "medium",
         "history": [
           {
-            "version": 1,
             "summary": "Custom activity created",
-            "updated_by": "u-admin",
             "updated_at": "2026-04-01T10:00:00.000Z"
           }
         ]

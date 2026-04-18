@@ -19,25 +19,19 @@
       "priority": "medium",
       "academic_year_start": "2025-2026",
       "academic_year_current": "2025-2026",
-      "created_by": "u-admin",
-      "updated_by": "u-admin",
       "timestamps": {
-        "created_at": "2026-04-17T18:00:00.000Z",
         "updated_at": "2026-04-17T18:00:00.000Z"
       },
       "notes_append_only": [
         {
           "id": "mentor-note-meera-1",
           "text": "Senior student mentor for Masters and intern research process support.",
-          "created_by": "u-admin",
           "created_at": "2026-04-17T18:00:00.000Z"
         }
       ],
       "history": [
         {
-          "version": 1,
           "summary": "Mentor record created",
-          "updated_by": "u-admin",
           "updated_at": "2026-04-17T18:00:00.000Z"
         }
       ]
@@ -60,25 +54,19 @@
       "priority": "high",
       "academic_year_start": "2025-2026",
       "academic_year_current": "2025-2026",
-      "created_by": "u-admin",
-      "updated_by": "u-admin",
       "timestamps": {
-        "created_at": "2026-04-17T18:00:00.000Z",
         "updated_at": "2026-04-17T18:00:00.000Z"
       },
       "notes_append_only": [
         {
           "id": "mentor-note-anita-1",
           "text": "Junior faculty mentor for milestone coordination and follow-up support.",
-          "created_by": "u-admin",
           "created_at": "2026-04-17T18:00:00.000Z"
         }
       ],
       "history": [
         {
-          "version": 1,
           "summary": "Mentor record created",
-          "updated_by": "u-admin",
           "updated_at": "2026-04-17T18:00:00.000Z"
         }
       ]
@@ -99,25 +87,19 @@
       "priority": "medium",
       "academic_year_start": "2025-2026",
       "academic_year_current": "2025-2026",
-      "created_by": "u-admin",
-      "updated_by": "u-admin",
       "timestamps": {
-        "created_at": "2026-04-17T18:00:00.000Z",
         "updated_at": "2026-04-17T18:00:00.000Z"
       },
       "notes_append_only": [
         {
           "id": "mentor-note-sen-1",
           "text": "External collaborator mentor for selected PhD work.",
-          "created_by": "u-admin",
           "created_at": "2026-04-17T18:00:00.000Z"
         }
       ],
       "history": [
         {
-          "version": 1,
           "summary": "Mentor record created",
-          "updated_by": "u-admin",
           "updated_at": "2026-04-17T18:00:00.000Z"
         }
       ]

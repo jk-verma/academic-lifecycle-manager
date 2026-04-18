@@ -15,22 +15,17 @@
         {
           "id": "admin-note-1",
           "text": "Assistant compiled first draft of research supervision evidence.",
-          "created_by": "u-assistant",
           "created_at": "2026-04-16T15:00:00.000Z"
         }
       ],
       "responsibility": "Department research documentation",
       "history": [
         {
-          "version": 1,
           "summary": "Admin work record created",
-          "updated_by": "u-assistant",
           "updated_at": "2026-04-16T15:00:00.000Z"
         }
       ],
-      "created_by": "u-assistant",
       "timestamps": {
-        "created_at": "2026-04-16T15:00:00.000Z",
         "updated_at": "2026-04-16T15:00:00.000Z"
       },
       "final_deadline": "2026-05-30"

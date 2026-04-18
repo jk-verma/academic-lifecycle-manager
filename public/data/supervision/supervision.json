@@ -28,31 +28,19 @@
         "supervisor": "Faculty Supervisor",
         "start_date": "2025-08-01",
         "status": "active",
-        "created_by": "u-admin",
-        "updated_by": "u-admin",
         "timestamps": {
-          "created_at": "2025-08-01T09:00:00.000Z",
           "updated_at": "2026-04-01T09:00:00.000Z"
         },
         "notes_append_only": [
           {
             "id": "n-asha-1",
             "text": "Synopsis accepted; continue literature matrix.",
-            "created_by": "u-admin",
             "created_at": "2026-02-15T10:00:00.000Z"
-          }
-        ],
-        "attachments": [
-          {
-            "label": "Synopsis draft",
-            "url": "docs/asha-synopsis.md"
           }
         ],
         "revision_history": [
           {
-            "version": 1,
             "summary": "Candidate workspace created",
-            "updated_by": "u-admin",
             "updated_at": "2025-08-01T09:00:00.000Z"
           }
         ],
@@ -66,15 +54,12 @@
           {
             "id": "n-asha-1",
             "text": "Synopsis accepted; continue literature matrix.",
-            "created_by": "u-admin",
             "created_at": "2026-02-15T10:00:00.000Z"
           }
         ],
         "history": [
           {
-            "version": 1,
             "summary": "Candidate workspace created",
-            "updated_by": "u-admin",
             "updated_at": "2025-08-01T09:00:00.000Z"
           }
         ],
@@ -83,53 +68,33 @@
             "id": "sub-asha-final-draft",
             "parent_record_id": "cand-ms-asha",
             "title": "Finalize report draft",
-            "subtask_type": "writing",
             "due_date": "2026-04-28",
             "status": "ongoing",
             "responsible_person": "Asha Menon",
+            "sequence_order": 1,
             "notes": [
               {
                 "id": "sub-asha-final-draft-note-1",
                 "text": "Integrate supervisor comments in final report.",
-                "created_by": "u-admin",
                 "created_at": "2026-04-17T12:00:00.000Z"
               }
-            ],
-            "history": [
-              {
-                "version": 1,
-                "summary": "Subtask created",
-                "updated_by": "u-admin",
-                "updated_at": "2026-04-17T12:00:00.000Z"
-              }
-            ],
-            "sequence_order": 1
+            ]
           },
           {
             "id": "sub-asha-final-check",
             "parent_record_id": "cand-ms-asha",
             "title": "Final plagiarism and formatting check",
-            "subtask_type": "review",
             "due_date": "2026-05-10",
             "status": "pending",
             "responsible_person": "Faculty Assistant",
+            "sequence_order": 2,
             "notes": [
               {
                 "id": "sub-asha-final-check-note-1",
                 "text": "Check formatting, references, and similarity report.",
-                "created_by": "u-admin",
                 "created_at": "2026-04-17T12:00:00.000Z"
               }
-            ],
-            "history": [
-              {
-                "version": 1,
-                "summary": "Subtask created",
-                "updated_by": "u-admin",
-                "updated_at": "2026-04-17T12:00:00.000Z"
-              }
-            ],
-            "sequence_order": 2
+            ]
           }
         ],
         "title": "Asha Menon"
@@ -159,25 +124,19 @@
         "supervisor": "Faculty Supervisor",
         "start_date": "2025-08-01",
         "status": "active",
-        "created_by": "u-admin",
-        "updated_by": "u-assistant",
         "timestamps": {
-          "created_at": "2025-08-01T09:15:00.000Z",
           "updated_at": "2026-03-05T12:00:00.000Z"
         },
         "notes_append_only": [
           {
             "id": "n-rahul-1",
             "text": "Dataset collection is pending department approval.",
-            "created_by": "u-assistant",
             "created_at": "2026-03-05T12:00:00.000Z"
           }
         ],
         "revision_history": [
           {
-            "version": 1,
             "summary": "Candidate workspace created",
-            "updated_by": "u-admin",
             "updated_at": "2025-08-01T09:15:00.000Z"
           }
         ],
@@ -191,15 +150,12 @@
           {
             "id": "n-rahul-1",
             "text": "Dataset collection is pending department approval.",
-            "created_by": "u-assistant",
             "created_at": "2026-03-05T12:00:00.000Z"
           }
         ],
         "history": [
           {
-            "version": 1,
             "summary": "Candidate workspace created",
-            "updated_by": "u-admin",
             "updated_at": "2025-08-01T09:15:00.000Z"
           }
         ],
@@ -245,37 +201,24 @@
         "supervisor": "Faculty Supervisor",
         "start_date": "2024-01-10",
         "status": "active",
-        "created_by": "u-admin",
-        "updated_by": "u-admin",
         "timestamps": {
-          "created_at": "2024-01-10T10:00:00.000Z",
           "updated_at": "2026-04-01T09:00:00.000Z"
         },
         "notes_append_only": [
           {
             "id": "n-meera-1",
             "text": "DAC compliance table created.",
-            "created_by": "u-admin",
             "created_at": "2026-03-10T11:00:00.000Z"
           },
           {
             "id": "n-meera-conf",
             "text": "Confidential reviewer strategy discussion.",
-            "created_by": "u-admin",
             "created_at": "2026-03-10T11:30:00.000Z"
-          }
-        ],
-        "attachments": [
-          {
-            "label": "DAC-1 suggestions",
-            "url": "docs/meera-dac-1.md"
           }
         ],
         "revision_history": [
           {
-            "version": 1,
             "summary": "PhD workspace created",
-            "updated_by": "u-admin",
             "updated_at": "2024-01-10T10:00:00.000Z"
           }
         ],
@@ -289,21 +232,17 @@
           {
             "id": "n-meera-1",
             "text": "DAC compliance table created.",
-            "created_by": "u-admin",
             "created_at": "2026-03-10T11:00:00.000Z"
           },
           {
             "id": "n-meera-conf",
             "text": "Confidential reviewer strategy discussion.",
-            "created_by": "u-admin",
             "created_at": "2026-03-10T11:30:00.000Z"
           }
         ],
         "history": [
           {
-            "version": 1,
             "summary": "PhD workspace created",
-            "updated_by": "u-admin",
             "updated_at": "2024-01-10T10:00:00.000Z"
           }
         ],
@@ -312,79 +251,49 @@
             "id": "sub-meera-dac1-internal-1",
             "parent_record_id": "cand-phd-meera",
             "title": "Internal DAC-1 preparation meeting",
-            "subtask_type": "internal_meeting",
             "due_date": "2026-04-25",
             "status": "ongoing",
             "responsible_person": "Dr. Jitendra Kumar Verma",
+            "sequence_order": 1,
             "notes": [
               {
                 "id": "sub-meera-dac1-internal-1-note-1",
                 "text": "Review DAC-1 slide structure and compliance evidence.",
-                "created_by": "u-admin",
                 "created_at": "2026-04-17T12:00:00.000Z"
               }
-            ],
-            "history": [
-              {
-                "version": 1,
-                "summary": "Subtask created",
-                "updated_by": "u-admin",
-                "updated_at": "2026-04-17T12:00:00.000Z"
-              }
-            ],
-            "sequence_order": 1
+            ]
           },
           {
             "id": "sub-meera-dac1-presentation",
             "parent_record_id": "cand-phd-meera",
             "title": "DAC-1 committee presentation",
-            "subtask_type": "committee_presentation",
             "due_date": "2026-05-10",
             "status": "pending",
             "responsible_person": "Meera Iyer",
+            "sequence_order": 2,
             "notes": [
               {
                 "id": "sub-meera-dac1-presentation-note-1",
                 "text": "Schedule committee presentation after internal review.",
-                "created_by": "u-admin",
                 "created_at": "2026-04-17T12:00:00.000Z"
               }
-            ],
-            "history": [
-              {
-                "version": 1,
-                "summary": "Subtask created",
-                "updated_by": "u-admin",
-                "updated_at": "2026-04-17T12:00:00.000Z"
-              }
-            ],
-            "sequence_order": 2
+            ]
           },
           {
             "id": "sub-meera-dac1-compliance",
             "parent_record_id": "cand-phd-meera",
             "title": "Post-DAC compliance presentation",
-            "subtask_type": "compliance",
             "due_date": "2026-05-30",
             "status": "pending",
             "responsible_person": "Meera Iyer",
+            "sequence_order": 3,
             "notes": [
               {
                 "id": "sub-meera-dac1-compliance-note-1",
                 "text": "Prepare action-wise compliance response.",
-                "created_by": "u-admin",
                 "created_at": "2026-04-17T12:00:00.000Z"
               }
-            ],
-            "history": [
-              {
-                "version": 1,
-                "summary": "Subtask created",
-                "updated_by": "u-admin",
-                "updated_at": "2026-04-17T12:00:00.000Z"
-              }
-            ],
-            "sequence_order": 3
+            ]
           }
         ],
         "title": "Meera Iyer"
@@ -429,25 +338,19 @@
         "supervisor": "Faculty Supervisor",
         "start_date": "2023-07-15",
         "status": "active",
-        "created_by": "u-admin",
-        "updated_by": "u-admin",
         "timestamps": {
-          "created_at": "2023-07-15T09:00:00.000Z",
           "updated_at": "2026-01-10T09:00:00.000Z"
         },
         "notes_append_only": [
           {
             "id": "n-kabir-1",
             "text": "Needs focused writing sprint before DAC-3.",
-            "created_by": "u-admin",
             "created_at": "2026-01-10T09:00:00.000Z"
           }
         ],
         "revision_history": [
           {
-            "version": 1,
             "summary": "PhD workspace created",
-            "updated_by": "u-admin",
             "updated_at": "2023-07-15T09:00:00.000Z"
           }
         ],
@@ -461,15 +364,12 @@
           {
             "id": "n-kabir-1",
             "text": "Needs focused writing sprint before DAC-3.",
-            "created_by": "u-admin",
             "created_at": "2026-01-10T09:00:00.000Z"
           }
         ],
         "history": [
           {
-            "version": 1,
             "summary": "PhD workspace created",
-            "updated_by": "u-admin",
             "updated_at": "2023-07-15T09:00:00.000Z"
           }
         ],
@@ -500,25 +400,19 @@
         "supervisor": "Faculty Supervisor",
         "start_date": "2026-01-05",
         "status": "active",
-        "created_by": "u-admin",
-        "updated_by": "u-assistant",
         "timestamps": {
-          "created_at": "2026-01-05T09:00:00.000Z",
           "updated_at": "2026-03-20T14:00:00.000Z"
         },
         "notes_append_only": [
           {
             "id": "n-nina-1",
             "text": "Share sanitized reading list only.",
-            "created_by": "u-assistant",
             "created_at": "2026-03-20T14:00:00.000Z"
           }
         ],
         "revision_history": [
           {
-            "version": 1,
             "summary": "Intern workspace created",
-            "updated_by": "u-admin",
             "updated_at": "2026-01-05T09:00:00.000Z"
           }
         ],
@@ -532,15 +426,12 @@
           {
             "id": "n-nina-1",
             "text": "Share sanitized reading list only.",
-            "created_by": "u-assistant",
             "created_at": "2026-03-20T14:00:00.000Z"
           }
         ],
         "history": [
           {
-            "version": 1,
             "summary": "Intern workspace created",
-            "updated_by": "u-admin",
             "updated_at": "2026-01-05T09:00:00.000Z"
           }
         ],
@@ -594,31 +485,19 @@
         "satisfaction_status": "satisfied",
         "next_meeting_date": "2026-03-01",
         "status": "completed",
-        "created_by": "u-admin",
-        "updated_by": "u-admin",
         "timestamps": {
-          "created_at": "2026-02-12T10:45:00.000Z",
           "updated_at": "2026-02-12T10:45:00.000Z"
         },
         "comments_append_only": [
           {
             "id": "c-asha-1",
             "text": "Student-visible summary added after meeting.",
-            "created_by": "u-admin",
             "created_at": "2026-02-12T11:00:00.000Z"
-          }
-        ],
-        "attachments": [
-          {
-            "label": "Minutes draft",
-            "url": "docs/minutes/meet-asha-synopsis-001.md"
           }
         ],
         "revision_history": [
           {
-            "version": 1,
             "summary": "Meeting minutes created",
-            "updated_by": "u-admin",
             "updated_at": "2026-02-12T10:45:00.000Z"
           }
         ],
@@ -662,37 +541,24 @@
         "satisfaction_status": "partially_satisfied",
         "next_meeting_date": "2026-04-20",
         "status": "completed",
-        "created_by": "u-admin",
-        "updated_by": "u-admin",
         "timestamps": {
-          "created_at": "2026-03-05T11:10:00.000Z",
           "updated_at": "2026-03-05T11:10:00.000Z"
         },
         "comments_append_only": [
           {
             "id": "c-meera-1",
             "text": "DAC compliance matrix opened.",
-            "created_by": "u-admin",
             "created_at": "2026-03-05T11:15:00.000Z"
           },
           {
             "id": "c-meera-conf",
             "text": "Confidential assessment notes for supervisor only.",
-            "created_by": "u-admin",
             "created_at": "2026-03-05T11:20:00.000Z"
-          }
-        ],
-        "attachments": [
-          {
-            "label": "DAC checklist",
-            "url": "docs/minutes/meet-meera-dac1-001.md"
           }
         ],
         "revision_history": [
           {
-            "version": 1,
             "summary": "Meeting minutes created",
-            "updated_by": "u-admin",
             "updated_at": "2026-03-05T11:10:00.000Z"
           }
         ],
@@ -735,25 +601,19 @@
         "satisfaction_status": "satisfied",
         "next_meeting_date": "2026-03-27",
         "status": "completed",
-        "created_by": "u-assistant",
-        "updated_by": "u-assistant",
         "timestamps": {
-          "created_at": "2026-03-20T14:25:00.000Z",
           "updated_at": "2026-03-20T14:25:00.000Z"
         },
         "comments_append_only": [
           {
             "id": "c-nina-1",
             "text": "Use sanitized bibliography export.",
-            "created_by": "u-assistant",
             "created_at": "2026-03-20T14:25:00.000Z"
           }
         ],
         "revision_history": [
           {
-            "version": 1,
             "summary": "Intern checkpoint created",
-            "updated_by": "u-assistant",
             "updated_at": "2026-03-20T14:25:00.000Z"
           }
         ],
