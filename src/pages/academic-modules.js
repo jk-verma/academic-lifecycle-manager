@@ -353,18 +353,18 @@ function courseEditForm(item) {
 function courseFields() {
   return `<input name="sub_type" type="hidden" value="course" />
       <input name="course_outline_circulation_date" type="date" title="Course outline circulation date" />
-      <input name="course_type" placeholder="Course type: UG / PG / Ph.D." value="UG" />
-      <input name="total_hours" placeholder="Total hours" value="30 Hours" />
-      <input name="total_lectures" type="number" min="1" placeholder="Total lectures" value="20" />
-      <input name="lecture_duration" placeholder="Lecture duration" value="1.5 Hour" />
-      <input name="total_marks" type="number" min="0" placeholder="Total marks" value="100" />
-      <input name="internal_component_marks" type="number" min="0" placeholder="Internal component marks" value="50" />
-      <input name="quiz_1" placeholder="Quiz-1 details" value="5" />
-      <input name="quiz_2" placeholder="Quiz-2 details" value="5" />
-      <input name="class_participation" placeholder="Class participation details" value="5" />
-      <input name="assignments" placeholder="Assignment(s) details" value="10" />
-      <input name="projects" placeholder="Project(s) details" value="10" />
-      <input name="external_component_marks" type="number" min="0" placeholder="External component marks" value="50" />
+      <input name="course_type" placeholder="Course type: UG / PG / Ph.D." />
+      <input name="total_hours" placeholder="Total hours" />
+      <input name="total_lectures" type="number" min="1" placeholder="Total lectures" />
+      <input name="lecture_duration" placeholder="Lecture duration" />
+      <input name="total_marks" type="number" min="0" placeholder="Total marks" />
+      <input name="internal_component_marks" type="number" min="0" placeholder="Internal component marks" />
+      <input name="quiz_1" placeholder="Quiz-1 details" />
+      <input name="quiz_2" placeholder="Quiz-2 details" />
+      <input name="class_participation" placeholder="Class participation details" />
+      <input name="assignments" placeholder="Assignment(s) details" />
+      <input name="projects" placeholder="Project(s) details" />
+      <input name="external_component_marks" type="number" min="0" placeholder="External component marks" />
       <input name="course_start_date" type="date" />
       <input name="course_end_date" type="date" />`;
 }
