@@ -130,6 +130,7 @@ export function academicModuleDetailPage(ctx, module, id) {
   const item = ctx.visibleAcademicLife().find((record) => record.module === module && record.id === id);
   if (!item) return emptyState('Record not found', 'This academic life record is unavailable for the selected role.');
   if (module === 'teaching') return teachingDetailPage(ctx, item);
+  const simplifiedModules = ['career_mobility'];
   return `${pageHeader(item.title, `${item.category} | ${item.sub_type}`)}
     ${printActionBar(`<a class="card-link" href="#/${routeName(module)}">Back</a>`)}
     <section class="detail printable">
@@ -137,9 +138,9 @@ export function academicModuleDetailPage(ctx, module, id) {
       ${detailSection('Overall task', `${taskSummary(item)}<p><strong>Academic year:</strong> ${escapeHtml(item.academic_year_current)}</p><p><strong>Created by:</strong> ${escapeHtml(item.created_by)}</p>`)}
       ${detailSection('Record summary', recordSummary(item))}
       ${detailSection('Activity / sub-activity timeline', subtaskTimeline(item, { kind: 'academic', id: item.id, module }))}
-      ${detailSection('Append-only notes', notesPanel(ctx.maskNotes(item.notes || [])))}
-      ${detailSection('History', timelinePanel(item.history || []))}
-      ${ctx.canWrite() ? ctx.subtaskForm('academic', item.id, module) : ''}
+      ${simplifiedModules.includes(module) ? '' : detailSection('Append-only notes', notesPanel(ctx.maskNotes(item.notes || [])))}
+      ${simplifiedModules.includes(module) ? '' : detailSection('History', timelinePanel(item.history || []))}
+      ${ctx.canWrite() && !simplifiedModules.includes(module) ? ctx.subtaskForm('academic', item.id, module) : ''}
     </section>`;
 }
 
