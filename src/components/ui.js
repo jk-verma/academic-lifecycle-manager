@@ -144,9 +144,8 @@ function activityDateStatus(subtask = {}, record = {}) {
   if (completed || ['completed', 'finished'].includes(String(subtask.status || '').toLowerCase())) return 'finished';
   const due = subtask.due_datetime || subtask.due_date;
   const dueDate = dateOnly(due);
-  const courseStart = dateOnly(record.course_start_date || record.start_date);
-  if (courseStart && dueDate && dueDate < courseStart) return 'pending';
-  if (isOverdue(due, subtask.status)) return 'overdue';
+  const today = new Date().toISOString().slice(0, 10);
+  if (dueDate && dueDate < today) return 'finished';
   return 'pending';
 }
 

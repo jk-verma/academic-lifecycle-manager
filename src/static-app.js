@@ -528,7 +528,7 @@ function deriveSubtaskStatus(dueDatetime = '', completedDatetime = '') {
   const due = String(dueDatetime);
   const checkpoint = due.includes('T') ? due.slice(0, 16) : due.slice(0, 10);
   const now = new Date().toISOString().slice(0, due.includes('T') ? 16 : 10);
-  return checkpoint < now ? 'overdue' : 'pending';
+  return checkpoint < now ? 'finished' : 'pending';
 }
 
 function reorderSubtask(source, targetSubtaskId, hierarchyLevel = 0) {
