@@ -34,14 +34,22 @@ export function detailSection(title, body) {
 }
 
 export function recordCard({ title, meta, body, badges = '', href = '', actions = '' }) {
+  const stateLabel = inferCardState(badges, meta);
   const open = href ? `<a class="card-link" href="${escapeHtml(href)}">Open</a>` : '';
+  const actionRow = [open, actions].filter(Boolean).join('');
   return `<article class="card">
-    <div class="card-head"><div>${badges}</div>${open}</div>
+    <div class="card-head"><div>${badges}</div><span class="state-pill ${stateLabel === 'Finished' ? 'finished' : 'pending'}">${stateLabel}</span></div>
     <h3>${escapeHtml(title)}</h3>
     ${meta ? `<p class="muted">${escapeHtml(meta)}</p>` : ''}
     ${body ? `<p>${escapeHtml(body)}</p>` : ''}
-    ${actions ? `<div class="card-actions">${actions}</div>` : ''}
+    ${actionRow ? `<div class="card-actions">${actionRow}</div>` : ''}
   </article>`;
+}
+
+function inferCardState(badges = '', meta = '') {
+  const text = `${badges} ${meta}`.toLowerCase();
+  const finishedTokens = ['completed', 'finished', 'published', 'accepted', 'closed', 'joined', 'paid'];
+  return finishedTokens.some((token) => text.includes(token)) ? 'Finished' : 'Pending';
 }
 
 export function taskProgress(record = {}) {

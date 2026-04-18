@@ -331,6 +331,7 @@ nav a:hover {
 .card-actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
   margin-top: 12px;
   padding-top: 12px;
@@ -392,6 +393,23 @@ nav a:hover {
   color: var(--accent);
   font-weight: 900;
   text-decoration: none;
+}
+
+.state-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 8px;
+  padding: 5px 9px;
+  background: #fff7ed;
+  color: #8a4b05;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.state-pill.finished {
+  background: #edf7f2;
+  color: #11613a;
 }
 
 .action-bar {
