@@ -107,6 +107,7 @@ export function academicModulePage(ctx, module, title, subtitle, groups = []) {
 export function academicModuleDetailPage(ctx, module, id) {
   const item = ctx.visibleAcademicLife().find((record) => record.module === module && record.id === id);
   if (!item) return emptyState('Record not found', 'This academic life record is unavailable for the selected role.');
+  if (module === 'teaching') return teachingDetailPage(ctx, item);
   return `${pageHeader(item.title, `${item.category} | ${item.sub_type}`)}
     ${printActionBar(`<a class="card-link" href="#/${routeName(module)}">Back</a>`)}
     <section class="detail printable">
@@ -142,8 +143,10 @@ function actionLink(label, href) {
 }
 
 function academicRecordForm(module, title, ctx) {
+  const actionLabel = module === 'teaching' ? 'Add Course' : 'Add local record';
+  const heading = module === 'teaching' ? 'Add Course' : `Add ${title} record`;
   return `<section class="panel">
-    <h3>Add ${escapeHtml(title)} record</h3>
+    <h3>${escapeHtml(heading)}</h3>
     <form class="record-form" data-academic-module="${escapeHtml(module)}">
       <input name="title" required placeholder="Title" />
       ${hasStructuredSubtype(module) ? '' : '<input name="sub_type" placeholder="Subtype" />'}
@@ -153,7 +156,7 @@ function academicRecordForm(module, title, ctx) {
       <input name="academic_year_current" placeholder="Academic year" value="2025-2026" />
       <select name="status">${statusOptions(module)}</select>
       <select name="priority"><option>low</option><option>medium</option><option>high</option></select>
-      <button>Add local record</button>
+      <button>${escapeHtml(actionLabel)}</button>
     </form>
   </section>`;
 }
@@ -245,4 +248,106 @@ function recordSummary(item) {
 
   if (!fields.length) return '<p class="muted">No additional record details are available.</p>';
   return `<div class="summary-grid">${fields.map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join('')}</div>`;
+}
+
+function teachingDetailPage(ctx, item) {
+  return `${pageHeader(item.title, 'Teaching | Course planner')}
+    ${printActionBar('<a class="card-link" href="#/teaching">Back</a>')}
+    <section class="detail printable">
+      <div class="metadata">${statusBadge(item.status)} ${statusBadge(item.priority)} ${item.carry_forward ? statusBadge('carry_forward') : ''}</div>
+      ${detailSection('Course details', courseSummary(item))}
+      ${ctx.canWrite() ? courseEditForm(item) : ''}
+      ${detailSection('Assessment structure', assessmentSummary(item))}
+      ${detailSection('Lecture, exam, and task plan', subtaskTimeline(item, { kind: 'academic', id: item.id, module: 'teaching' }))}
+      ${ctx.canWrite() ? courseItemEditForm(item) : ''}
+      ${detailSection('Append-only notes', notesPanel(ctx.maskNotes(item.notes || [])))}
+      ${detailSection('History', timelinePanel(item.history || []))}
+    </section>`;
+}
+
+function courseSummary(item) {
+  const fields = [
+    ['Course outline circulation', item.course_outline_circulation_date],
+    ['Course type', item.course_type],
+    ['Total hours', item.total_hours || item.hours],
+    ['Total lectures', item.total_lectures],
+    ['Lecture duration', item.lecture_duration],
+    ['Total marks', item.total_marks],
+    ['Academic year', item.academic_year_current],
+    ['Final deadline', item.final_deadline]
+  ].filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== '');
+  return `<div class="summary-grid">${fields.map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join('')}</div>`;
+}
+
+function assessmentSummary(item) {
+  const internal = item.internal_components || {};
+  const fields = [
+    ['Internal component marks', item.internal_component_marks],
+    ['Quiz-1', internal.quiz_1],
+    ['Quiz-2', internal.quiz_2],
+    ['Class participation', internal.class_participation],
+    ['Assignment(s)', internal.assignments],
+    ['Project(s)', internal.projects],
+    ['External component marks', item.external_component_marks]
+  ].filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== '');
+  return `<div class="summary-grid">${fields.map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join('')}</div>`;
+}
+
+function courseEditForm(item) {
+  const internal = item.internal_components || {};
+  return `<section class="append-panel">
+    <h4>Edit course details</h4>
+    <form class="record-form" data-update-course="${escapeHtml(item.id)}">
+      <input name="course_outline_circulation_date" type="date" value="${escapeHtml(item.course_outline_circulation_date || '')}" />
+      <select name="course_type">
+        ${['UG', 'PG', 'Ph.D.'].map((type) => `<option value="${escapeHtml(type)}" ${item.course_type === type ? 'selected' : ''}>${escapeHtml(type)}</option>`).join('')}
+      </select>
+      <input name="total_hours" placeholder="Total hours" value="${escapeHtml(item.total_hours || item.hours || '')}" />
+      <input name="total_lectures" type="number" min="1" placeholder="Total lectures" value="${escapeHtml(item.total_lectures || '')}" />
+      <input name="lecture_duration" placeholder="Lecture duration" value="${escapeHtml(item.lecture_duration || '')}" />
+      <input name="total_marks" type="number" min="0" placeholder="Total marks" value="${escapeHtml(item.total_marks || '')}" />
+      <input name="internal_component_marks" type="number" min="0" placeholder="Internal component marks" value="${escapeHtml(item.internal_component_marks || '')}" />
+      <input name="quiz_1" type="number" min="0" placeholder="Quiz-1 marks" value="${escapeHtml(internal.quiz_1 || '')}" />
+      <input name="quiz_2" type="number" min="0" placeholder="Quiz-2 marks" value="${escapeHtml(internal.quiz_2 || '')}" />
+      <input name="class_participation" type="number" min="0" placeholder="Class participation marks" value="${escapeHtml(internal.class_participation || '')}" />
+      <input name="assignments" type="number" min="0" placeholder="Assignment(s) marks" value="${escapeHtml(internal.assignments || '')}" />
+      <input name="projects" type="number" min="0" placeholder="Project(s) marks" value="${escapeHtml(internal.projects || '')}" />
+      <input name="external_component_marks" type="number" min="0" placeholder="External component marks" value="${escapeHtml(item.external_component_marks || '')}" />
+      <input name="note" placeholder="Append note for this course edit" />
+      <button>Update course details locally</button>
+    </form>
+  </section>`;
+}
+
+function courseItemEditForm(item) {
+  const subtasks = [...(item.subtasks || [])].sort((a, b) => Number(a.sequence_order || 0) - Number(b.sequence_order || 0));
+  return `<section class="append-panel">
+    <h4>Edit lecture / exam / inner task</h4>
+    <form class="record-form" data-update-course-item="${escapeHtml(item.id)}">
+      <select name="subtask_id">
+        <option value="">Add new lecture or task</option>
+        ${subtasks.map((subtask) => `<option value="${escapeHtml(subtask.id)}">${escapeHtml(subtask.sequence_order || '')}. ${escapeHtml(subtask.title)}</option>`).join('')}
+      </select>
+      <input name="title" required placeholder="Lecture, exam, or task title" />
+      <select name="subtask_type">
+        <option>lecture</option>
+        <option>course_outline</option>
+        <option>assignment</option>
+        <option>project</option>
+        <option>quiz</option>
+        <option>question_paper_setting</option>
+        <option>mid_term_exam</option>
+        <option>end_term_exam</option>
+        <option>answer_script_collection</option>
+        <option>evaluation</option>
+        <option>discipline_note</option>
+      </select>
+      <input name="due_datetime" type="datetime-local" />
+      <input name="completed_datetime" type="datetime-local" />
+      <select name="status"><option>pending</option><option>ongoing</option><option>completed</option><option>deferred</option><option>cancelled</option></select>
+      <input name="responsible_person" placeholder="Responsible person" />
+      <input name="notes" placeholder="Append-only note" />
+      <button>Update inner item locally</button>
+    </form>
+  </section>`;
 }

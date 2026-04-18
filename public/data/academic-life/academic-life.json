@@ -1,392 +1,1037 @@
 {
-    "schema":  "academic-lifecycle-manager.academic-life.v1",
-    "updated_at":  "2026-04-18T09:15:00.000Z",
-    "modules":  {
-                    "teaching":  [
-                                     {
-                                         "id":  "teach-ai-ml-2025",
-                                         "title":  "Artificial Intelligence and Machine Learning",
-                                         "category":  "teaching",
-                                         "sub_type":  "course",
-                                         "academic_year_start":  "2025-2026",
-                                         "academic_year_current":  "2025-2026",
-                                         "programme":  "B.Tech CSE",
-                                         "hours":  42,
-                                         "status":  "active",
-                                         "priority":  "medium",
-                                         "carry_forward":  true,
-                                         "notes":  [
-                                                       {
-                                                           "id":  "teach-note-1",
-                                                           "text":  "Mid-semester syllabus coverage reviewed.",
-                                                           "created_by":  "u-admin",
-                                                           "created_at":  "2026-04-12T10:00:00.000Z",
-                                                           "visibility":  "open"
-                                                       }
-                                                   ],
-                                         "feedback":  "Collect end-semester feedback after final lab review.",
-                                         "history":  [
-                                                         {
-                                                             "version":  1,
-                                                             "summary":  "Teaching record created",
-                                                             "updated_by":  "u-admin",
-                                                             "updated_at":  "2026-04-12T10:00:00.000Z"
-                                                         }
-                                                     ],
-                                         "created_by":  "u-admin",
-                                         "timestamps":  {
-                                                            "created_at":  "2026-04-12T10:00:00.000Z",
-                                                            "updated_at":  "2026-04-12T10:00:00.000Z"
-                                                        },
-                                         "visibility":  "open",
-                                         "final_deadline":  "2026-05-15",
-                                         "subtasks":  [
-                                                          {
-                                                              "id":  "sub-teach-plan",
-                                                              "parent_record_id":  "teach-ai-ml-2025",
-                                                              "title":  "Lecture and lab plan",
-                                                              "subtask_type":  "planning",
-                                                              "due_date":  "2026-04-20",
-                                                              "completed_date":  "2026-04-18",
-                                                              "status":  "completed",
-                                                              "responsible_person":  "Dr. Jitendra Kumar Verma",
-                                                              "notes":  [
-                                                                            {
-                                                                                "id":  "sub-teach-plan-note-1",
-                                                                                "text":  "Weekly teaching plan prepared.",
-                                                                                "created_by":  "u-admin",
-                                                                                "created_at":  "2026-04-17T12:00:00.000Z",
-                                                                                "visibility":  "open"
-                                                                            }
-                                                                        ],
-                                                              "history":  [
-                                                                              {
-                                                                                  "version":  1,
-                                                                                  "summary":  "Subtask created",
-                                                                                  "updated_by":  "u-admin",
-                                                                                  "updated_at":  "2026-04-17T12:00:00.000Z"
-                                                                              }
-                                                                          ],
-                                                              "sequence_order":  1
-                                                          },
-                                                          {
-                                                              "id":  "sub-teach-delivery",
-                                                              "parent_record_id":  "teach-ai-ml-2025",
-                                                              "title":  "Complete remaining lab delivery",
-                                                              "subtask_type":  "delivery",
-                                                              "due_date":  "2026-05-05",
-                                                              "completed_date":  "",
-                                                              "status":  "ongoing",
-                                                              "responsible_person":  "Dr. Jitendra Kumar Verma",
-                                                              "notes":  [
-                                                                            {
-                                                                                "id":  "sub-teach-delivery-note-1",
-                                                                                "text":  "Focus on model evaluation lab.",
-                                                                                "created_by":  "u-admin",
-                                                                                "created_at":  "2026-04-17T12:00:00.000Z",
-                                                                                "visibility":  "open"
-                                                                            }
-                                                                        ],
-                                                              "history":  [
-                                                                              {
-                                                                                  "version":  1,
-                                                                                  "summary":  "Subtask created",
-                                                                                  "updated_by":  "u-admin",
-                                                                                  "updated_at":  "2026-04-17T12:00:00.000Z"
-                                                                              }
-                                                                          ],
-                                                              "sequence_order":  2
-                                                          },
-                                                          {
-                                                              "id":  "sub-teach-feedback",
-                                                              "parent_record_id":  "teach-ai-ml-2025",
-                                                              "title":  "Collect student feedback",
-                                                              "subtask_type":  "feedback",
-                                                              "due_date":  "2026-05-15",
-                                                              "completed_date":  "",
-                                                              "status":  "pending",
-                                                              "responsible_person":  "Faculty Assistant",
-                                                              "notes":  [
-                                                                            {
-                                                                                "id":  "sub-teach-feedback-note-1",
-                                                                                "text":  "Prepare feedback form and summary sheet.",
-                                                                                "created_by":  "u-admin",
-                                                                                "created_at":  "2026-04-17T12:00:00.000Z",
-                                                                                "visibility":  "open"
-                                                                            }
-                                                                        ],
-                                                              "history":  [
-                                                                              {
-                                                                                  "version":  1,
-                                                                                  "summary":  "Subtask created",
-                                                                                  "updated_by":  "u-admin",
-                                                                                  "updated_at":  "2026-04-17T12:00:00.000Z"
-                                                                              }
-                                                                          ],
-                                                              "sequence_order":  3
-                                                          }
-                                                      ]
-                                     }
-                                 ],
-                    "admin_work":  [
-                                       {
-                                           "id":  "admin-naac-report-2025",
-                                           "title":  "NAAC departmental evidence report",
-                                           "category":  "academic_administration",
-                                           "sub_type":  "compliance_work",
-                                           "academic_year_start":  "2025-2026",
-                                           "academic_year_current":  "2025-2026",
-                                           "status":  "in_progress",
-                                           "priority":  "high",
-                                           "carry_forward":  true,
-                                           "notes":  [
-                                                         {
-                                                             "id":  "admin-note-1",
-                                                             "text":  "Assistant compiled first draft of research supervision evidence.",
-                                                             "created_by":  "u-assistant",
-                                                             "created_at":  "2026-04-16T15:00:00.000Z",
-                                                             "visibility":  "open"
-                                                         }
-                                                     ],
-                                           "responsibility":  "Department research documentation",
-                                           "history":  [
-                                                           {
-                                                               "version":  1,
-                                                               "summary":  "Admin work record created",
-                                                               "updated_by":  "u-assistant",
-                                                               "updated_at":  "2026-04-16T15:00:00.000Z"
-                                                           }
-                                                       ],
-                                           "created_by":  "u-assistant",
-                                           "timestamps":  {
-                                                              "created_at":  "2026-04-16T15:00:00.000Z",
-                                                              "updated_at":  "2026-04-16T15:00:00.000Z"
-                                                          },
-                                           "visibility":  "open",
-                                           "final_deadline":  "2026-05-30",
-                                           "subtasks":  [
-
-                                                        ]
-                                       }
-                                   ],
-                    "external_engagements":  [
-                                                 {
-                                                     "id":  "external-talk-ai-ethics-2025",
-                                                     "title":  "Invited talk on AI ethics",
-                                                     "category":  "external_engagements",
-                                                     "sub_type":  "invited_talk",
-                                                     "academic_year_start":  "2025-2026",
-                                                     "academic_year_current":  "2025-2026",
-                                                     "status":  "planned",
-                                                     "priority":  "medium",
-                                                     "carry_forward":  true,
-                                                     "organization":  "City College",
-                                                     "engagement_date":  "2026-05-08",
-                                                     "notes":  [
-                                                                   {
-                                                                       "id":  "external-note-1",
-                                                                       "text":  "Topic and abstract shared with host coordinator.",
-                                                                       "created_by":  "u-admin",
-                                                                       "created_at":  "2026-04-17T09:30:00.000Z",
-                                                                       "visibility":  "open"
-                                                                   }
-                                                               ],
-                                                     "history":  [
-                                                                     {
-                                                                         "version":  1,
-                                                                         "summary":  "External engagement created",
-                                                                         "updated_by":  "u-admin",
-                                                                         "updated_at":  "2026-04-17T09:30:00.000Z"
-                                                                     }
-                                                                 ],
-                                                     "created_by":  "u-admin",
-                                                     "timestamps":  {
-                                                                        "created_at":  "2026-04-17T09:30:00.000Z",
-                                                                        "updated_at":  "2026-04-17T09:30:00.000Z"
-                                                                    },
-                                                     "visibility":  "open",
-                                                     "final_deadline":  "2026-05-08",
-                                                     "subtasks":  [
-
-                                                                  ]
-                                                 }
-                                             ],
-                    "career_mobility":  [
-                                            {
-                                                "id":  "career-visiting-faculty-2026",
-                                                "title":  "Visiting faculty opportunity tracking",
-                                                "category":  "career_mobility",
-                                                "sub_type":  "visiting_faculty",
-                                                "opportunity_type":  "visiting_position",
-                                                "institution_name":  "Partner Management Institute",
-                                                "role_title":  "Visiting Faculty",
-                                                "place_city":  "Ahmedabad",
-                                                "place_country":  "India",
-                                                "academic_year_start":  "2025-2026",
-                                                "academic_year_current":  "2025-2026",
-                                                "application_deadline":  "2026-06-15",
-                                                "application_date":  "",
-                                                "status":  "planned",
-                                                "priority":  "medium",
-                                                "carry_forward":  true,
-                                                "notes":  [
-                                                              {
-                                                                  "created_at":  "2026-04-18T09:15:00.000Z",
-                                                                  "visibility":  "open",
-                                                                  "id":  "career-vf-note-1",
-                                                                  "text":  "Prepare profile, teaching areas, and availability before approaching the institute.",
-                                                                  "created_by":  "u-admin"
-                                                              }
-                                                          ],
-                                                "history":  [
-                                                                {
-                                                                    "summary":  "Career mobility record created",
-                                                                    "updated_by":  "u-admin",
-                                                                    "version":  1,
-                                                                    "updated_at":  "2026-04-18T09:15:00.000Z"
-                                                                }
-                                                            ],
-                                                "created_by":  "u-admin",
-                                                "timestamps":  {
-                                                                   "created_at":  "2026-04-18T09:15:00.000Z",
-                                                                   "updated_at":  "2026-04-18T09:15:00.000Z"
-                                                               },
-                                                "visibility":  "open",
-                                                "final_deadline":  "2026-06-15",
-                                                "subtasks":  [
-                                                                 {
-                                                                     "sequence_order":  1,
-                                                                     "responsible_person":  "Dr. Jitendra Kumar Verma",
-                                                                     "id":  "career-vf-profile",
-                                                                     "completed_date":  "",
-                                                                     "history":  [
-                                                                                     {
-                                                                                         "summary":  "Subtask created",
-                                                                                         "updated_by":  "u-admin",
-                                                                                         "version":  1,
-                                                                                         "updated_at":  "2026-04-18T09:15:00.000Z"
-                                                                                     }
-                                                                                 ],
-                                                                     "parent_record_id":  "career-visiting-faculty-2026",
-                                                                     "notes":  [
-
-                                                                               ],
-                                                                     "subtask_type":  "profile",
-                                                                     "status":  "pending",
-                                                                     "title":  "Update academic profile and course list",
-                                                                     "due_date":  "2026-05-20"
-                                                                 },
-                                                                 {
-                                                                     "sequence_order":  2,
-                                                                     "responsible_person":  "Dr. Jitendra Kumar Verma",
-                                                                     "id":  "career-vf-application",
-                                                                     "completed_date":  "",
-                                                                     "history":  [
-                                                                                     {
-                                                                                         "summary":  "Subtask created",
-                                                                                         "updated_by":  "u-admin",
-                                                                                         "version":  1,
-                                                                                         "updated_at":  "2026-04-18T09:15:00.000Z"
-                                                                                     }
-                                                                                 ],
-                                                                     "parent_record_id":  "career-visiting-faculty-2026",
-                                                                     "notes":  [
-
-                                                                               ],
-                                                                     "subtask_type":  "application",
-                                                                     "status":  "pending",
-                                                                     "title":  "Submit visiting faculty expression of interest",
-                                                                     "due_date":  "2026-06-15"
-                                                                 }
-                                                             ]
-                                            }
-                                        ],
-                    "subscriptions":  [
-                                          {
-                                              "id":  "sub-ieee-2026",
-                                              "title":  "IEEE professional membership renewal",
-                                              "category":  "subscription",
-                                              "sub_type":  "professional_membership",
-                                              "academic_year_start":  "2025-2026",
-                                              "academic_year_current":  "2025-2026",
-                                              "starting_date":  "2026-01-01",
-                                              "ending_date":  "2026-12-31",
-                                              "payment":  "Annual membership fee",
-                                              "payment_status":  "due",
-                                              "status":  "active",
-                                              "priority":  "medium",
-                                              "carry_forward":  true,
-                                              "notes":  [
-                                                            {
-                                                                "created_at":  "2026-04-18T09:00:00.000Z",
-                                                                "visibility":  "open",
-                                                                "id":  "sub-ieee-note-1",
-                                                                "text":  "Track renewal window, payment proof, and receipt upload.",
-                                                                "created_by":  "u-admin"
-                                                            }
-                                                        ],
-                                              "history":  [
-                                                              {
-                                                                  "summary":  "Subscription record created",
-                                                                  "updated_by":  "u-admin",
-                                                                  "version":  1,
-                                                                  "updated_at":  "2026-04-18T09:00:00.000Z"
-                                                              }
-                                                          ],
-                                              "created_by":  "u-admin",
-                                              "timestamps":  {
-                                                                 "created_at":  "2026-04-18T09:00:00.000Z",
-                                                                 "updated_at":  "2026-04-18T09:00:00.000Z"
-                                                             },
-                                              "visibility":  "open",
-                                              "final_deadline":  "2026-12-31",
-                                              "subtasks":  [
-                                                               {
-                                                                   "sequence_order":  1,
-                                                                   "responsible_person":  "Dr. Jitendra Kumar Verma",
-                                                                   "id":  "sub-ieee-payment",
-                                                                   "completed_date":  "",
-                                                                   "history":  [
-                                                                                   {
-                                                                                       "summary":  "Subtask created",
-                                                                                       "updated_by":  "u-admin",
-                                                                                       "version":  1,
-                                                                                       "updated_at":  "2026-04-18T09:00:00.000Z"
-                                                                                   }
-                                                                               ],
-                                                                   "parent_record_id":  "sub-ieee-2026",
-                                                                   "notes":  [
-
-                                                                             ],
-                                                                   "subtask_type":  "payment",
-                                                                   "status":  "pending",
-                                                                   "title":  "Complete subscription payment",
-                                                                   "due_date":  "2026-12-15"
-                                                               },
-                                                               {
-                                                                   "sequence_order":  2,
-                                                                   "responsible_person":  "Faculty Assistant",
-                                                                   "id":  "sub-ieee-receipt",
-                                                                   "completed_date":  "",
-                                                                   "history":  [
-                                                                                   {
-                                                                                       "summary":  "Subtask created",
-                                                                                       "updated_by":  "u-admin",
-                                                                                       "version":  1,
-                                                                                       "updated_at":  "2026-04-18T09:00:00.000Z"
-                                                                                   }
-                                                                               ],
-                                                                   "parent_record_id":  "sub-ieee-2026",
-                                                                   "notes":  [
-
-                                                                             ],
-                                                                   "subtask_type":  "documentation",
-                                                                   "status":  "pending",
-                                                                   "title":  "Archive receipt and membership proof",
-                                                                   "due_date":  "2026-12-31"
-                                                               }
-                                                           ]
-                                          }
-                                      ]
-                }
+  "schema": "academic-lifecycle-manager.academic-life.v1",
+  "updated_at": "2026-04-18T10:00:00.000Z",
+  "modules": {
+    "teaching": [
+      {
+        "id": "teach-ai-ml-2025",
+        "title": "Artificial Intelligence and Machine Learning",
+        "category": "teaching",
+        "sub_type": "course",
+        "academic_year_start": "2025-2026",
+        "academic_year_current": "2025-2026",
+        "programme": "B.Tech CSE",
+        "hours": 30,
+        "status": "active",
+        "priority": "medium",
+        "carry_forward": true,
+        "notes": [
+          {
+            "id": "teach-note-1",
+            "text": "Mid-semester syllabus coverage reviewed.",
+            "created_by": "u-admin",
+            "created_at": "2026-04-12T10:00:00.000Z",
+            "visibility": "open"
+          }
+        ],
+        "feedback": "Collect end-semester feedback after final lab review.",
+        "history": [
+          {
+            "version": 1,
+            "summary": "Teaching record created",
+            "updated_by": "u-admin",
+            "updated_at": "2026-04-12T10:00:00.000Z"
+          },
+          {
+            "version": 2,
+            "summary": "Teaching course plan expanded with course outline, marks, lectures, exams, and editable inner tasks",
+            "updated_by": "u-admin",
+            "updated_at": "2026-04-18T10:00:00.000Z"
+          }
+        ],
+        "created_by": "u-admin",
+        "timestamps": {
+          "created_at": "2026-04-12T10:00:00.000Z",
+          "updated_at": "2026-04-18T10:00:00.000Z"
+        },
+        "visibility": "open",
+        "final_deadline": "2026-05-15",
+        "subtasks": [
+          {
+            "id": "sub-teach-ai-ml-lecture-1",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-1: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "completed",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 1
+          },
+          {
+            "id": "sub-teach-ai-ml-lecture-2",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-2: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "completed",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 2
+          },
+          {
+            "id": "sub-teach-ai-ml-lecture-3",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-3: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "completed",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 3
+          },
+          {
+            "id": "sub-teach-ai-ml-lecture-4",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-4: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "ongoing",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 4
+          },
+          {
+            "id": "sub-teach-ai-ml-lecture-5",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-5: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "ongoing",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 5
+          },
+          {
+            "id": "sub-teach-ai-ml-lecture-6",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-6: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "ongoing",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 6
+          },
+          {
+            "id": "sub-teach-ai-ml-lecture-7",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-7: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "ongoing",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 7
+          },
+          {
+            "id": "sub-teach-ai-ml-assignment-1",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Assignment-1 questions",
+            "subtask_type": "assignment",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Course task item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 8
+          },
+          {
+            "id": "sub-teach-ai-ml-project-set-1",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Project title set-1 + sample report (Ranchoddas Shamaldas Chanchad Alias Rancho)",
+            "subtask_type": "project",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Course task item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 9
+          },
+          {
+            "id": "sub-teach-ai-ml-quiz-1-questions",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Quiz-1 questions",
+            "subtask_type": "quiz",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Course task item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 10
+          },
+          {
+            "id": "sub-teach-ai-ml-question-paper-ug",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Question paper setting if UG course",
+            "subtask_type": "question_paper_setting",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Course task item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 11
+          },
+          {
+            "id": "sub-teach-ai-ml-lecture-8",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-8: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 12
+          },
+          {
+            "id": "sub-teach-ai-ml-lecture-9",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-9: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 13
+          },
+          {
+            "id": "sub-teach-ai-ml-lecture-10",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-10: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 14
+          },
+          {
+            "id": "sub-teach-ai-ml-inclass-quiz-1",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Additional activity: in-class Quiz-1",
+            "subtask_type": "quiz",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Course task item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 15
+          },
+          {
+            "id": "sub-teach-ai-ml-midterm",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Mid Term Exam: held on date",
+            "subtask_type": "mid_term_exam",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Course task item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 16
+          },
+          {
+            "id": "sub-teach-ai-ml-midterm-collection",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Answer script collection: collection date",
+            "subtask_type": "answer_script_collection",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Course task item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 17
+          },
+          {
+            "id": "sub-teach-ai-ml-midterm-evaluation",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Evaluation: target completion and display date, maximum 20 days",
+            "subtask_type": "evaluation",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Course task item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 18
+          },
+          {
+            "id": "sub-teach-ai-ml-lecture-11",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-11: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 19
+          },
+          {
+            "id": "sub-teach-ai-ml-lecture-12",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-12: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 20
+          },
+          {
+            "id": "sub-teach-ai-ml-lecture-13",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-13: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 21
+          },
+          {
+            "id": "sub-teach-ai-ml-lecture-14",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-14: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 22
+          },
+          {
+            "id": "sub-teach-ai-ml-lecture-15",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-15: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 23
+          },
+          {
+            "id": "sub-teach-ai-ml-lecture-16",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-16: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 24
+          },
+          {
+            "id": "sub-teach-ai-ml-lecture-17",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-17: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 25
+          },
+          {
+            "id": "sub-teach-ai-ml-assignment-2",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Assignment-2 questions",
+            "subtask_type": "assignment",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Course task item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 26
+          },
+          {
+            "id": "sub-teach-ai-ml-project-set-2",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Project title set-2 + sample report (Chatur Ramalingam Alias Silencer)",
+            "subtask_type": "project",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Course task item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 27
+          },
+          {
+            "id": "sub-teach-ai-ml-quiz-2-questions",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Quiz-2 questions if needed paper + OMR based",
+            "subtask_type": "quiz",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Course task item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 28
+          },
+          {
+            "id": "sub-teach-ai-ml-question-paper",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Question paper setting",
+            "subtask_type": "question_paper_setting",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Course task item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 29
+          },
+          {
+            "id": "sub-teach-ai-ml-lecture-18",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-18: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 30
+          },
+          {
+            "id": "sub-teach-ai-ml-lecture-19",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-19: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 31
+          },
+          {
+            "id": "sub-teach-ai-ml-lecture-20",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Lecture-20: Lecture on pre-defined topics",
+            "subtask_type": "lecture",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Lecture item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 32
+          },
+          {
+            "id": "sub-teach-ai-ml-endterm",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "End-Term Exam: held on",
+            "subtask_type": "end_term_exam",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Course task item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 33
+          },
+          {
+            "id": "sub-teach-ai-ml-endterm-collection",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Answer script collection: collection date",
+            "subtask_type": "answer_script_collection",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Course task item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 34
+          },
+          {
+            "id": "sub-teach-ai-ml-endterm-evaluation",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Evaluation: target completion and display date, maximum 20 days",
+            "subtask_type": "evaluation",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Course task item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 35
+          },
+          {
+            "id": "sub-teach-ai-ml-batch-notes",
+            "parent_record_id": "teach-ai-ml-2025",
+            "title": "Append notes: exceptional students, undisciplined students, difficult question paper if majority batch is undisciplined",
+            "subtask_type": "discipline_note",
+            "due_date": "",
+            "completed_date": "",
+            "status": "pending",
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "notes": [],
+            "history": [
+              {
+                "version": 1,
+                "summary": "Course task item created for course plan",
+                "updated_by": "u-admin",
+                "updated_at": "2026-04-18T10:00:00.000Z"
+              }
+            ],
+            "sequence_order": 36
+          }
+        ],
+        "course_outline_circulation_date": "2026-04-20",
+        "course_type": "UG",
+        "total_hours": "30 Hours",
+        "total_lectures": 20,
+        "lecture_duration": "1.5 Hour",
+        "total_marks": 100,
+        "internal_component_marks": 50,
+        "external_component_marks": 50,
+        "internal_components": {
+          "quiz_1": 5,
+          "quiz_2": 5,
+          "class_participation": 5,
+          "assignments": 10,
+          "projects": 10
+        }
+      }
+    ],
+    "admin_work": [
+      {
+        "id": "admin-naac-report-2025",
+        "title": "NAAC departmental evidence report",
+        "category": "academic_administration",
+        "sub_type": "compliance_work",
+        "academic_year_start": "2025-2026",
+        "academic_year_current": "2025-2026",
+        "status": "in_progress",
+        "priority": "high",
+        "carry_forward": true,
+        "notes": [
+          {
+            "id": "admin-note-1",
+            "text": "Assistant compiled first draft of research supervision evidence.",
+            "created_by": "u-assistant",
+            "created_at": "2026-04-16T15:00:00.000Z",
+            "visibility": "open"
+          }
+        ],
+        "responsibility": "Department research documentation",
+        "history": [
+          {
+            "version": 1,
+            "summary": "Admin work record created",
+            "updated_by": "u-assistant",
+            "updated_at": "2026-04-16T15:00:00.000Z"
+          }
+        ],
+        "created_by": "u-assistant",
+        "timestamps": {
+          "created_at": "2026-04-16T15:00:00.000Z",
+          "updated_at": "2026-04-16T15:00:00.000Z"
+        },
+        "visibility": "open",
+        "final_deadline": "2026-05-30",
+        "subtasks": []
+      }
+    ],
+    "external_engagements": [
+      {
+        "id": "external-talk-ai-ethics-2025",
+        "title": "Invited talk on AI ethics",
+        "category": "external_engagements",
+        "sub_type": "invited_talk",
+        "academic_year_start": "2025-2026",
+        "academic_year_current": "2025-2026",
+        "status": "planned",
+        "priority": "medium",
+        "carry_forward": true,
+        "organization": "City College",
+        "engagement_date": "2026-05-08",
+        "notes": [
+          {
+            "id": "external-note-1",
+            "text": "Topic and abstract shared with host coordinator.",
+            "created_by": "u-admin",
+            "created_at": "2026-04-17T09:30:00.000Z",
+            "visibility": "open"
+          }
+        ],
+        "history": [
+          {
+            "version": 1,
+            "summary": "External engagement created",
+            "updated_by": "u-admin",
+            "updated_at": "2026-04-17T09:30:00.000Z"
+          }
+        ],
+        "created_by": "u-admin",
+        "timestamps": {
+          "created_at": "2026-04-17T09:30:00.000Z",
+          "updated_at": "2026-04-17T09:30:00.000Z"
+        },
+        "visibility": "open",
+        "final_deadline": "2026-05-08",
+        "subtasks": []
+      }
+    ],
+    "career_mobility": [
+      {
+        "id": "career-visiting-faculty-2026",
+        "title": "Visiting faculty opportunity tracking",
+        "category": "career_mobility",
+        "sub_type": "visiting_faculty",
+        "opportunity_type": "visiting_position",
+        "institution_name": "Partner Management Institute",
+        "role_title": "Visiting Faculty",
+        "place_city": "Ahmedabad",
+        "place_country": "India",
+        "academic_year_start": "2025-2026",
+        "academic_year_current": "2025-2026",
+        "application_deadline": "2026-06-15",
+        "application_date": "",
+        "status": "planned",
+        "priority": "medium",
+        "carry_forward": true,
+        "notes": [
+          {
+            "created_at": "2026-04-18T09:15:00.000Z",
+            "visibility": "open",
+            "id": "career-vf-note-1",
+            "text": "Prepare profile, teaching areas, and availability before approaching the institute.",
+            "created_by": "u-admin"
+          }
+        ],
+        "history": [
+          {
+            "summary": "Career mobility record created",
+            "updated_by": "u-admin",
+            "version": 1,
+            "updated_at": "2026-04-18T09:15:00.000Z"
+          }
+        ],
+        "created_by": "u-admin",
+        "timestamps": {
+          "created_at": "2026-04-18T09:15:00.000Z",
+          "updated_at": "2026-04-18T09:15:00.000Z"
+        },
+        "visibility": "open",
+        "final_deadline": "2026-06-15",
+        "subtasks": [
+          {
+            "sequence_order": 1,
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "id": "career-vf-profile",
+            "completed_date": "",
+            "history": [
+              {
+                "summary": "Subtask created",
+                "updated_by": "u-admin",
+                "version": 1,
+                "updated_at": "2026-04-18T09:15:00.000Z"
+              }
+            ],
+            "parent_record_id": "career-visiting-faculty-2026",
+            "notes": [],
+            "subtask_type": "profile",
+            "status": "pending",
+            "title": "Update academic profile and course list",
+            "due_date": "2026-05-20"
+          },
+          {
+            "sequence_order": 2,
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "id": "career-vf-application",
+            "completed_date": "",
+            "history": [
+              {
+                "summary": "Subtask created",
+                "updated_by": "u-admin",
+                "version": 1,
+                "updated_at": "2026-04-18T09:15:00.000Z"
+              }
+            ],
+            "parent_record_id": "career-visiting-faculty-2026",
+            "notes": [],
+            "subtask_type": "application",
+            "status": "pending",
+            "title": "Submit visiting faculty expression of interest",
+            "due_date": "2026-06-15"
+          }
+        ]
+      }
+    ],
+    "subscriptions": [
+      {
+        "id": "sub-ieee-2026",
+        "title": "IEEE professional membership renewal",
+        "category": "subscription",
+        "sub_type": "professional_membership",
+        "academic_year_start": "2025-2026",
+        "academic_year_current": "2025-2026",
+        "starting_date": "2026-01-01",
+        "ending_date": "2026-12-31",
+        "payment": "Annual membership fee",
+        "payment_status": "due",
+        "status": "active",
+        "priority": "medium",
+        "carry_forward": true,
+        "notes": [
+          {
+            "created_at": "2026-04-18T09:00:00.000Z",
+            "visibility": "open",
+            "id": "sub-ieee-note-1",
+            "text": "Track renewal window, payment proof, and receipt upload.",
+            "created_by": "u-admin"
+          }
+        ],
+        "history": [
+          {
+            "summary": "Subscription record created",
+            "updated_by": "u-admin",
+            "version": 1,
+            "updated_at": "2026-04-18T09:00:00.000Z"
+          }
+        ],
+        "created_by": "u-admin",
+        "timestamps": {
+          "created_at": "2026-04-18T09:00:00.000Z",
+          "updated_at": "2026-04-18T09:00:00.000Z"
+        },
+        "visibility": "open",
+        "final_deadline": "2026-12-31",
+        "subtasks": [
+          {
+            "sequence_order": 1,
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "id": "sub-ieee-payment",
+            "completed_date": "",
+            "history": [
+              {
+                "summary": "Subtask created",
+                "updated_by": "u-admin",
+                "version": 1,
+                "updated_at": "2026-04-18T09:00:00.000Z"
+              }
+            ],
+            "parent_record_id": "sub-ieee-2026",
+            "notes": [],
+            "subtask_type": "payment",
+            "status": "pending",
+            "title": "Complete subscription payment",
+            "due_date": "2026-12-15"
+          },
+          {
+            "sequence_order": 2,
+            "responsible_person": "Faculty Assistant",
+            "id": "sub-ieee-receipt",
+            "completed_date": "",
+            "history": [
+              {
+                "summary": "Subtask created",
+                "updated_by": "u-admin",
+                "version": 1,
+                "updated_at": "2026-04-18T09:00:00.000Z"
+              }
+            ],
+            "parent_record_id": "sub-ieee-2026",
+            "notes": [],
+            "subtask_type": "documentation",
+            "status": "pending",
+            "title": "Archive receipt and membership proof",
+            "due_date": "2026-12-31"
+          }
+        ]
+      }
+    ]
+  }
 }

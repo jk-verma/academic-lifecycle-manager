@@ -325,6 +325,20 @@ function bindEvents() {
     });
   });
 
+  document.querySelectorAll('[data-update-course]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      updateCourseDetails(form.dataset.updateCourse, new FormData(form));
+    });
+  });
+
+  document.querySelectorAll('[data-update-course-item]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      updateCourseItem(form.dataset.updateCourseItem, new FormData(form));
+    });
+  });
+
   const candidateForm = document.getElementById('candidate-form');
   if (candidateForm) candidateForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -641,12 +655,138 @@ function addAcademicLifeRecord(module, formData) {
     timestamps: { created_at: nowIso(), updated_at: nowIso() },
     visibility: 'open'
   };
+  if (module === 'teaching') {
+    applyCourseFields(record, formData);
+    record.subtasks = defaultCourseSubtasks(record.id);
+  }
   ['institution_name', 'role_title', 'opportunity_type', 'employment_basis', 'place_city', 'place_country', 'application_deadline', 'application_date', 'starting_date', 'ending_date', 'payment', 'payment_status'].forEach((field) => {
     if (formData.has(field) && formData.get(field)) record[field] = formData.get(field);
   });
   store.academicLife.modules[module].unshift(record);
   error = 'Academic life record added locally. Export JSON to commit it.';
   render();
+}
+
+function updateCourseDetails(id, formData) {
+  if (!canWrite(store, role)) return;
+  const course = store.academicLife.modules.teaching?.find((item) => item.id === id);
+  if (!course) return;
+  applyCourseFields(course, formData);
+  const actor = `local-${role.toLowerCase()}`;
+  course.updated_by = actor;
+  course.timestamps = { ...(course.timestamps || {}), updated_at: nowIso() };
+  course.history = course.history || [];
+  course.history.push({ version: course.history.length + 1, summary: 'Course details updated locally', updated_by: actor, updated_at: nowIso() });
+  const note = formData.get('note');
+  if (note) {
+    course.notes = course.notes || [];
+    course.notes.push({ id: uid('note'), text: note, created_by: actor, created_at: nowIso(), visibility: 'open' });
+  }
+  error = 'Course details updated locally. Export JSON to commit it.';
+  render();
+}
+
+function updateCourseItem(id, formData) {
+  if (!canWrite(store, role)) return;
+  const course = store.academicLife.modules.teaching?.find((item) => item.id === id);
+  if (!course) return;
+  course.subtasks = course.subtasks || [];
+  const actor = `local-${role.toLowerCase()}`;
+  const subtaskId = formData.get('subtask_id');
+  let subtask = course.subtasks.find((item) => item.id === subtaskId);
+  const created = !subtask;
+  if (!subtask) {
+    subtask = { id: uid('course-item'), parent_record_id: course.id, sequence_order: course.subtasks.length + 1, notes: [], history: [] };
+    course.subtasks.push(subtask);
+  }
+  subtask.title = formData.get('title');
+  subtask.subtask_type = formData.get('subtask_type');
+  subtask.due_datetime = formData.get('due_datetime');
+  subtask.due_date = subtask.due_datetime ? subtask.due_datetime.slice(0, 10) : subtask.due_date || '';
+  subtask.completed_datetime = formData.get('completed_datetime');
+  subtask.completed_date = subtask.completed_datetime ? subtask.completed_datetime.slice(0, 10) : subtask.completed_date || '';
+  subtask.status = formData.get('status');
+  subtask.responsible_person = formData.get('responsible_person') || subtask.responsible_person || 'Dr. Jitendra Kumar Verma';
+  const note = formData.get('notes');
+  if (note) {
+    subtask.notes = subtask.notes || [];
+    subtask.notes.push({ id: uid('note'), text: note, created_by: actor, created_at: nowIso(), visibility: 'open' });
+  }
+  subtask.history = subtask.history || [];
+  subtask.history.push({ version: subtask.history.length + 1, summary: created ? 'Course inner item created locally' : 'Course inner item updated locally', updated_by: actor, updated_at: nowIso() });
+  course.history = course.history || [];
+  course.history.push({ version: course.history.length + 1, summary: `Course item updated: ${subtask.title}`, updated_by: actor, updated_at: nowIso() });
+  course.updated_by = actor;
+  course.timestamps = { ...(course.timestamps || {}), updated_at: nowIso() };
+  error = 'Course lecture/task item updated locally. Export JSON to commit it.';
+  render();
+}
+
+function applyCourseFields(course, formData) {
+  course.course_outline_circulation_date = formData.get('course_outline_circulation_date') || course.course_outline_circulation_date || '';
+  course.course_type = formData.get('course_type') || course.course_type || 'UG';
+  course.total_hours = formData.get('total_hours') || course.total_hours || course.hours || '30 Hours';
+  course.hours = Number.parseFloat(String(course.total_hours).replace(/[^\d.]/g, '')) || course.hours || 30;
+  course.total_lectures = Number(formData.get('total_lectures') || course.total_lectures || 20);
+  course.lecture_duration = formData.get('lecture_duration') || course.lecture_duration || '1.5 Hour';
+  course.total_marks = Number(formData.get('total_marks') || course.total_marks || 100);
+  course.internal_component_marks = Number(formData.get('internal_component_marks') || course.internal_component_marks || 50);
+  course.external_component_marks = Number(formData.get('external_component_marks') || course.external_component_marks || 50);
+  course.internal_components = {
+    quiz_1: Number(formData.get('quiz_1') || course.internal_components?.quiz_1 || 5),
+    quiz_2: Number(formData.get('quiz_2') || course.internal_components?.quiz_2 || 5),
+    class_participation: Number(formData.get('class_participation') || course.internal_components?.class_participation || 5),
+    assignments: Number(formData.get('assignments') || course.internal_components?.assignments || 10),
+    projects: Number(formData.get('projects') || course.internal_components?.projects || 10)
+  };
+}
+
+function defaultCourseSubtasks(parentId) {
+  const now = nowIso();
+  const base = Array.from({ length: 20 }, (_, index) => ({
+    id: `sub-${parentId}-lecture-${index + 1}`,
+    parent_record_id: parentId,
+    title: `Lecture-${index + 1}: Lecture on pre-defined topics`,
+    subtask_type: 'lecture',
+    due_date: '',
+    completed_date: '',
+    status: 'pending',
+    responsible_person: 'Dr. Jitendra Kumar Verma',
+    notes: [],
+    history: [{ version: 1, summary: 'Course lecture item created', updated_by: 'local-admin', updated_at: now }],
+    sequence_order: index + 1
+  }));
+  const inserts = [
+    [7.1, 'Assignment-1 questions', 'assignment'],
+    [7.2, 'Project title set-1 + sample report (Ranchoddas Shamaldas Chanchad Alias Rancho)', 'project'],
+    [7.3, 'Quiz-1 questions', 'quiz'],
+    [7.4, 'Question paper setting if UG course', 'question_paper_setting'],
+    [10.1, 'In-class Quiz-1', 'quiz'],
+    [10.2, 'Mid Term Exam: held on date', 'mid_term_exam'],
+    [10.3, 'Answer script collection: collection date', 'answer_script_collection'],
+    [10.4, 'Evaluation target completion and display date', 'evaluation'],
+    [17.1, 'Assignment-2 questions', 'assignment'],
+    [17.2, 'Project title set-2 + sample report (Chatur Ramalingam Alias Silencer)', 'project'],
+    [17.3, 'Quiz-2 questions if needed paper + OMR based', 'quiz'],
+    [17.4, 'Question paper setting', 'question_paper_setting'],
+    [20.1, 'End-Term Exam: held on date', 'end_term_exam'],
+    [20.2, 'Answer script collection: collection date', 'answer_script_collection'],
+    [20.3, 'Evaluation target completion and display date', 'evaluation'],
+    [20.4, 'Append notes: exceptional students, undisciplined students, difficult question paper if needed', 'discipline_note']
+  ].map(([order, title, type]) => ({
+    id: `sub-${parentId}-${String(order).replace('.', '-')}`,
+    parent_record_id: parentId,
+    title,
+    subtask_type: type,
+    due_date: '',
+    completed_date: '',
+    status: 'pending',
+    responsible_person: 'Dr. Jitendra Kumar Verma',
+    notes: [],
+    history: [{ version: 1, summary: 'Course task item created', updated_by: 'local-admin', updated_at: now }],
+    sequence_order: order
+  }));
+  return [...base, ...inserts].sort((a, b) => Number(a.sequence_order) - Number(b.sequence_order)).map((item, index) => ({ ...item, sequence_order: index + 1 }));
 }
 
 function phaseTemplate(programmeType) {
