@@ -325,6 +325,15 @@ function bindEvents() {
     button.addEventListener('click', () => prepareTeachingCourseForm());
   });
 
+  document.querySelectorAll('[data-reset-teaching-filters]').forEach((button) => {
+    button.addEventListener('click', () => {
+      delete filters.teachingCampus;
+      delete filters.teachingCourseType;
+      delete filters.teachingYear;
+      render();
+    });
+  });
+
   document.querySelectorAll('[data-copy-json]').forEach((button) => {
     button.addEventListener('click', () => copyJsonSection(button.dataset.copyJson));
   });

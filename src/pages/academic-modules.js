@@ -18,8 +18,8 @@ export function researchPage(ctx) {
 export function teachingPage(ctx) {
   const allItems = ctx.visibleAcademicLife().filter((item) => item.module === 'teaching');
   const selectedYear = ctx.filters.teachingYear || currentAcademicYear();
-  const selectedCampus = ctx.filters.teachingCampus || '';
-  const selectedCourseType = ctx.filters.teachingCourseType || '';
+  const selectedCampus = teachingCampusOptions(allItems).includes(ctx.filters.teachingCampus) ? ctx.filters.teachingCampus : '';
+  const selectedCourseType = teachingCourseTypeOptions(allItems).includes(ctx.filters.teachingCourseType) ? ctx.filters.teachingCourseType : '';
   const filteredItems = allItems
     .filter((item) => !selectedCampus || (item.campus || '') === selectedCampus)
     .filter((item) => !selectedCourseType || (item.course_type || '') === selectedCourseType);
@@ -248,6 +248,7 @@ function teachingRibbon(ctx, records = [], selectedYear = currentAcademicYear(),
           <label class="ribbon-filter"><span>Academic Year</span>${teachingYearSelect(records, selectedYear)}</label>
           <label class="ribbon-filter"><span>Campus Wise Teaching</span>${teachingCampusSelect(records, selectedCampus)}</label>
           <label class="ribbon-filter"><span>Course Type Wise Teaching</span>${teachingCourseTypeSelect(records, selectedCourseType)}</label>
+          <button class="secondary" data-reset-teaching-filters="true">Reset Filters</button>
           ${ctx.canWrite() ? '<button data-new-course="true">Add Course</button>' : ''}
           <button class="secondary" data-copy-json="teaching">Copy JSON</button>
           <a class="button-link" href="https://github.com/jk-verma/academic-lifecycle-manager/edit/main/public/data/teaching/teaching.json" target="_blank" rel="noreferrer">Open GitHub Editor</a>
@@ -352,13 +353,21 @@ function teachingYearSelect(records = [], selected = currentAcademicYear()) {
 }
 
 function teachingCampusSelect(records = [], selected = '') {
-  const campuses = [...new Set(records.map((item) => item.campus).filter(Boolean))].sort();
+  const campuses = teachingCampusOptions(records);
   return `<select id="filter-teachingCampus"><option value="">All campuses</option>${campuses.map((campus) => `<option value="${escapeHtml(campus)}" ${selected === campus ? 'selected' : ''}>${escapeHtml(campus)}</option>`).join('')}</select>`;
 }
 
 function teachingCourseTypeSelect(records = [], selected = '') {
-  const types = [...new Set([...courseTypes(), ...records.map((item) => item.course_type).filter(Boolean)])];
+  const types = teachingCourseTypeOptions(records);
   return `<select id="filter-teachingCourseType"><option value="">All course types</option>${types.map((type) => `<option value="${escapeHtml(type)}" ${selected === type ? 'selected' : ''}>${escapeHtml(type)}</option>`).join('')}</select>`;
+}
+
+function teachingCampusOptions(records = []) {
+  return [...new Set(records.map((item) => item.campus).filter(Boolean))].sort();
+}
+
+function teachingCourseTypeOptions(records = []) {
+  return [...new Set(records.map((item) => item.course_type).filter(Boolean))].sort();
 }
 
 function sortTeachingItems(items = []) {
