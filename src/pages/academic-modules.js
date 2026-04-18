@@ -291,9 +291,8 @@ function teachingDetailPage(ctx, item) {
   return `${pageHeader(item.title, 'Teaching | Course planner')}
     ${printActionBar('<a class="card-link" href="#/teaching">Back</a>')}
     <section class="detail printable">
-      <div class="metadata">${statusBadge(item.status)} ${statusBadge(item.priority)}</div>
-      ${detailSection('Course details', `${courseSummary(item)}${ctx.canWrite() ? `<button class="secondary compact" data-toggle-panel="course-edit-${escapeHtml(item.id)}">Edit</button>` : ''}`)}
-      ${ctx.canWrite() ? courseEditForm(item) : ''}
+      <div class="metadata">${statusBadge(item.status)}</div>
+      ${detailSection('Course details', courseSummary(item))}
       ${detailSection('Assessment structure', assessmentSummary(item))}
       ${detailSection('Course plan', subtaskTimeline(item, { kind: 'academic', id: item.id, module: 'teaching' }))}
       ${ctx.canWrite() ? coursePlanAddForm(item) : ''}
@@ -315,7 +314,7 @@ function courseSummary(item) {
     ['Academic year', item.academic_year_current],
     ['Feedback score', item.feedback_score]
   ].filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== '');
-  return `<div class="inline-summary">${fields.map(([label, value]) => `<span><strong>${escapeHtml(label)}:</strong> ${escapeHtml(value)}</span>`).join('')}</div>`;
+  return `<div class="summary-grid">${fields.map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join('')}</div>`;
 }
 
 function assessmentSummary(item) {
@@ -334,29 +333,6 @@ function assessmentSummary(item) {
     ['External Marks', item.external_component_marks]
   ].filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== '');
   return `<div class="summary-grid">${fields.map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join('')}</div>`;
-}
-
-function courseEditForm(item) {
-  return `<section class="append-panel collapsible-panel" id="course-edit-${escapeHtml(item.id)}" hidden>
-    <h4>Edit course details</h4>
-    <form class="record-form" data-update-course="${escapeHtml(item.id)}">
-      <input name="title" required placeholder="Course Title" value="${escapeHtml(item.title || '')}" />
-      ${courseTypeSelect(item.course_type)}
-      <input name="total_participants" type="number" min="0" placeholder="Total Participants" value="${escapeHtml(item.total_participants || '')}" />
-      <input name="total_hours" placeholder="Total Hours" value="${escapeHtml(item.total_hours || item.hours || '')}" />
-      <input name="lecture_duration" type="number" min="0.1" step="0.1" placeholder="Lecture Hour" value="${escapeHtml(item.lecture_duration || '')}" />
-      <input name="total_lectures" type="number" min="1" placeholder="Total lectures" value="${escapeHtml(item.total_lectures || '')}" readonly />
-      <textarea name="assessment_components" placeholder="Assessment components, one per line">${escapeHtml(assessmentLines(item))}</textarea>
-      <input name="internal_component_marks" type="number" min="0" placeholder="Internal marks" value="${escapeHtml(item.internal_component_marks || '')}" readonly />
-      <input name="external_component_marks" type="number" min="0" placeholder="External Marks" value="${escapeHtml(item.external_component_marks || '')}" />
-      <input name="total_marks" type="number" min="0" placeholder="Total marks" value="${escapeHtml(item.total_marks || '')}" readonly />
-      <input name="course_start_date" type="date" value="${escapeHtml(item.course_start_date || '')}" />
-      <input name="course_end_date" type="date" value="${escapeHtml(item.course_end_date || '')}" />
-      ${academicYearSelect(item.academic_year_current)}
-      <input name="feedback_score" placeholder="Feedback Score" value="${escapeHtml(item.feedback_score || '')}" />
-      <button>Update Course</button>
-    </form>
-  </section>`;
 }
 
 function courseFields() {
