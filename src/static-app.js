@@ -112,6 +112,13 @@ function cardActions(kind, id, module = '') {
     <button class="secondary compact danger-action" data-archive-kind="${escapeHtml(kind)}" data-archive-id="${escapeHtml(id)}" data-archive-module="${escapeHtml(module)}">Delete</button>`;
 }
 
+function dataTools(section, editorPath) {
+  return `<div class="data-tools action-bar">
+    <button class="secondary" data-copy-json="${escapeHtml(section)}">Copy JSON</button>
+    <a class="button-link" href="https://github.com/jk-verma/academic-lifecycle-manager/edit/main/${escapeHtml(editorPath)}" target="_blank" rel="noreferrer">Open GitHub Editor</a>
+  </div>`;
+}
+
 function ctx() {
   return {
     store,
@@ -132,6 +139,7 @@ function ctx() {
     canArchive: () => canArchive(store, role),
     archiveRecord,
     cardActions,
+    dataTools,
     renderFilters,
     appendNoteForm,
     subtaskForm

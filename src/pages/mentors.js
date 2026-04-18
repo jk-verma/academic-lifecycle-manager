@@ -1,10 +1,13 @@
 import { detailSection, emptyState, notesPanel, pageHeader, printActionBar, recordCard, statusBadge, timelinePanel, visibilityBadge } from '../components/ui.js';
 import { mentorGroups, optionList } from '../data/structure.js';
 import { escapeHtml, slugLabel } from '../utils/html.js';
+import { structuredFilter } from '../utils/search.js';
 
 export function mentorsPage(ctx) {
-  const mentors = ctx.visibleMentors();
+  const mentors = structuredFilter(ctx.visibleMentors(), { ...ctx.filters, module: '' });
   return `${pageHeader('Mentors', 'Senior students, junior faculty members, and external collaborators who guide selected students.')}
+    ${ctx.renderFilters()}
+    ${ctx.canWrite() ? ctx.dataTools('mentors', 'public/data/mentors/mentors.json') : ''}
     <div class="structure-grid">${mentorGroups.map((group) => `<section class="structure-panel"><h3>${escapeHtml(group.title)}</h3><div class="chip-list">${group.items.map(([, label]) => `<span class="chip">${escapeHtml(label)}</span>`).join('')}</div></section>`).join('')}</div>
     ${ctx.canWrite() ? mentorForm(ctx) : '<p class="notice">Adding mentors is currently unavailable in this view.</p>'}
     <div class="grid">${mentors.map((mentor) => recordCard({

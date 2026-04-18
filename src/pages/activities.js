@@ -4,9 +4,10 @@ import { escapeHtml } from '../utils/html.js';
 import { structuredFilter } from '../utils/search.js';
 
 export function activitiesPage(ctx) {
-  const activities = structuredFilter(ctx.visibleActivities(), ctx.filters);
+  const activities = structuredFilter(ctx.visibleActivities(), { ...ctx.filters, module: '' });
   return `${pageHeader('Daily Planner', 'Daily teaching, research, and academic administration activity logs.')}
     ${ctx.renderFilters()}
+    ${ctx.canWrite() ? ctx.dataTools('activities', 'public/data/daily-activities/daily-activities.json') : ''}
     ${ctx.canWrite() ? activityForm(ctx) : '<p class="notice">Daily activity writing is currently unavailable in this view.</p>'}
     <div class="grid">${activities.map((activity) => recordCard({
       title: activity.title,

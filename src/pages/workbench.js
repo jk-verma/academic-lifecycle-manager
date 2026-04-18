@@ -24,9 +24,10 @@ export function workbenchHomePage(ctx) {
 }
 
 export function workbenchModulePage(ctx, module) {
-  const items = structuredFilter(ctx.visibleWorkbench().filter((item) => item.module === module), ctx.filters);
+  const items = structuredFilter(ctx.visibleWorkbench().filter((item) => item.module === module), { ...ctx.filters, module: '' });
   return `${pageHeader(moduleLabels[module] || slugLabel(module), 'Filtered module list with status and detail drill-down.')}
     ${ctx.renderFilters({ moduleLocked: module })}
+    ${ctx.canWrite() ? ctx.dataTools(dataSectionForModule(module), dataPathForModule(module)) : ''}
     ${ctx.canWrite() ? workbenchRecordForm(module, moduleLabels[module] || slugLabel(module), ctx) : '<p class="notice">Adding records is currently unavailable in this view.</p>'}
     <div class="grid">${items.map((item) => recordCard({
       title: item.title,
@@ -50,6 +51,18 @@ export function workbenchDetailPage(ctx, module, id) {
       ${detailSection('Activity / sub-activity timeline', subtaskTimeline(item, { kind: 'workbench', id: item.id, module }))}
       ${projectBody}
     </section>`;
+}
+
+function dataSectionForModule(module) {
+  if (['journal_articles', 'authored_books', 'edited_books', 'book_chapters', 'conference_papers'].includes(module)) return 'publications';
+  if (['projects', 'consultancy'].includes(module)) return 'projects';
+  return 'miscellaneous';
+}
+
+function dataPathForModule(module) {
+  if (['journal_articles', 'authored_books', 'edited_books', 'book_chapters', 'conference_papers'].includes(module)) return 'public/data/publications/publications.json';
+  if (['projects', 'consultancy'].includes(module)) return 'public/data/projects/projects.json';
+  return 'public/data/miscellaneous/miscellaneous.json';
 }
 
 function backLabelForModule(module) {

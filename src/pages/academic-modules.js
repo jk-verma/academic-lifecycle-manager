@@ -3,6 +3,7 @@ import { administrationGroups, careerGroups, mentorGroups, optionList, projectGr
 import { academicYearForDate } from '../utils/academic-year.js';
 import { isOverdue } from '../utils/date.js';
 import { escapeHtml, slugLabel } from '../utils/html.js';
+import { structuredFilter } from '../utils/search.js';
 
 const researchModules = ['journal_articles', 'conference_papers', 'authored_books', 'edited_books', 'book_chapters'];
 const projectModules = ['projects', 'consultancy'];
@@ -77,6 +78,8 @@ export function miscellaneousPage(ctx) {
   const career = ctx.visibleAcademicLife().filter((item) => item.module === 'career_mobility');
   const subscriptions = ctx.visibleAcademicLife().filter((item) => item.module === 'subscriptions');
   return `${pageHeader('Miscellaneous', 'Career mobility and subscriptions in one place.')}
+    ${ctx.renderFilters()}
+    ${ctx.canWrite() ? ctx.dataTools('miscellaneous', 'public/data/miscellaneous/miscellaneous.json') : ''}
     <div class="grid comfort-grid misc-grid">
       <section class="panel">
         <h3>Career Mobility</h3>
@@ -106,9 +109,11 @@ export function miscellaneousPage(ctx) {
 }
 
 export function academicModulePage(ctx, module, title, subtitle, groups = []) {
-  const items = ctx.visibleAcademicLife().filter((item) => item.module === module);
+  const items = structuredFilter(ctx.visibleAcademicLife().filter((item) => item.module === module), { ...ctx.filters, module: '' });
   const form = ctx.canWrite() ? academicRecordForm(module, title, ctx) : '<p class="notice">Local data entry is currently unavailable in this view.</p>';
   return `${pageHeader(title, subtitle)}
+    ${ctx.renderFilters({ moduleLocked: module })}
+    ${ctx.canWrite() ? ctx.dataTools(dataSectionForAcademicModule(module), dataPathForAcademicModule(module)) : ''}
     ${groups.length ? structureOverview(groups) : ''}
     ${form}
     <div class="grid">${items.map((item) => recordCard({
@@ -360,6 +365,20 @@ function teachingCampusSelect(records = [], selected = '') {
 function teachingCourseTypeSelect(records = [], selected = '') {
   const types = teachingCourseTypeOptions(records);
   return `<select id="filter-teachingCourseType"><option value="">All Course Types</option>${types.map((type) => `<option value="${escapeHtml(type)}" ${selected === type ? 'selected' : ''}>${escapeHtml(type)}</option>`).join('')}</select>`;
+}
+
+function dataSectionForAcademicModule(module) {
+  if (module === 'admin_work') return 'administration';
+  if (module === 'career_mobility') return 'careerMobility';
+  if (module === 'subscriptions') return 'miscellaneous';
+  return 'miscellaneous';
+}
+
+function dataPathForAcademicModule(module) {
+  if (module === 'admin_work') return 'public/data/administration/administration.json';
+  if (module === 'career_mobility') return 'public/data/career-mobility/career-mobility.json';
+  if (module === 'subscriptions') return 'public/data/miscellaneous/miscellaneous.json';
+  return 'public/data/miscellaneous/miscellaneous.json';
 }
 
 function teachingCampusOptions(records = []) {

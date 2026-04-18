@@ -10,7 +10,7 @@ export function calendarPage(ctx) {
     ...ctx.visibleAcademicLife(),
     ...ctx.visibleCandidates()
   ]);
-  const items = structuredFilter([...calendarRecords, ...derivedSubtasks], ctx.filters).sort((a, b) => a.due_date.localeCompare(b.due_date));
+  const items = structuredFilter([...calendarRecords, ...derivedSubtasks], { ...ctx.filters, module: '' }).sort((a, b) => a.due_date.localeCompare(b.due_date));
   const today = todayIso();
   const plus7 = offsetDate(7);
   const plus30 = offsetDate(30);
@@ -19,6 +19,7 @@ export function calendarPage(ctx) {
   const upcoming30 = items.filter((item) => item.due_date >= today && item.due_date <= plus30);
   return `${pageHeader('Deadline Calendar', 'Monthly, weekly, overdue, and upcoming deadline management.')}
     ${ctx.renderFilters()}
+    ${ctx.canWrite() ? ctx.dataTools('calendar', 'public/data/calendar/calendar.json') : ''}
     ${ctx.canWrite() ? calendarForm(ctx) : '<p class="notice">Calendar writing is currently unavailable in this view.</p>'}
     <div class="grid comfort-grid calendar-grid">
       ${calendarSection('Overdue', overdue)}

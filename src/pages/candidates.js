@@ -1,6 +1,7 @@
 import { detailSection, emptyState, notesPanel, pageHeader, printActionBar, recordCard, statusBadge, subtaskTimeline, taskProgress, taskSummary, timelinePanel, visibilityBadge } from '../components/ui.js';
 import { isOverdue } from '../utils/date.js';
 import { escapeHtml } from '../utils/html.js';
+import { structuredFilter } from '../utils/search.js';
 
 const templates = {
   Masters: ['Synopsis', 'Interim Report', 'Final Report'],
@@ -9,8 +10,10 @@ const templates = {
 };
 
 export function candidatesListPage(ctx) {
-  const candidates = ctx.visibleCandidates();
+  const candidates = structuredFilter(ctx.visibleCandidates(), { ...ctx.filters, module: '' });
   return `${pageHeader('Candidates', 'Research supervision workspaces by programme and phase.')}
+    ${ctx.renderFilters()}
+    ${ctx.canWrite() ? ctx.dataTools('supervision', 'public/data/supervision/supervision.json') : ''}
     ${ctx.canWrite() ? candidateForm(ctx) : '<p class="notice">Adding candidates is currently unavailable in this view.</p>'}
     <div class="grid">${candidates.map((candidate) => recordCard({
       title: candidate.name,
