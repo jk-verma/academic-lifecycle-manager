@@ -33,15 +33,16 @@ export function detailSection(title, body) {
   return `<section class="detail-section"><h4>${escapeHtml(title)}</h4>${body}</section>`;
 }
 
-export function recordCard({ title, meta, body, badges = '', href = '', actions = '' }) {
+export function recordCard({ title, meta, metaHtml = '', body, bodyHtml = '', badges = '', href = '', actions = '', inlineEditor = '', className = '' }) {
   const open = href ? `<a class="card-link" href="${escapeHtml(href)}">Open</a>` : '';
   const actionRow = [open, actions].filter(Boolean).join('');
-  return `<article class="card">
+  return `<article class="card ${escapeHtml(className)}">
     <div class="card-head"><div>${badges}</div></div>
     <h3>${escapeHtml(title)}</h3>
-    ${meta ? `<p class="muted">${escapeHtml(meta)}</p>` : ''}
-    ${body ? `<p>${escapeHtml(body)}</p>` : ''}
+    ${metaHtml || (meta ? `<p class="muted">${escapeHtml(meta)}</p>` : '')}
+    ${bodyHtml || (body ? `<p>${escapeHtml(body)}</p>` : '')}
     ${actionRow ? `<div class="card-actions">${actionRow}</div>` : ''}
+    ${inlineEditor || ''}
   </article>`;
 }
 

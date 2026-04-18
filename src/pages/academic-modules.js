@@ -17,16 +17,18 @@ export function researchPage(ctx) {
 export function teachingPage(ctx) {
   const items = ctx.visibleAcademicLife().filter((item) => item.module === 'teaching');
   const form = ctx.canWrite() ? academicRecordForm('teaching', 'Teaching', ctx, { hidden: true }) : '<p class="notice">Local data entry is currently unavailable in this view.</p>';
-  return `${pageHeader('Teaching', 'Direct teaching: course outlines, lectures, quizzes, examinations, invigilation, and evaluation.')}
+  return `${pageHeader('Teaching', 'Manage course plans, activities, assessments, and teaching deadlines.')}
     ${teachingRibbon(ctx)}
     ${form}
     <div class="grid">${items.map((item) => recordCard({
       title: item.title,
-      meta: teachingCardMeta(item),
-      body: `Feedback Score: ${item.feedback_score || 'not set'}`,
-      badges: `${statusBadge(courseDateStatus(item))} ${visibilityBadge(item.visibility)}`,
+      metaHtml: teachingCardMeta(item),
+      bodyHtml: teachingCardBody(item),
+      badges: statusBadge(courseDateStatus(item)),
       href: `#/teaching/${item.id}`,
-      actions: ctx.cardActions('academic', item.id, 'teaching')
+      actions: ctx.cardActions('academic', item.id, 'teaching'),
+      inlineEditor: ctx.canWrite() ? teachingInlineEditor(item) : '',
+      className: 'teaching-card'
     })).join('') || emptyState('No records', 'No teaching records are available yet.')}</div>`;
 }
 
@@ -155,7 +157,7 @@ function actionLink(label, href) {
 }
 
 function academicRecordForm(module, title, ctx, options = {}) {
-  const actionLabel = module === 'teaching' ? 'Update Course' : 'Add local record';
+  const actionLabel = module === 'teaching' ? 'Add Course' : 'Add local record';
   const heading = module === 'teaching' ? 'Course details' : `Add ${title} record`;
   const panelAttrs = options.hidden ? ` id="teaching-course-form" hidden` : '';
   const panelClass = options.hidden ? 'panel collapsible-panel' : 'panel';
@@ -237,9 +239,12 @@ function teachingRibbon(ctx) {
     <section class="structure-panel teaching-ribbon">
       <div class="ribbon-head">
         <h3>${escapeHtml(group.title)}</h3>
-        ${ctx.canWrite() ? '<button data-new-course="true">Add Course</button>' : ''}
+        <div class="ribbon-actions">
+          ${ctx.canWrite() ? '<button data-new-course="true">Add Course</button>' : ''}
+          <button class="secondary" data-copy-json="teaching">Copy JSON</button>
+          <a class="button-link" href="https://github.com/jk-verma/academic-lifecycle-manager/edit/main/public/data/teaching/teaching.json" target="_blank" rel="noreferrer">Open GitHub Editor</a>
+        </div>
       </div>
-      <div class="chip-list">${group.items.map(([, label]) => `<span class="chip">${escapeHtml(label)}</span>`).join('')}</div>
     </section>
   </div>`;
 }
@@ -247,7 +252,43 @@ function teachingRibbon(ctx) {
 function teachingCardMeta(item) {
   const progress = taskProgress(item);
   const upcoming = nextPendingSubtask(item);
-  return `${item.academic_year_current || 'no year'} | ${item.course_type || 'course'} | Participants: ${item.total_participants || 'not set'} | Duration: ${item.total_hours || item.hours || 'not set'} | ${progress.completed}/${progress.total} activities completed | Upcoming: ${upcoming?.title || 'none'}`;
+  return `<p class="muted teaching-card-meta">
+    <span>${escapeHtml(item.academic_year_current || 'no year')}</span>
+    <span>${escapeHtml(item.course_type || 'course')}</span>
+    <span>Participants: ${escapeHtml(item.total_participants || 'not set')}</span>
+    <span>Duration: ${escapeHtml(item.total_hours || item.hours || 'not set')}</span>
+    <span>${escapeHtml(`${progress.completed}/${progress.total} activities completed`)}</span>
+    <span class="upcoming-highlight">Upcoming: ${escapeHtml(upcoming?.title || 'none')}</span>
+  </p>`;
+}
+
+function teachingCardBody(item) {
+  return `<p class="teaching-feedback">Feedback Score: ${escapeHtml(item.feedback_score || 'not set')}</p>`;
+}
+
+function teachingInlineEditor(item) {
+  return `<section class="inline-editor" data-inline-editor hidden>
+    <h4>Edit course details</h4>
+    <form class="record-form inline-record-form" data-academic-module="teaching">
+      <input name="record_id" type="hidden" value="${escapeHtml(item.id)}" />
+      <input name="title" required placeholder="Course Title" value="${escapeHtml(item.title || '')}" />
+      <input name="sub_type" type="hidden" value="course" />
+      ${courseTypeSelect(item.course_type || '')}
+      <input name="total_participants" type="number" min="0" placeholder="Total Participants" value="${escapeHtml(item.total_participants || '')}" />
+      <input name="total_hours" type="number" min="0" step="0.25" placeholder="Total Hours" value="${escapeHtml(item.total_hours || item.hours || '')}" />
+      <input name="lecture_duration" type="number" min="0.1" step="0.1" placeholder="Lecture Hour" value="${escapeHtml(item.lecture_duration || '')}" />
+      <input name="total_lectures" type="number" min="1" placeholder="Total lectures" value="${escapeHtml(calculatedLectureCount(item) || '')}" readonly />
+      <textarea name="assessment_components" placeholder="Assessment components, one per line. Example: Quiz-1: 5">${escapeHtml(assessmentLines(item))}</textarea>
+      <input name="internal_component_marks" type="number" min="0" placeholder="Internal marks" value="${escapeHtml(calculatedInternalMarks(item) || '')}" readonly />
+      <input name="external_component_marks" type="number" min="0" placeholder="External Marks" value="${escapeHtml(calculatedExternalMarks(item) || '')}" />
+      <input name="total_marks" type="number" min="0" placeholder="Total marks" value="${escapeHtml((calculatedInternalMarks(item) + calculatedExternalMarks(item)) || '')}" readonly />
+      <input name="course_start_date" type="date" value="${escapeHtml(item.course_start_date || '')}" />
+      <input name="course_end_date" type="date" value="${escapeHtml(item.course_end_date || '')}" />
+      ${academicYearSelect(item.academic_year_current || '')}
+      <input name="feedback_score" placeholder="Feedback Score" value="${escapeHtml(item.feedback_score || '')}" />
+      <button>Update Course</button>
+    </form>
+  </section>`;
 }
 
 function structureOverview(groups, hrefFor = () => '') {

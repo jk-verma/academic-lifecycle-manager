@@ -258,7 +258,15 @@ nav a:hover {
   margin: 0;
 }
 
-.ribbon-head button {
+.ribbon-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.ribbon-head button,
+.ribbon-head .button-link {
   min-height: 42px;
   padding: 11px 14px;
   font-size: 14px;
@@ -335,10 +343,25 @@ nav a:hover {
   padding: 18px;
 }
 
+.card {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
 .panel h3,
 .card h3,
 .detail h3 {
   margin-top: 0;
+}
+
+.teaching-card h3 {
+  min-height: 2.7em;
+}
+
+.teaching-card > .muted,
+.teaching-card-meta {
+  min-height: 4.6em;
 }
 
 .card-actions {
@@ -346,7 +369,7 @@ nav a:hover {
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  margin-top: 12px;
+  margin-top: auto;
   padding-top: 12px;
   border-top: 1px solid var(--line);
 }
@@ -416,6 +439,64 @@ nav a:hover {
   color: var(--accent);
   font-weight: 900;
   text-decoration: none;
+}
+
+.button-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #eef4f4;
+  color: var(--accent);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.teaching-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 4px 7px;
+  line-height: 1.55;
+}
+
+.teaching-card-meta span:not(:last-child)::after {
+  content: "|";
+  margin-left: 7px;
+  color: var(--muted);
+}
+
+.upcoming-highlight {
+  border-radius: 8px;
+  padding: 1px 7px;
+  background: #fff6df;
+  color: #805300;
+  font-weight: 900;
+}
+
+.teaching-feedback {
+  min-height: 1.6em;
+}
+
+.inline-editor {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+}
+
+.inline-editor h4 {
+  margin: 0 0 10px;
+}
+
+.inline-record-form {
+  margin-bottom: 0;
+}
+
+.inline-record-form textarea[name="json"] {
+  grid-column: 1 / -1;
+  min-height: 220px;
+  font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
 }
 
 .state-pill {

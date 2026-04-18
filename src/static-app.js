@@ -39,33 +39,37 @@ function routeKey(parts = parseRoute()) {
 }
 
 function visibleCandidates() {
-  return visibleByRole(store, role, store.candidates.records, ['topic', 'supervisor']);
+  return visibleByRole(store, role, store.candidates.records, ['topic', 'supervisor']).filter(notArchived);
 }
 
 function visibleMentors() {
-  return visibleByRole(store, role, store.mentors.records, ['email', 'mobile_or_extension', 'role_description', 'specialization']);
+  return visibleByRole(store, role, store.mentors.records, ['email', 'mobile_or_extension', 'role_description', 'specialization']).filter(notArchived);
 }
 
 function visibleMeetings() {
-  return visibleByRole(store, role, store.meetings.records, ['agenda', 'discussion', 'decisions', 'venue_or_link', 'responsible_person']);
+  return visibleByRole(store, role, store.meetings.records, ['agenda', 'discussion', 'decisions', 'venue_or_link', 'responsible_person']).filter(notArchived);
 }
 
 function visibleWorkbench() {
-  return visibleByRole(store, role, flattenWorkbench(store.workbench), ['description_or_abstract', 'budget', 'honorarium', 'deliverables']);
+  return visibleByRole(store, role, flattenWorkbench(store.workbench), ['description_or_abstract', 'budget', 'honorarium', 'deliverables']).filter(notArchived);
 }
 
 function visibleActivities() {
-  return visibleByRole(store, role, store.activities.records, ['short_notes']);
+  return visibleByRole(store, role, store.activities.records, ['short_notes']).filter(notArchived);
 }
 
 function visibleCalendar() {
-  return visibleByRole(store, role, store.calendar.records, ['notes']);
+  return visibleByRole(store, role, store.calendar.records, ['notes']).filter(notArchived);
 }
 
 function visibleAcademicLife() {
   return Object.entries(store.academicLife.modules).flatMap(([module, records]) =>
     visibleByRole(store, role, records.map((record) => ({ ...record, module })), ['notes', 'feedback', 'responsibility'])
-  );
+  ).filter(notArchived);
+}
+
+function notArchived(record = {}) {
+  return String(record.status || '').toLowerCase() !== 'archived';
 }
 
 function allRecords() {
@@ -314,11 +318,22 @@ function bindEvents() {
   });
 
   document.querySelectorAll('[data-edit-kind]').forEach((button) => {
-    button.addEventListener('click', () => editRecord(button.dataset.editKind, button.dataset.editId, button.dataset.editModule || ''));
+    button.addEventListener('click', () => editRecord(button.dataset.editKind, button.dataset.editId, button.dataset.editModule || '', button));
   });
 
   document.querySelectorAll('[data-new-course]').forEach((button) => {
     button.addEventListener('click', () => prepareTeachingCourseForm());
+  });
+
+  document.querySelectorAll('[data-copy-json]').forEach((button) => {
+    button.addEventListener('click', () => copyJsonSection(button.dataset.copyJson));
+  });
+
+  document.querySelectorAll('[data-inline-json-edit]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      updateRecordFromInlineJson(form.dataset.inlineJsonEdit, form.dataset.id, form.dataset.module || '', new FormData(form));
+    });
   });
 
   document.querySelectorAll('[data-toggle-panel]').forEach((button) => {
@@ -668,18 +683,38 @@ function archiveRecord(kind, id, module = '') {
   render();
 }
 
-function editRecord(kind, id, module = '') {
+function editRecord(kind, id, module = '', button = null) {
   if (role !== 'ADMIN') return;
   const record = findEditableRecord(kind, id, module);
   if (!record) return;
-  if (kind === 'academic' && module === 'teaching') {
-    if (routeKey() !== 'teaching') location.hash = '#/teaching';
-    setTimeout(() => {
-      render();
-      prepareTeachingCourseForm(record);
-    }, 0);
+
+  const card = button?.closest?.('.card');
+  const existingEditor = card?.querySelector?.('[data-inline-editor]');
+  if (existingEditor) {
+    existingEditor.hidden = !existingEditor.hidden;
+    if (!existingEditor.hidden) existingEditor.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     return;
   }
+
+  if (card) {
+    const editor = document.createElement('section');
+    editor.className = 'inline-editor';
+    editor.setAttribute('data-inline-editor', 'true');
+    editor.innerHTML = `<h4>Edit record JSON locally</h4>
+      <form class="record-form inline-record-form" data-inline-json-edit="${escapeHtml(kind)}" data-id="${escapeHtml(id)}" data-module="${escapeHtml(module)}">
+        <textarea name="json" rows="10">${escapeHtml(JSON.stringify(record, null, 2))}</textarea>
+        <button>Update record locally</button>
+      </form>`;
+    card.appendChild(editor);
+    const form = editor.querySelector('form');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      updateRecordFromInlineJson(kind, id, module, new FormData(form));
+    });
+    editor.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    return;
+  }
+
   draft = structuredClone(record);
   draft.updated_by = `local-${role.toLowerCase()}`;
   draft.timestamps = { ...(draft.timestamps || {}), updated_at: nowIso() };
@@ -687,6 +722,52 @@ function editRecord(kind, id, module = '') {
   error = 'Editable local JSON draft prepared. Adjust/export from Data, then commit the JSON update.';
   location.hash = '#/data';
   render();
+}
+
+function updateRecordFromInlineJson(kind, id, module, formData) {
+  if (!canWrite(store, role)) return;
+  const record = findEditableRecord(kind, id, module);
+  if (!record) return;
+  try {
+    const parsed = JSON.parse(formData.get('json'));
+    Object.keys(record).forEach((key) => delete record[key]);
+    Object.assign(record, parsed, {
+      updated_by: `local-${role.toLowerCase()}`,
+      timestamps: { ...(parsed.timestamps || {}), updated_at: nowIso() }
+    });
+    record.history = Array.isArray(record.history) ? record.history : [];
+    record.history.push({ version: record.history.length + 1, summary: 'Record updated from same-card JSON editor', updated_by: record.updated_by, updated_at: nowIso() });
+    error = 'Record updated locally from the same card. Export JSON to commit it.';
+    render();
+  } catch (err) {
+    error = `Inline JSON update failed: ${err.message}`;
+    render();
+  }
+}
+
+function copyJsonSection(section) {
+  const bundle = sourceDataBundle();
+  const payload = bundle[section] || bundle;
+  const text = JSON.stringify(payload, null, 2);
+  const done = () => {
+    error = `${section || 'Data'} JSON copied to clipboard.`;
+    render();
+  };
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  } else {
+    fallbackCopy(text, done);
+  }
+}
+
+function fallbackCopy(text, done) {
+  const area = document.createElement('textarea');
+  area.value = text;
+  document.body.appendChild(area);
+  area.select();
+  document.execCommand('copy');
+  area.remove();
+  done();
 }
 
 function findEditableRecord(kind, id, module = '') {
@@ -848,7 +929,7 @@ function prepareTeachingCourseForm(course = null) {
   const heading = panel.querySelector('h3');
   if (heading) heading.textContent = course ? 'Edit course details' : 'Course details';
   const submit = form.querySelector('button');
-  if (submit) submit.textContent = 'Update Course';
+  if (submit) submit.textContent = course ? 'Update Course' : 'Add Course';
   if (!course) {
     if (form.elements.record_id) form.elements.record_id.value = '';
     panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
