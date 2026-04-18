@@ -429,7 +429,7 @@ function recordSummary(item) {
 
 function teachingDetailPage(ctx, item) {
   return `${pageHeader(item.title, 'Teaching | Course planner')}
-    ${printActionBar('<a class="card-link" href="#/teaching">Back</a>')}
+    ${printActionBar('<a class="card-link" href="#/teaching">Back to Teaching</a>')}
     <section class="detail printable">
       <div class="metadata">${statusBadge(courseDateStatus(item))}</div>
       ${detailSection('Course Details', courseSummary(item))}
