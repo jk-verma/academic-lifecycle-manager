@@ -330,13 +330,13 @@ function courseSummary(item) {
     ['Academic year', item.academic_year_current],
     ['Feedback score', item.feedback_score]
   ].filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== '');
-  return `<div class="summary-grid compact-summary">${fields.map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join('')}</div>`;
+  return `<div class="summary-grid single-row-summary">${fields.map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join('')}</div>`;
 }
 
 function assessmentSummary(item) {
   const custom = Array.isArray(item.assessment_components) ? item.assessment_components : [];
   if (custom.length) {
-    return `<div class="summary-grid">${custom.map((value, index) => `<article><span>Component ${index + 1}</span><strong>${escapeHtml(value)}</strong></article>`).join('')}</div>`;
+    return `<div class="summary-grid single-row-summary">${custom.map((value, index) => `<article><span>Component ${index + 1}</span><strong>${escapeHtml(value)}</strong></article>`).join('')}</div>`;
   }
   const internal = item.internal_components || {};
   const fields = [
@@ -348,7 +348,7 @@ function assessmentSummary(item) {
     ['Project(s)', internal.projects],
     ['External Marks', item.external_component_marks]
   ].filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== '');
-  return `<div class="summary-grid">${fields.map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join('')}</div>`;
+  return `<div class="summary-grid single-row-summary">${fields.map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join('')}</div>`;
 }
 
 function courseFields() {

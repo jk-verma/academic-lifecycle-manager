@@ -533,21 +533,11 @@ nav a:hover {
   margin-top: 12px;
 }
 
-.compact-summary {
-  grid-template-columns: repeat(auto-fit, minmax(96px, max-content));
-  align-items: stretch;
-}
-
 .summary-grid article {
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 10px 12px;
   background: #f8fbfb;
-}
-
-.compact-summary article {
-  min-width: 96px;
-  padding: 7px 9px;
 }
 
 .summary-grid span {
@@ -561,15 +551,46 @@ nav a:hover {
   font-size: 14px;
 }
 
-.compact-summary span {
+.single-row-summary {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 3px;
+}
+
+.single-row-summary article {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 7px 8px;
+}
+
+.single-row-summary span {
   font-size: 11px;
   margin-bottom: 2px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.compact-summary strong {
+.single-row-summary strong {
+  display: block;
   font-size: 13px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 900px) {
+  .single-row-summary article {
+    flex-basis: 88px;
+  }
+}
+
+@media print {
+  .single-row-summary {
+    overflow: visible;
+  }
 }
 
 .subtask-timeline {
