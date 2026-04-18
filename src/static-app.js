@@ -807,6 +807,7 @@ function addAcademicLifeRecord(module, formData) {
   if (module === 'teaching') {
     applyCourseFields(record, formData);
     record.subtasks = defaultCourseSubtasks(record.id, record.total_lectures);
+    delete record.priority;
   }
   ['institution_name', 'role_title', 'opportunity_type', 'employment_basis', 'place_city', 'place_country', 'application_deadline', 'application_date', 'starting_date', 'ending_date', 'payment', 'payment_status'].forEach((field) => {
     if (formData.has(field) && formData.get(field)) record[field] = formData.get(field);
@@ -904,7 +905,7 @@ function updateCourseDetails(id, formData) {
 function applyCourseFields(course, formData) {
   course.course_type = formData.get('course_type') || course.course_type || '';
   course.total_hours = parseNumber(formData.get('total_hours')) || parseNumber(course.total_hours);
-  course.hours = course.total_hours;
+  delete course.hours;
   course.total_participants = formData.get('total_participants') || course.total_participants || '';
   course.lecture_duration = parseNumber(formData.get('lecture_duration')) || parseNumber(course.lecture_duration);
   course.total_lectures = calculateCourseLectureCount(course.total_hours, course.lecture_duration);
@@ -916,7 +917,7 @@ function applyCourseFields(course, formData) {
   course.final_deadline = course.course_end_date || course.final_deadline || '';
   course.feedback_score = formData.get('feedback_score') || course.feedback_score || '';
   course.assessment_components = parseAssessmentComponents(formData.get('assessment_components'));
-  course.internal_components = {};
+  delete course.internal_components;
 }
 
 function courseStatusFromDates(formData) {
