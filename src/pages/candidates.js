@@ -1,5 +1,4 @@
-import { detailSection, emptyState, notesPanel, pageHeader, printActionBar, recordCard, statusBadge, subtaskTimeline, taskProgress, taskSummary, timelinePanel, visibilityBadge } from '../components/ui.js';
-import { isOverdue } from '../utils/date.js';
+import { detailSection, emptyState, pageHeader, printActionBar, recordCard, statusBadge, subtaskTimeline, taskProgress, taskSummary, visibilityBadge } from '../components/ui.js';
 import { escapeHtml } from '../utils/html.js';
 import { structuredFilter } from '../utils/search.js';
 
@@ -47,10 +46,6 @@ function candidateForm(ctx) {
 export function candidateDetailPage(ctx, id) {
   const candidate = ctx.visibleCandidates().find((item) => item.id === id);
   if (!candidate) return emptyState('Candidate not found', 'This candidate is unavailable or hidden for the selected role.');
-  const meetings = ctx.visibleMeetings().filter((item) => item.candidate_id === id);
-  const actions = meetings.flatMap((meeting) => (meeting.action_items || []).map((action) => ({ ...action, meeting })));
-  const attendancePresent = meetings.filter((item) => item.attendance_status === 'present').length;
-  const phaseList = templates[candidate.programme_type] || candidate.phase_progress.map((item) => item.phase);
 
   return `${pageHeader(candidate.name, candidate.topic)}
     ${printActionBar(`<a class="card-link" href="#/supervision">Back to Supervision</a>`)}
@@ -58,20 +53,6 @@ export function candidateDetailPage(ctx, id) {
       <div class="metadata">${statusBadge(candidate.status)} ${visibilityBadge(candidate.visibility)} <span class="programme-badge">${escapeHtml(candidate.programme_type)}</span></div>
       ${detailSection('Overall task', taskSummary(candidate))}
       ${detailSection('Activity / sub-activity timeline', subtaskTimeline(candidate, { kind: 'candidate', id: candidate.id }))}
-      ${ctx.canWrite() ? ctx.subtaskForm('candidate', candidate.id) : ''}
-      <div class="grid two">
-        ${detailSection('Profile summary', `<p><strong>Supervisor:</strong> ${escapeHtml(candidate.supervisor)}</p><p><strong>Start date:</strong> ${escapeHtml(candidate.start_date)}</p>`)}
-        ${detailSection('Attendance summary', `<p>${attendancePresent}/${meetings.length} meetings marked present.</p>`)}
-      </div>
-      ${detailSection('Phase timeline', `<div class="phase-grid">${phaseList.map((phase) => {
-        const progress = candidate.phase_progress.find((item) => item.phase === phase) || { phase, status: 'not_started' };
-        return `<a class="phase-tile" href="#/candidates/${candidate.id}/phase/${encodeURIComponent(phase)}"><strong>${escapeHtml(phase)}</strong><span>${escapeHtml(progress.status)}</span></a>`;
-      }).join('')}</div>`)}
-      ${detailSection('Pending action items', actions.filter((item) => item.status !== 'done').map((item) => `<p class="${isOverdue(item.due_date, item.status) ? 'overdue' : ''}">${escapeHtml(item.text)} | ${escapeHtml(item.due_date)} | ${escapeHtml(item.meeting.title)}</p>`).join('') || '<p class="muted">No pending action items.</p>')}
-      ${detailSection('Meeting history', meetings.map((meeting) => recordCard({ title: meeting.title, meta: `${meeting.date} | ${meeting.phase}`, body: meeting.discussion, badges: visibilityBadge(meeting.visibility), href: `#/meetings/${meeting.id}` })).join(''))}
-      ${detailSection('Append-only notes', notesPanel(ctx.maskNotes(candidate.notes_append_only)))}
-      ${detailSection('Revision history', timelinePanel(candidate.revision_history))}
-      ${ctx.canArchive() && candidate.status !== 'archived' ? `<button class="secondary" data-archive-kind="candidate" data-archive-id="${escapeHtml(candidate.id)}">Archive candidate</button>` : ''}
     </section>`;
 }
 
