@@ -247,7 +247,7 @@ function teachingRibbon(ctx, records = [], selectedYear = currentAcademicYear(),
         <div class="ribbon-actions">
           <label class="ribbon-filter"><span>Academic Year</span>${teachingYearSelect(records, selectedYear)}</label>
           <label class="ribbon-filter"><span>Campus Wise Teaching</span>${teachingCampusSelect(records, selectedCampus)}</label>
-          <label class="ribbon-filter"><span>Course Type Wise Teaching</span>${teachingCourseTypeSelect(records, selectedCourseType)}</label>
+          <label class="ribbon-filter"><span>Course Types</span>${teachingCourseTypeSelect(records, selectedCourseType)}</label>
           <button class="secondary" data-reset-teaching-filters="true">Reset Filters</button>
           ${ctx.canWrite() ? '<button data-new-course="true">Add Course</button>' : ''}
           <button class="secondary" data-copy-json="teaching">Copy JSON</button>
@@ -278,7 +278,7 @@ function teachingYearSection(year, items, ctx, options = {}) {
   if (!items.length && options.hideWhenEmpty) return '';
   const totalHours = totalTeachingHours(items);
   return `<section class="year-section">
-    <h3>${escapeHtml(year)} <span>Total teaching hours: ${escapeHtml(formatHours(totalHours))}</span></h3>
+    <h3>${escapeHtml(year)} <span>Total Teaching Hours: ${escapeHtml(formatHours(totalHours))}</span></h3>
     ${teachingGrid(items, ctx)}
   </section>`;
 }
@@ -306,7 +306,7 @@ function teachingCardMeta(item) {
     <span>Batch: ${escapeHtml(item.batch || 'not set')}</span>
     <span>Section: ${escapeHtml(item.section || 'not set')}</span>
     <span>Campus: ${escapeHtml(item.campus || 'not set')}</span>
-    <span>Participants: ${escapeHtml(item.total_participants || 'not set')}</span>
+    <span>Total Particpants: ${escapeHtml(item.total_participants || 'not set')}</span>
     <span>Duration: ${escapeHtml(item.total_hours || item.hours || 'not set')}</span>
     <span>${escapeHtml(`${progress.completed}/${progress.total} activities completed`)}</span>
     <span class="upcoming-highlight">Upcoming: ${escapeHtml(upcoming?.title || 'none')}</span>
@@ -329,7 +329,7 @@ function teachingInlineEditor(item) {
       <input name="batch" placeholder="Batch, e.g. 2025-30" value="${escapeHtml(item.batch || '')}" />
       <input name="section" placeholder="Section" value="${escapeHtml(item.section || '')}" />
       <input name="campus" placeholder="Campus" value="${escapeHtml(item.campus || '')}" />
-      <input name="total_participants" type="number" min="0" placeholder="Total Participants" value="${escapeHtml(item.total_participants || '')}" />
+      <input name="total_participants" type="number" min="0" placeholder="Total Particpants" value="${escapeHtml(item.total_participants || '')}" />
       <input name="total_hours" type="number" min="0" step="0.25" placeholder="Total Hours" value="${escapeHtml(item.total_hours || item.hours || '')}" />
       <input name="lecture_duration" type="number" min="0.1" step="0.1" placeholder="Lecture Duration" value="${escapeHtml(item.lecture_duration || '')}" />
       <input name="total_lectures" type="number" min="1" placeholder="Lecture Count" value="${escapeHtml(calculatedLectureCount(item) || '')}" readonly />
@@ -337,8 +337,8 @@ function teachingInlineEditor(item) {
       <input name="internal_component_marks" type="number" min="0" placeholder="Internal Marks" value="${escapeHtml(calculatedInternalMarks(item) || '')}" readonly />
       <input name="external_component_marks" type="number" min="0" placeholder="External Marks" value="${escapeHtml(calculatedExternalMarks(item) || '')}" />
       <input name="total_marks" type="number" min="0" placeholder="Total Marks" value="${escapeHtml((calculatedInternalMarks(item) + calculatedExternalMarks(item)) || '')}" readonly />
-      <input name="course_start_date" type="date" value="${escapeHtml(item.course_start_date || '')}" />
-      <input name="course_end_date" type="date" value="${escapeHtml(item.course_end_date || '')}" />
+      <input name="course_start_date" type="date" title="Start Date" value="${escapeHtml(item.course_start_date || '')}" />
+      <input name="course_end_date" type="date" title="End Date" value="${escapeHtml(item.course_end_date || '')}" />
       <input name="feedback_score" placeholder="Feedback Score" value="${escapeHtml(item.feedback_score || '')}" />
       <button>Update Course</button>
     </form>
@@ -359,7 +359,7 @@ function teachingCampusSelect(records = [], selected = '') {
 
 function teachingCourseTypeSelect(records = [], selected = '') {
   const types = teachingCourseTypeOptions(records);
-  return `<select id="filter-teachingCourseType"><option value="">All course types</option>${types.map((type) => `<option value="${escapeHtml(type)}" ${selected === type ? 'selected' : ''}>${escapeHtml(type)}</option>`).join('')}</select>`;
+  return `<select id="filter-teachingCourseType"><option value="">All Course Types</option>${types.map((type) => `<option value="${escapeHtml(type)}" ${selected === type ? 'selected' : ''}>${escapeHtml(type)}</option>`).join('')}</select>`;
 }
 
 function teachingCampusOptions(records = []) {
@@ -458,8 +458,8 @@ function courseSummary(item) {
   const internalMarks = calculatedInternalMarks(item);
   const externalMarks = calculatedExternalMarks(item);
   const fields = [
-    ['Total participants', item.total_participants],
-    ['Course type', item.course_type],
+    ['Total Particpants', item.total_participants],
+    ['Course Types', item.course_type],
     ['Programme', item.programme],
     ['Batch', item.batch],
     ['Section', item.section],
@@ -472,7 +472,7 @@ function courseSummary(item) {
     ['External Marks', externalMarks],
     ['Start Date', item.course_start_date],
     ['End Date', item.course_end_date],
-    ['Feedback score', item.feedback_score]
+    ['Feedback Score', item.feedback_score]
   ].filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== '');
   return `<div class="summary-grid single-row-summary">${fields.map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join('')}</div>`;
 }
@@ -489,7 +489,7 @@ function assessmentSummary(item) {
   }
   const internal = item.internal_components || {};
   const fields = [
-    ['Internal component marks', item.internal_component_marks],
+    ['Internal Marks', item.internal_component_marks],
     ['Quiz-1', internal.quiz_1],
     ['Quiz-2', internal.quiz_2],
     ['Class participation', internal.class_participation],
@@ -533,7 +533,7 @@ function courseFields() {
       <input name="batch" placeholder="Batch, e.g. 2025-30" />
       <input name="section" placeholder="Section" />
       <input name="campus" placeholder="Campus" />
-      <input name="total_participants" type="number" min="0" placeholder="Total Participants" />
+      <input name="total_participants" type="number" min="0" placeholder="Total Particpants" />
       <input name="total_hours" type="number" min="0" step="0.25" placeholder="Total Hours" />
       <input name="lecture_duration" type="number" min="0.1" step="0.1" placeholder="Lecture Duration" />
       <input name="total_lectures" type="number" min="1" placeholder="Lecture Count" readonly />
@@ -541,12 +541,12 @@ function courseFields() {
       <input name="internal_component_marks" type="number" min="0" placeholder="Internal Marks" readonly />
       <input name="external_component_marks" type="number" min="0" placeholder="External Marks" />
       <input name="total_marks" type="number" min="0" placeholder="Total Marks" readonly />
-      <input name="course_start_date" type="date" />
-      <input name="course_end_date" type="date" />`;
+      <input name="course_start_date" type="date" title="Start Date" />
+      <input name="course_end_date" type="date" title="End Date" />`;
 }
 
 function courseTypeSelect(selected = '') {
-  return `<select name="course_type"><option value="">Course Type</option>${courseTypes().map((type) => `<option value="${escapeHtml(type)}" ${selected === type ? 'selected' : ''}>${escapeHtml(type)}</option>`).join('')}</select>`;
+  return `<select name="course_type"><option value="">Course Types</option>${courseTypes().map((type) => `<option value="${escapeHtml(type)}" ${selected === type ? 'selected' : ''}>${escapeHtml(type)}</option>`).join('')}</select>`;
 }
 
 function courseTypes() {
