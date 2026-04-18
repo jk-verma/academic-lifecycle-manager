@@ -533,11 +533,21 @@ nav a:hover {
   margin-top: 12px;
 }
 
+.compact-summary {
+  grid-template-columns: repeat(auto-fit, minmax(96px, max-content));
+  align-items: stretch;
+}
+
 .summary-grid article {
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 10px 12px;
   background: #f8fbfb;
+}
+
+.compact-summary article {
+  min-width: 96px;
+  padding: 7px 9px;
 }
 
 .summary-grid span {
@@ -549,6 +559,17 @@ nav a:hover {
 
 .summary-grid strong {
   font-size: 14px;
+}
+
+.compact-summary span {
+  font-size: 11px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+}
+
+.compact-summary strong {
+  font-size: 13px;
+  white-space: nowrap;
 }
 
 .subtask-timeline {

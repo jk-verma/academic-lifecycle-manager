@@ -330,7 +330,7 @@ function courseSummary(item) {
     ['Academic year', item.academic_year_current],
     ['Feedback score', item.feedback_score]
   ].filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== '');
-  return `<div class="summary-grid">${fields.map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join('')}</div>`;
+  return `<div class="summary-grid compact-summary">${fields.map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join('')}</div>`;
 }
 
 function assessmentSummary(item) {

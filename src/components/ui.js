@@ -112,7 +112,7 @@ export function subtaskTimeline(record = {}, options = {}) {
         <div class="subtask-meta">
           <span>${escapeHtml(hierarchyLabel)}</span>
           <span>${escapeHtml(slugLabel(subtask.subtask_type || 'subtask'))}</span>
-          <span>Due: ${escapeHtml(formatDateTime(due) || 'not set')}</span>
+          <span>Due date: ${escapeHtml(formatDateTime(due) || 'not set')}</span>
           ${completed ? `<span>Completed: ${escapeHtml(formatDateTime(completed))}</span>` : ''}
           <span>Responsible: ${escapeHtml(subtask.responsible_person || 'not assigned')}</span>
           ${contact ? `<span>Mobile / extension: ${escapeHtml(contact)}</span>` : ''}
