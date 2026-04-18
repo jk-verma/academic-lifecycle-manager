@@ -278,6 +278,17 @@ function bindEvents() {
     });
   });
 
+  document.querySelectorAll('[data-edit-subtask]').forEach((button) => {
+    button.addEventListener('click', () => fillSubtaskEditForm(button.dataset.kind, button.dataset.id, button.dataset.module || '', button.dataset.subtaskId));
+  });
+
+  document.querySelectorAll('[data-delete-subtask]').forEach((button) => {
+    button.addEventListener('click', () => {
+      if (!confirm('Mark this activity as cancelled locally? History will be preserved.')) return;
+      cancelSubtask(button.dataset.kind, button.dataset.id, button.dataset.module || '', button.dataset.subtaskId);
+    });
+  });
+
   const exportJson = document.getElementById('export-json');
   if (exportJson) exportJson.addEventListener('click', () => downloadJson('academic-lifecycle-manager-data-export.json', store));
 
@@ -395,12 +406,21 @@ function addSubtask(kind, id, formData, module = '') {
   if (!record) return;
   record.subtasks = record.subtasks || [];
   const actor = `local-${role.toLowerCase()}`;
+  const editingId = formData.get('subtask_id');
+  const existing = editingId ? record.subtasks.find((item) => item.id === editingId) : null;
   const insertAfter = Number(formData.get('insert_after_order') || record.subtasks.length);
   const dueDatetime = formData.get('due_datetime');
   const completedDatetime = formData.get('completed_datetime') || (formData.get('status') === 'completed' ? nowIso().slice(0, 16) : '');
-  const subtask = {
+  const subtask = existing || {
     id: uid('subtask'),
     parent_record_id: id,
+    hierarchy_level: 0,
+    parent_subtask_id: '',
+    notes: [],
+    history: [],
+    sequence_order: insertAfter + 1
+  };
+  Object.assign(subtask, {
     title: formData.get('title'),
     subtask_type: formData.get('subtask_type'),
     due_datetime: dueDatetime,
@@ -409,39 +429,29 @@ function addSubtask(kind, id, formData, module = '') {
     completed_date: completedDatetime ? completedDatetime.slice(0, 10) : '',
     status: formData.get('status'),
     responsible_person: formData.get('responsible_person'),
-    responsible_contact: formData.get('responsible_contact'),
-    hierarchy_level: 0,
-    parent_subtask_id: '',
-    notes: formData.get('notes') ? [{
-      id: uid('note'),
-      text: formData.get('notes'),
-      created_by: actor,
-      created_at: nowIso(),
-      visibility: record.visibility || 'open'
-    }] : [],
-    history: [{
-      version: 1,
-      summary: 'Subtask added locally',
-      updated_by: actor,
-      updated_at: nowIso()
-    }],
-    sequence_order: insertAfter + 1
-  };
-  record.subtasks.push(subtask);
+    responsible_contact: formData.get('responsible_contact')
+  });
+  if (formData.get('notes')) {
+    subtask.notes = subtask.notes || [];
+    subtask.notes.push({ id: uid('note'), text: formData.get('notes'), created_by: actor, created_at: nowIso(), visibility: record.visibility || 'open' });
+  }
+  subtask.history = subtask.history || [];
+  subtask.history.push({ version: subtask.history.length + 1, summary: existing ? 'Subtask updated locally' : 'Subtask added locally', updated_by: actor, updated_at: nowIso() });
+  if (!existing) record.subtasks.push(subtask);
   record.subtasks = record.subtasks
     .sort((a, b) => Number(a.sequence_order || 0) - Number(b.sequence_order || 0))
     .map((item, index) => ({ ...item, sequence_order: index + 1 }));
   record.history = record.history || record.revision_history || [];
   record.history.push({
     version: record.history.length + 1,
-    summary: `Subtask added: ${formData.get('title')}`,
+    summary: `${existing ? 'Subtask updated' : 'Subtask added'}: ${formData.get('title')}`,
     updated_by: actor,
     updated_at: nowIso()
   });
   if (record.revision_history && record.revision_history !== record.history) {
     record.revision_history.push({
       version: record.revision_history.length + 1,
-      summary: `Subtask added: ${formData.get('title')}`,
+      summary: `${existing ? 'Subtask updated' : 'Subtask added'}: ${formData.get('title')}`,
       updated_by: actor,
       updated_at: nowIso()
     });
@@ -449,7 +459,7 @@ function addSubtask(kind, id, formData, module = '') {
   record.timestamps = record.timestamps || {};
   record.timestamps.updated_at = nowIso();
   record.updated_by = actor;
-  error = 'Subtask added locally. Export JSON to commit it.';
+  error = `${existing ? 'Subtask updated' : 'Subtask added'} locally. Export JSON to commit it.`;
   render();
 }
 
@@ -489,6 +499,45 @@ function reorderSubtask(source, targetSubtaskId, hierarchyLevel = 0) {
   record.timestamps.updated_at = nowIso();
   record.updated_by = actor;
   error = 'Subtask order changed locally. Export JSON to commit it.';
+  render();
+}
+
+function fillSubtaskEditForm(kind, id, module, subtaskId) {
+  const record = findTaskRecord(kind, id, module);
+  const subtask = record?.subtasks?.find((item) => item.id === subtaskId);
+  if (!subtask) return;
+  const form = document.querySelector(`[data-update-course-item="${CSS.escape(id)}"]`) || document.querySelector(`[data-add-subtask="${CSS.escape(kind)}"][data-id="${CSS.escape(id)}"]`);
+  if (!form) return;
+  if (form.elements.subtask_id) form.elements.subtask_id.value = subtask.id;
+  if (form.elements.title) form.elements.title.value = subtask.title || '';
+  if (form.elements.subtask_type) form.elements.subtask_type.value = subtask.subtask_type || '';
+  if (form.elements.due_datetime) form.elements.due_datetime.value = subtask.due_datetime || '';
+  if (form.elements.completed_datetime) form.elements.completed_datetime.value = subtask.completed_datetime || '';
+  if (form.elements.status) form.elements.status.value = subtask.status === 'ongoing' ? 'pending' : (subtask.status || 'pending');
+  if (form.elements.responsible_person) form.elements.responsible_person.value = subtask.responsible_person || '';
+  if (form.elements.responsible_contact) form.elements.responsible_contact.value = subtask.responsible_contact || '';
+  if (form.elements.notes) form.elements.notes.value = '';
+  form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function cancelSubtask(kind, id, module, subtaskId) {
+  if (!canWrite(store, role)) return;
+  const record = findTaskRecord(kind, id, module);
+  const subtask = record?.subtasks?.find((item) => item.id === subtaskId);
+  if (!subtask) return;
+  const actor = `local-${role.toLowerCase()}`;
+  subtask.status = 'cancelled';
+  subtask.history = subtask.history || [];
+  subtask.history.push({ version: subtask.history.length + 1, summary: 'Delete action marked this activity as cancelled locally', updated_by: actor, updated_at: nowIso() });
+  record.history = record.history || record.revision_history || [];
+  record.history.push({ version: record.history.length + 1, summary: `Activity cancelled locally: ${subtask.title}`, updated_by: actor, updated_at: nowIso() });
+  if (record.revision_history && record.revision_history !== record.history) {
+    record.revision_history.push({ version: record.revision_history.length + 1, summary: `Activity cancelled locally: ${subtask.title}`, updated_by: actor, updated_at: nowIso() });
+  }
+  record.timestamps = record.timestamps || {};
+  record.timestamps.updated_at = nowIso();
+  record.updated_by = actor;
+  error = 'Activity marked cancelled locally. Export JSON to commit it.';
   render();
 }
 

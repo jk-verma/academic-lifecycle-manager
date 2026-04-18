@@ -569,8 +569,29 @@ nav a:hover {
   color: var(--ink);
 }
 
+.subtask-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .draggable-subtask {
   cursor: grab;
+}
+
+.inline-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.inline-summary span {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 7px 9px;
+  background: #f8fbfb;
+  color: var(--ink);
+  font-size: 13px;
 }
 
 .draggable-subtask:active {

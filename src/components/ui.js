@@ -92,6 +92,10 @@ export function subtaskTimeline(record = {}, options = {}) {
     const hierarchyLevel = Math.max(0, Math.min(2, Number(subtask.hierarchy_level || 0)));
     const hierarchyLabel = hierarchyLevel === 2 ? 'Sub-sub-activity' : hierarchyLevel === 1 ? 'Sub-activity' : 'Activity';
     const dragAttrs = options.kind ? `draggable="true" data-reorder-subtask="true" data-kind="${escapeHtml(options.kind)}" data-id="${escapeHtml(options.id || record.id || '')}" data-module="${escapeHtml(options.module || record.module || '')}" data-subtask-id="${escapeHtml(subtask.id)}"` : '';
+    const actions = options.kind ? `<div class="subtask-actions">
+          <button class="secondary compact" data-edit-subtask="true" data-kind="${escapeHtml(options.kind)}" data-id="${escapeHtml(options.id || record.id || '')}" data-module="${escapeHtml(options.module || record.module || '')}" data-subtask-id="${escapeHtml(subtask.id)}">Edit</button>
+          <button class="secondary compact danger-action" data-delete-subtask="true" data-kind="${escapeHtml(options.kind)}" data-id="${escapeHtml(options.id || record.id || '')}" data-module="${escapeHtml(options.module || record.module || '')}" data-subtask-id="${escapeHtml(subtask.id)}">Delete</button>
+        </div>` : '';
     return `<article class="${overdue ? 'overdue-card' : ''} ${options.kind ? 'draggable-subtask' : ''} hierarchy-level-${hierarchyLevel}" ${dragAttrs}>
       <div class="subtask-marker">${escapeHtml(subtask.sequence_order || '')}</div>
       <div class="subtask-body">
@@ -105,6 +109,7 @@ export function subtaskTimeline(record = {}, options = {}) {
           ${contact ? `<span>Mobile / extension: ${escapeHtml(contact)}</span>` : ''}
         </div>
         ${notes.length ? `<div class="subtask-notes">${notes.map((note) => `<p>${escapeHtml(note.text)}</p>`).join('')}</div>` : ''}
+        ${actions}
       </div>
     </article>`;
   }).join('')}</div>`;
@@ -114,6 +119,7 @@ export function subtaskForm(kind, id, module = '') {
   return `<section class="append-panel">
     <h4>Add activity / sub-activity</h4>
     <form class="record-form" data-add-subtask="${escapeHtml(kind)}" data-id="${escapeHtml(id)}" data-module="${escapeHtml(module)}">
+      <input name="subtask_id" type="hidden" />
       <input name="title" required placeholder="Activity or sub-activity title" />
       <input name="subtask_type" placeholder="Activity type" />
       <input name="due_datetime" type="datetime-local" required />
@@ -121,7 +127,7 @@ export function subtaskForm(kind, id, module = '') {
       <input name="responsible_person" placeholder="Responsible person" />
       <input name="responsible_contact" placeholder="Mobile or extension number" />
       <input name="insert_after_order" type="number" min="0" step="1" placeholder="Insert after sequence no." />
-      <select name="status"><option>pending</option><option>ongoing</option><option>completed</option><option>deferred</option><option>cancelled</option></select>
+      <select name="status"><option>pending</option><option>completed</option><option>deferred</option><option>cancelled</option></select>
       <input name="notes" placeholder="Append-only note" />
       <button>Add local subtask</button>
     </form>

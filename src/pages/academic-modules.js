@@ -276,7 +276,7 @@ function courseSummary(item) {
     ['Academic year', item.academic_year_current],
     ['Final deadline', item.final_deadline]
   ].filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== '');
-  return `<div class="summary-grid">${fields.map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join('')}</div>`;
+  return `<div class="inline-summary">${fields.map(([label, value]) => `<span><strong>${escapeHtml(label)}:</strong> ${escapeHtml(value)}</span>`).join('')}</div>`;
 }
 
 function assessmentSummary(item) {
@@ -344,7 +344,7 @@ function courseItemEditForm(item) {
       </select>
       <input name="due_datetime" type="datetime-local" />
       <input name="completed_datetime" type="datetime-local" />
-      <select name="status"><option>pending</option><option>ongoing</option><option>completed</option><option>deferred</option><option>cancelled</option></select>
+      <select name="status"><option>pending</option><option>completed</option><option>deferred</option><option>cancelled</option></select>
       <input name="responsible_person" placeholder="Responsible person" />
       <input name="notes" placeholder="Append-only note" />
       <button>Update inner item locally</button>
