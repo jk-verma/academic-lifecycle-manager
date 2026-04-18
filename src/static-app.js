@@ -461,7 +461,7 @@ function addSubtask(kind, id, formData, module = '') {
   const completedDatetime = formData.has('completed_datetime')
     ? formData.get('completed_datetime')
     : (existing?.completed_datetime || existing?.completed_date || '');
-  const nextStatus = deriveSubtaskStatus(dueDatetime, completedDatetime);
+  const nextStatus = deriveSubtaskStatus(dueDatetime, completedDatetime, formData.get('status'));
   const subtask = existing || {
     id: uid('subtask'),
     parent_record_id: id,
@@ -522,8 +522,10 @@ function addSubtask(kind, id, formData, module = '') {
   render();
 }
 
-function deriveSubtaskStatus(dueDatetime = '', completedDatetime = '') {
-  if (completedDatetime) return 'finished';
+function deriveSubtaskStatus(dueDatetime = '', completedDatetime = '', requestedStatus = '') {
+  const manualStatus = String(requestedStatus || '').toLowerCase();
+  if (manualStatus === 'overdue') return 'overdue';
+  if (completedDatetime || ['completed', 'finished'].includes(manualStatus)) return 'finished';
   if (!dueDatetime) return 'pending';
   const due = String(dueDatetime);
   const checkpoint = due.includes('T') ? due.slice(0, 16) : due.slice(0, 10);

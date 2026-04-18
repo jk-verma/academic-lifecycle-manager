@@ -585,7 +585,11 @@ function coursePlanAddForm(item) {
     <form class="record-form" data-add-subtask="academic" data-id="${escapeHtml(item.id)}" data-module="teaching">
       <input name="subtask_id" type="hidden" />
       <input name="subtask_type" type="hidden" value="activity" />
-      <input name="status" type="hidden" value="pending" />
+      <select name="status">
+        <option value="pending">Pending</option>
+        <option value="overdue">Overdue</option>
+        <option value="finished">Finished</option>
+      </select>
       <input name="hierarchy_level" type="hidden" value="0" />
       <input name="parent_subtask_id" type="hidden" value="" />
       <input name="sequence_order" type="number" min="1" step="1" placeholder="Sequence Number" />
@@ -603,14 +607,14 @@ function coursePlanAddForm(item) {
 function activityProgress(item = {}) {
   const activities = topLevelActivities(item);
   return {
-    completed: activities.filter((activity) => activity.status === 'completed').length,
+    completed: activities.filter((activity) => ['completed', 'finished'].includes(String(activity.status || '').toLowerCase())).length,
     total: activities.length
   };
 }
 
 function nextPendingActivity(item = {}) {
   return topLevelActivities(item)
-    .filter((activity) => !['completed', 'cancelled'].includes(String(activity.status).toLowerCase()))
+    .filter((activity) => !['completed', 'finished', 'cancelled'].includes(String(activity.status).toLowerCase()))
     .sort((a, b) => Number(a.sequence_order || 0) - Number(b.sequence_order || 0))[0];
 }
 

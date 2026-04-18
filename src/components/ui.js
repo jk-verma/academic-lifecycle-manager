@@ -48,7 +48,7 @@ export function recordCard({ title, meta, metaHtml = '', body, bodyHtml = '', ba
 
 export function taskProgress(record = {}) {
   const subtasks = record.subtasks || [];
-  const completed = subtasks.filter((item) => item.status === 'completed').length;
+  const completed = subtasks.filter((item) => ['completed', 'finished'].includes(String(item.status || '').toLowerCase())).length;
   const total = subtasks.length;
   return {
     completed,
@@ -103,12 +103,12 @@ export function subtaskTimeline(record = {}, options = {}) {
     const inlineEditor = options.kind ? `<form class="record-form inline-subtask-editor" data-inline-subtask-editor hidden data-add-subtask="${escapeHtml(options.kind)}" data-id="${escapeHtml(options.id || record.id || '')}" data-module="${escapeHtml(options.module || record.module || '')}">
           <input name="subtask_id" type="hidden" value="${escapeHtml(subtask.id)}" />
           <input name="subtask_type" type="hidden" value="${escapeHtml(subtask.subtask_type || 'activity')}" />
-          <input name="status" type="hidden" value="${escapeHtml(subtask.status || 'pending')}" />
           <input name="parent_subtask_id" type="hidden" value="${escapeHtml(subtask.parent_subtask_id || '')}" />
           <input name="hierarchy_level" type="hidden" value="${escapeHtml(String(subtask.hierarchy_level || 0))}" />
           <input name="sequence_order" type="number" min="1" step="1" placeholder="Sequence Number" value="${escapeHtml(String(subtask.sequence_order || ''))}" />
           <input name="title" required placeholder="Activity Name" value="${escapeHtml(subtask.title || '')}" />
           <input name="due_datetime" type="date" value="${escapeHtml(dateOnly(due))}" />
+          ${subtaskStatusSelect(subtask.status)}
           <input name="responsible_person" placeholder="Responsible" value="${escapeHtml(subtask.responsible_person || '')}" />
           <input name="responsible_contact" placeholder="Responsible Contact" value="${escapeHtml(contact || '')}" />
           <input name="responsible_email" type="email" placeholder="Responsible Email" value="${escapeHtml(email || '')}" />
@@ -141,12 +141,24 @@ function dateOnly(value = '') {
 
 function activityDateStatus(subtask = {}, record = {}) {
   const completed = subtask.completed_datetime || subtask.completed_date;
-  if (completed || ['completed', 'finished'].includes(String(subtask.status || '').toLowerCase())) return 'finished';
+  const status = String(subtask.status || '').toLowerCase();
+  if (status === 'overdue') return 'overdue';
+  if (completed || ['completed', 'finished'].includes(status)) return 'finished';
   const due = subtask.due_datetime || subtask.due_date;
   const dueDate = dateOnly(due);
   const today = new Date().toISOString().slice(0, 10);
   if (dueDate && dueDate < today) return 'finished';
   return 'pending';
+}
+
+function subtaskStatusSelect(selected = 'pending') {
+  const normalized = String(selected || 'pending').toLowerCase();
+  const active = normalized === 'completed' ? 'finished' : normalized;
+  return `<select name="status">
+    <option value="pending" ${active === 'pending' ? 'selected' : ''}>Pending</option>
+    <option value="overdue" ${active === 'overdue' ? 'selected' : ''}>Overdue</option>
+    <option value="finished" ${active === 'finished' ? 'selected' : ''}>Finished</option>
+  </select>`;
 }
 
 export function subtaskForm(kind, id, module = '') {
@@ -163,7 +175,7 @@ export function subtaskForm(kind, id, module = '') {
       <input name="insert_after_order" type="number" min="0" step="1" placeholder="Insert after sequence no." />
       <input name="parent_subtask_id" placeholder="Parent activity id for sub-activity" />
       <select name="hierarchy_level"><option value="0">Activity</option><option value="1">Sub-activity</option><option value="2">Sub-sub-activity</option></select>
-      <select name="status"><option>pending</option><option>completed</option><option>deferred</option><option>cancelled</option></select>
+      ${subtaskStatusSelect('pending')}
       <input name="notes" placeholder="Append-only note" />
       <button>Add local subtask</button>
     </form>
