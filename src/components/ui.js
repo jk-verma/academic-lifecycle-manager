@@ -98,7 +98,6 @@ export function subtaskTimeline(record = {}, options = {}) {
     const contact = subtask.responsible_contact || subtask.contact_number || subtask.mobile_extension;
     const notes = (subtask.notes || []).filter((note) => note?.text);
     const hierarchyLevel = Math.max(0, Math.min(2, Number(subtask.hierarchy_level || 0)));
-    const hierarchyLabel = hierarchyLevel === 2 ? 'Sub-sub-activity' : hierarchyLevel === 1 ? 'Sub-activity' : 'Activity';
     const dragAttrs = options.kind ? `draggable="true" data-reorder-subtask="true" data-kind="${escapeHtml(options.kind)}" data-id="${escapeHtml(options.id || record.id || '')}" data-module="${escapeHtml(options.module || record.module || '')}" data-subtask-id="${escapeHtml(subtask.id)}"` : '';
     const actions = options.kind ? `<div class="subtask-actions">
           <button class="secondary compact" data-edit-subtask="true" data-kind="${escapeHtml(options.kind)}" data-id="${escapeHtml(options.id || record.id || '')}" data-module="${escapeHtml(options.module || record.module || '')}" data-subtask-id="${escapeHtml(subtask.id)}">Edit</button>
@@ -110,8 +109,6 @@ export function subtaskTimeline(record = {}, options = {}) {
       <div class="subtask-body">
         <div class="card-head"><strong>${escapeHtml(subtask.title)}</strong><span>${statusBadge(subtask.status)}${overdue ? statusBadge('overdue') : ''}</span></div>
         <div class="subtask-meta">
-          <span class="meta-badge">${escapeHtml(hierarchyLabel)}</span>
-          <span class="meta-badge">${escapeHtml(slugLabel(subtask.subtask_type || 'subtask'))}</span>
           <span class="meta-badge due-date-badge"><strong>Due date:</strong> ${escapeHtml(formatDateTime(due) || 'not set')}</span>
           ${completed ? `<span class="meta-badge"><strong>Completed:</strong> ${escapeHtml(formatDateTime(completed))}</span>` : ''}
           <span class="meta-badge responsible-badge"><strong>Responsible:</strong> ${escapeHtml(subtask.responsible_person || 'not assigned')}</span>
