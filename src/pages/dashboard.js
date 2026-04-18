@@ -34,11 +34,11 @@ export function dashboardPage(ctx) {
   const weeklyTasks = deadlineRecords.filter((item) => withinDays(deadlineValue(item), 7));
   const bimonthlyTasks = deadlineRecords.filter((item) => withinDays(deadlineValue(item), 15));
   const monthlyTasks = deadlineRecords.filter((item) => withinDays(deadlineValue(item), 30));
-  const recent = [...candidates, ...meetings, ...workbench, ...activities, ...calendar]
-    .sort((a, b) => String(b.timestamps?.updated_at || '').localeCompare(String(a.timestamps?.updated_at || '')))
+  const recent = [...candidates, ...meetings, ...workbench, ...activities, ...calendar, ...academic]
+    .sort((a, b) => recentValue(b).localeCompare(recentValue(a)))
     .slice(0, 6);
 
-  return `${pageHeader('Home', "Today's priorities, deadlines, follow-ups, and academic work in one place.", `Data updated ${store.candidates.updated_at?.slice(0, 10) || 'unknown'}`)}
+  return `${pageHeader('Home', "Today's priorities, deadlines, follow-ups, and academic work in one place.", `Data updated ${lastUpdated(store)}`)}
     <div class="metrics">
       ${metric('Total candidates', candidates.length)}
       ${metric('Masters / PhD / UG / Intern', `${masters} / ${phd} / ${ug} / ${interns}`)}
@@ -68,7 +68,7 @@ export function dashboardPage(ctx) {
         body: item.discussion,
         badges: visibilityBadge(item.visibility),
         href: `#/meetings/${item.id}`
-      })).join('')}</section>
+      })).join('') || '<p class="muted">No upcoming meetings.</p>'}</section>
       <section class="panel"><h3>Research summary</h3>${summaryCards(manuscripts, 'research')}</section>
       <section class="panel"><h3>Teaching summary</h3>${summaryCards(teaching, 'teaching')}</section>
       <section class="panel"><h3>Supervision summary</h3>${summaryCards(candidates, 'students')}</section>
@@ -81,6 +81,38 @@ export function dashboardPage(ctx) {
         href: item.programme_type && !item.candidate_id ? `#/candidates/${item.id}` : item.candidate_id ? `#/meetings/${item.id}` : item.module ? `#/workbench/${item.module}/${item.id}` : item.due_date ? `#/calendar/${item.id}` : item.date ? `#/activities/${item.id}` : '#/dashboard'
       })).join('')}</section>
     </div>`;
+}
+
+function lastUpdated(store) {
+  const values = [
+    store.supervision?.updated_at,
+    store.teaching?.updated_at,
+    store.publications?.updated_at,
+    store.projects?.updated_at,
+    store.administration?.updated_at,
+    store.careerMobility?.updated_at,
+    store.miscellaneous?.updated_at,
+    store.activities?.updated_at,
+    store.calendar?.updated_at,
+    store.mentors?.updated_at,
+    store.workflowTemplates?.updated_at
+  ].filter(Boolean).sort().reverse();
+  return values[0]?.slice(0, 10) || 'not available';
+}
+
+function recentValue(item = {}) {
+  return String(
+    item.timestamps?.updated_at ||
+    item.updated_at ||
+    item.created_at ||
+    item.date ||
+    item.final_deadline_datetime ||
+    item.final_deadline ||
+    item.due_date ||
+    item.course_end_date ||
+    item.course_start_date ||
+    ''
+  );
 }
 
 function metric(label, value, tone = '') {
