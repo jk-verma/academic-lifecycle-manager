@@ -331,7 +331,7 @@ function assessmentSummary(item) {
     ['Class participation', internal.class_participation],
     ['Assignment(s)', internal.assignments],
     ['Project(s)', internal.projects],
-    ['External component marks', item.external_component_marks]
+    ['External Marks', item.external_component_marks]
   ].filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== '');
   return `<div class="summary-grid">${fields.map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join('')}</div>`;
 }
@@ -348,7 +348,7 @@ function courseEditForm(item) {
       <input name="total_lectures" type="number" min="1" placeholder="Total lectures" value="${escapeHtml(item.total_lectures || '')}" readonly />
       <textarea name="assessment_components" placeholder="Assessment components, one per line">${escapeHtml(assessmentLines(item))}</textarea>
       <input name="internal_component_marks" type="number" min="0" placeholder="Internal marks" value="${escapeHtml(item.internal_component_marks || '')}" readonly />
-      <input name="external_component_marks" type="number" min="0" placeholder="External component marks" value="${escapeHtml(item.external_component_marks || '')}" />
+      <input name="external_component_marks" type="number" min="0" placeholder="External Marks" value="${escapeHtml(item.external_component_marks || '')}" />
       <input name="total_marks" type="number" min="0" placeholder="Total marks" value="${escapeHtml(item.total_marks || '')}" readonly />
       <input name="course_start_date" type="date" value="${escapeHtml(item.course_start_date || '')}" />
       <input name="course_end_date" type="date" value="${escapeHtml(item.course_end_date || '')}" />
@@ -368,7 +368,7 @@ function courseFields() {
       <input name="total_lectures" type="number" min="1" placeholder="Total lectures" readonly />
       <textarea name="assessment_components" placeholder="Assessment components, one per line. Example: Quiz-1: 5"></textarea>
       <input name="internal_component_marks" type="number" min="0" placeholder="Internal marks" readonly />
-      <input name="external_component_marks" type="number" min="0" placeholder="External component marks" />
+      <input name="external_component_marks" type="number" min="0" placeholder="External Marks" />
       <input name="total_marks" type="number" min="0" placeholder="Total marks" readonly />
       <input name="course_start_date" type="date" />
       <input name="course_end_date" type="date" />`;
