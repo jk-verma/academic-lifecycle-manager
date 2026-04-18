@@ -12,7 +12,7 @@
         "academic_year_current": "2025-2026",
         "programme": "B.Tech CSE",
         "hours": 30,
-        "status": "active",
+        "status": "pending",
         "priority": "medium",
         "notes": [],
         "feedback": "Collect end-semester feedback after final lab review.",

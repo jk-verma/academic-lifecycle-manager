@@ -15,7 +15,19 @@ export function researchPage(ctx) {
 }
 
 export function teachingPage(ctx) {
-  return academicModulePage(ctx, 'teaching', 'Teaching', 'Direct teaching: course outlines, lectures, quizzes, examinations, invigilation, and evaluation.', teachingGroups);
+  const items = ctx.visibleAcademicLife().filter((item) => item.module === 'teaching');
+  const form = ctx.canWrite() ? academicRecordForm('teaching', 'Teaching', ctx, { hidden: true }) : '<p class="notice">Local data entry is currently unavailable in this view.</p>';
+  return `${pageHeader('Teaching', 'Direct teaching: course outlines, lectures, quizzes, examinations, invigilation, and evaluation.')}
+    ${teachingRibbon(ctx)}
+    ${form}
+    <div class="grid">${items.map((item) => recordCard({
+      title: item.title,
+      meta: `${item.academic_year_current} | ${item.category} | ${item.priority || 'medium'} | final deadline: ${item.final_deadline || item.course_end_date || 'not set'}`,
+      body: `${taskProgress(item).label} | ${firstVisibleNote(item)}`,
+      badges: `${statusBadge(item.status)} ${visibilityBadge(item.visibility)}`,
+      href: `#/teaching/${item.id}`,
+      actions: ctx.cardActions('academic', item.id, 'teaching')
+    })).join('') || emptyState('No records', 'No teaching records are available yet.')}</div>`;
 }
 
 export function supervisionPage(ctx) {
@@ -142,10 +154,12 @@ function actionLink(label, href) {
   return `<a class="quick-action" href="${escapeHtml(href)}">${escapeHtml(label)}</a>`;
 }
 
-function academicRecordForm(module, title, ctx) {
-  const actionLabel = module === 'teaching' ? 'Add Course' : 'Add local record';
-  const heading = module === 'teaching' ? 'Add Course' : `Add ${title} record`;
-  return `<section class="panel">
+function academicRecordForm(module, title, ctx, options = {}) {
+  const actionLabel = module === 'teaching' ? 'Update Course' : 'Add local record';
+  const heading = module === 'teaching' ? 'Course details' : `Add ${title} record`;
+  const panelAttrs = options.hidden ? ` id="teaching-course-form" hidden` : '';
+  const panelClass = options.hidden ? 'panel collapsible-panel' : 'panel';
+  return `<section class="${panelClass}"${panelAttrs}>
     <h3>${escapeHtml(heading)}</h3>
     <form class="record-form" data-academic-module="${escapeHtml(module)}">
       <input name="title" required placeholder="Title" />
@@ -153,17 +167,16 @@ function academicRecordForm(module, title, ctx) {
       ${moduleSpecificFields(module)}
       <input name="final_deadline" type="date" />
       <input name="notes" placeholder="Initial append-only note" />
-      <input name="academic_year_current" placeholder="Academic year" value="2025-2026" />
+      ${module === 'teaching' ? academicYearSelect() : '<input name="academic_year_current" placeholder="Academic year" value="2025-2026" />'}
       <select name="status">${statusOptions(module)}</select>
-      <select name="priority"><option>low</option><option>medium</option><option>high</option></select>
+      ${module === 'teaching' ? '' : '<select name="priority"><option>low</option><option>medium</option><option>high</option></select>'}
       <button>${escapeHtml(actionLabel)}</button>
     </form>
   </section>`;
 }
 
 function moduleSpecificFields(module) {
-  if (module === 'teaching') return `${subtypeSelect(teachingGroups)}
-      ${courseFields()}`;
+  if (module === 'teaching') return courseFields();
   if (module === 'admin_work') return subtypeSelect(administrationGroups);
   if (module === 'career_mobility') return `${subtypeSelect(careerGroups)}
       <input name="institution_name" placeholder="Institution name" />
@@ -208,10 +221,25 @@ function routeName(module) {
 }
 
 function statusOptions(module) {
-  const statuses = module === 'career_mobility'
+  const statuses = module === 'teaching'
+    ? ['pending', 'completed']
+    : module === 'career_mobility'
     ? ['planned', 'applied', 'no_shortlisting', 'shortlisted', 'noc_required', 'noc_from_employer', 'interview', 'no_selection', 'selected', 'technical_resignation', 'joined', 'closed']
     : ['active', 'in_progress', 'planned', 'completed'];
   return statuses.map((status) => `<option>${escapeHtml(status)}</option>`).join('');
+}
+
+function teachingRibbon(ctx) {
+  const group = teachingGroups[0];
+  return `<div class="structure-grid">
+    <section class="structure-panel teaching-ribbon">
+      <div class="ribbon-head">
+        <h3>${escapeHtml(group.title)}</h3>
+        ${ctx.canWrite() ? '<button class="compact" data-toggle-panel="teaching-course-form">Add Course</button>' : ''}
+      </div>
+      <div class="chip-list">${group.items.map(([, label]) => `<span class="chip">${escapeHtml(label)}</span>`).join('')}</div>
+    </section>
+  </div>`;
 }
 
 function structureOverview(groups, hrefFor = () => '') {
@@ -300,47 +328,59 @@ function courseEditForm(item) {
     <h4>Edit course details</h4>
     <form class="record-form" data-update-course="${escapeHtml(item.id)}">
       <input name="course_outline_circulation_date" type="date" value="${escapeHtml(item.course_outline_circulation_date || '')}" />
-      ${courseTypeSelect(item.course_type)}
+      <input name="course_type" placeholder="Course type: UG / PG / Ph.D." value="${escapeHtml(item.course_type || '')}" />
       <input name="total_hours" placeholder="Total hours" value="${escapeHtml(item.total_hours || item.hours || '')}" />
       <input name="total_lectures" type="number" min="1" placeholder="Total lectures" value="${escapeHtml(item.total_lectures || '')}" />
       <input name="lecture_duration" placeholder="Lecture duration" value="${escapeHtml(item.lecture_duration || '')}" />
       <input name="total_marks" type="number" min="0" placeholder="Total marks" value="${escapeHtml(item.total_marks || '')}" />
       <input name="internal_component_marks" type="number" min="0" placeholder="Internal component marks" value="${escapeHtml(item.internal_component_marks || '')}" />
-      <input name="quiz_1" type="number" min="0" placeholder="Quiz-1 marks" value="${escapeHtml(internal.quiz_1 || '')}" />
-      <input name="quiz_2" type="number" min="0" placeholder="Quiz-2 marks" value="${escapeHtml(internal.quiz_2 || '')}" />
-      <input name="class_participation" type="number" min="0" placeholder="Class participation marks" value="${escapeHtml(internal.class_participation || '')}" />
-      <input name="assignments" type="number" min="0" placeholder="Assignment(s) marks" value="${escapeHtml(internal.assignments || '')}" />
-      <input name="projects" type="number" min="0" placeholder="Project(s) marks" value="${escapeHtml(internal.projects || '')}" />
+      <input name="quiz_1" placeholder="Quiz-1 details" value="${escapeHtml(internal.quiz_1 || '')}" />
+      <input name="quiz_2" placeholder="Quiz-2 details" value="${escapeHtml(internal.quiz_2 || '')}" />
+      <input name="class_participation" placeholder="Class participation details" value="${escapeHtml(internal.class_participation || '')}" />
+      <input name="assignments" placeholder="Assignment(s) details" value="${escapeHtml(internal.assignments || '')}" />
+      <input name="projects" placeholder="Project(s) details" value="${escapeHtml(internal.projects || '')}" />
       <input name="external_component_marks" type="number" min="0" placeholder="External component marks" value="${escapeHtml(item.external_component_marks || '')}" />
       <input name="course_start_date" type="date" value="${escapeHtml(item.course_start_date || '')}" />
       <input name="course_end_date" type="date" value="${escapeHtml(item.course_end_date || '')}" />
+      ${academicYearSelect(item.academic_year_current)}
+      <select name="status">${['pending', 'completed'].map((status) => `<option value="${escapeHtml(status)}" ${item.status === status ? 'selected' : ''}>${escapeHtml(status)}</option>`).join('')}</select>
       <input name="note" placeholder="Append note for this course edit" />
-      <button>Update course details locally</button>
+      <button>Update Course</button>
     </form>
   </section>`;
 }
 
 function courseFields() {
-  return `${courseTypeSelect('UG')}
+  return `<input name="sub_type" type="hidden" value="course" />
+      <input name="course_outline_circulation_date" type="date" title="Course outline circulation date" />
+      <input name="course_type" placeholder="Course type: UG / PG / Ph.D." value="UG" />
       <input name="total_hours" placeholder="Total hours" value="30 Hours" />
       <input name="total_lectures" type="number" min="1" placeholder="Total lectures" value="20" />
       <input name="lecture_duration" placeholder="Lecture duration" value="1.5 Hour" />
       <input name="total_marks" type="number" min="0" placeholder="Total marks" value="100" />
       <input name="internal_component_marks" type="number" min="0" placeholder="Internal component marks" value="50" />
-      <input name="quiz_1" type="number" min="0" placeholder="Quiz-1 marks" value="5" />
-      <input name="quiz_2" type="number" min="0" placeholder="Quiz-2 marks" value="5" />
-      <input name="class_participation" type="number" min="0" placeholder="Class participation marks" value="5" />
-      <input name="assignments" type="number" min="0" placeholder="Assignment(s) marks" value="10" />
-      <input name="projects" type="number" min="0" placeholder="Project(s) marks" value="10" />
+      <input name="quiz_1" placeholder="Quiz-1 details" value="5" />
+      <input name="quiz_2" placeholder="Quiz-2 details" value="5" />
+      <input name="class_participation" placeholder="Class participation details" value="5" />
+      <input name="assignments" placeholder="Assignment(s) details" value="10" />
+      <input name="projects" placeholder="Project(s) details" value="10" />
       <input name="external_component_marks" type="number" min="0" placeholder="External component marks" value="50" />
       <input name="course_start_date" type="date" />
       <input name="course_end_date" type="date" />`;
 }
 
-function courseTypeSelect(selected = 'UG') {
-  return `<select name="course_type">
-        ${['UG', 'PG', 'Ph.D.'].map((type) => `<option value="${escapeHtml(type)}" ${selected === type ? 'selected' : ''}>${escapeHtml(type)}</option>`).join('')}
-      </select>`;
+function academicYearSelect(selected = '') {
+  const currentYear = academicYearStartForToday();
+  const years = [];
+  for (let year = 2011; year <= currentYear + 5; year += 1) years.push(`${year}-${year + 1}`);
+  const active = selected || `${currentYear}-${currentYear + 1}`;
+  return `<select name="academic_year_current">${years.map((year) => `<option value="${escapeHtml(year)}" ${year === active ? 'selected' : ''}>${escapeHtml(year)}</option>`).join('')}</select>`;
+}
+
+function academicYearStartForToday() {
+  const date = new Date();
+  const year = date.getFullYear();
+  return date.getMonth() + 1 >= 7 ? year : year - 1;
 }
 
 function coursePlanAddForm(item) {

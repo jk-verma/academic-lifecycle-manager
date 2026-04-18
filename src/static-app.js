@@ -770,9 +770,9 @@ function addAcademicLifeRecord(module, formData) {
     sub_type: formData.get('sub_type'),
     academic_year_start: year,
     academic_year_current: year,
-    final_deadline: formData.get('final_deadline'),
-    status: formData.get('status'),
-    priority: formData.get('priority'),
+    final_deadline: formData.get('final_deadline') || formData.get('course_end_date') || '',
+    status: formData.get('status') || 'pending',
+    priority: formData.get('priority') || 'medium',
     notes: formData.get('notes') ? [{
       id: uid('note'),
       text: formData.get('notes'),
@@ -803,6 +803,8 @@ function updateCourseDetails(id, formData) {
   const course = store.academicLife.modules.teaching?.find((item) => item.id === id);
   if (!course) return;
   applyCourseFields(course, formData);
+  course.academic_year_current = formData.get('academic_year_current') || course.academic_year_current;
+  course.status = formData.get('status') || course.status;
   const actor = `local-${role.toLowerCase()}`;
   course.updated_by = actor;
   course.timestamps = { ...(course.timestamps || {}), updated_at: nowIso() };
@@ -830,11 +832,11 @@ function applyCourseFields(course, formData) {
   course.course_start_date = formData.get('course_start_date') || course.course_start_date || '';
   course.course_end_date = formData.get('course_end_date') || course.course_end_date || '';
   course.internal_components = {
-    quiz_1: Number(formData.get('quiz_1') || course.internal_components?.quiz_1 || 5),
-    quiz_2: Number(formData.get('quiz_2') || course.internal_components?.quiz_2 || 5),
-    class_participation: Number(formData.get('class_participation') || course.internal_components?.class_participation || 5),
-    assignments: Number(formData.get('assignments') || course.internal_components?.assignments || 10),
-    projects: Number(formData.get('projects') || course.internal_components?.projects || 10)
+    quiz_1: formData.get('quiz_1') || course.internal_components?.quiz_1 || '5',
+    quiz_2: formData.get('quiz_2') || course.internal_components?.quiz_2 || '5',
+    class_participation: formData.get('class_participation') || course.internal_components?.class_participation || '5',
+    assignments: formData.get('assignments') || course.internal_components?.assignments || '10',
+    projects: formData.get('projects') || course.internal_components?.projects || '10'
   };
 }
 
