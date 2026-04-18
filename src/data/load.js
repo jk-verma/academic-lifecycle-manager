@@ -16,20 +16,28 @@ export const DATA_PATHS = {
 
 function dataUrls(path) {
   const base = import.meta.env?.BASE_URL || './';
+  const baseUrl = base.endsWith('/') ? base : `${base}/`;
   return [
-    `${base}${path}`.replace(/\/{2,}/g, '/'),
+    `${baseUrl}${path}`,
     `./${path}`,
-    `./public/${path}`
+    `./public/${path}`,
+    `https://raw.githubusercontent.com/jk-verma/academic-lifecycle-manager/main/public/${path}`
   ];
 }
 
 async function loadJson(path) {
   const urls = dataUrls(path);
+  const failures = [];
   for (const url of urls) {
-    const response = await fetch(url);
-    if (response.ok) return response.json();
+    try {
+      const response = await fetch(url, { cache: 'no-cache' });
+      if (response.ok) return response.json();
+      failures.push(`${url} (${response.status})`);
+    } catch (err) {
+      failures.push(`${url} (${err.message})`);
+    }
   }
-  throw new Error(`Could not load ${urls.join(' or ')}`);
+  throw new Error(`Could not load ${failures.join(' or ')}`);
 }
 
 function validateStore(store) {
