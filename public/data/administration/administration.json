@@ -1,0 +1,39 @@
+{
+  "schema": "academic-lifecycle-manager.administration.v1",
+  "updated_at": "2026-04-18T11:30:00.000Z",
+  "records": [
+    {
+      "id": "admin-naac-report-2025",
+      "title": "NAAC departmental evidence report",
+      "category": "academic_administration",
+      "sub_type": "compliance_work",
+      "academic_year_start": "2025-2026",
+      "academic_year_current": "2025-2026",
+      "status": "in_progress",
+      "priority": "high",
+      "notes": [
+        {
+          "id": "admin-note-1",
+          "text": "Assistant compiled first draft of research supervision evidence.",
+          "created_by": "u-assistant",
+          "created_at": "2026-04-16T15:00:00.000Z"
+        }
+      ],
+      "responsibility": "Department research documentation",
+      "history": [
+        {
+          "version": 1,
+          "summary": "Admin work record created",
+          "updated_by": "u-assistant",
+          "updated_at": "2026-04-16T15:00:00.000Z"
+        }
+      ],
+      "created_by": "u-assistant",
+      "timestamps": {
+        "created_at": "2026-04-16T15:00:00.000Z",
+        "updated_at": "2026-04-16T15:00:00.000Z"
+      },
+      "final_deadline": "2026-05-30"
+    }
+  ]
+}

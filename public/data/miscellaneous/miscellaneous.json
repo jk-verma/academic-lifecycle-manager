@@ -1,0 +1,159 @@
+{
+  "schema": "academic-lifecycle-manager.miscellaneous.v1",
+  "updated_at": "2026-04-18T11:30:00.000Z",
+  "modules": {
+    "external_engagements": [
+      {
+        "id": "external-talk-ai-ethics-2025",
+        "title": "Invited talk on AI ethics",
+        "category": "external_engagements",
+        "sub_type": "invited_talk",
+        "academic_year_start": "2025-2026",
+        "academic_year_current": "2025-2026",
+        "status": "planned",
+        "priority": "medium",
+        "organization": "City College",
+        "engagement_date": "2026-05-08",
+        "notes": [
+          {
+            "id": "external-note-1",
+            "text": "Topic and abstract shared with host coordinator.",
+            "created_by": "u-admin",
+            "created_at": "2026-04-17T09:30:00.000Z"
+          }
+        ],
+        "history": [
+          {
+            "version": 1,
+            "summary": "External engagement created",
+            "updated_by": "u-admin",
+            "updated_at": "2026-04-17T09:30:00.000Z"
+          }
+        ],
+        "created_by": "u-admin",
+        "timestamps": {
+          "created_at": "2026-04-17T09:30:00.000Z",
+          "updated_at": "2026-04-17T09:30:00.000Z"
+        },
+        "final_deadline": "2026-05-08"
+      }
+    ],
+    "subscriptions": [
+      {
+        "id": "sub-ieee-2026",
+        "title": "IEEE professional membership renewal",
+        "category": "subscription",
+        "sub_type": "professional_membership",
+        "academic_year_start": "2025-2026",
+        "academic_year_current": "2025-2026",
+        "starting_date": "2026-01-01",
+        "ending_date": "2026-12-31",
+        "payment": "Annual membership fee",
+        "payment_status": "due",
+        "status": "active",
+        "priority": "medium",
+        "notes": [
+          {
+            "created_at": "2026-04-18T09:00:00.000Z",
+            "id": "sub-ieee-note-1",
+            "text": "Track renewal window, payment proof, and receipt upload.",
+            "created_by": "u-admin"
+          }
+        ],
+        "history": [
+          {
+            "summary": "Subscription record created",
+            "updated_by": "u-admin",
+            "version": 1,
+            "updated_at": "2026-04-18T09:00:00.000Z"
+          }
+        ],
+        "created_by": "u-admin",
+        "timestamps": {
+          "created_at": "2026-04-18T09:00:00.000Z",
+          "updated_at": "2026-04-18T09:00:00.000Z"
+        },
+        "final_deadline": "2026-12-31",
+        "subtasks": [
+          {
+            "sequence_order": 1,
+            "responsible_person": "Dr. Jitendra Kumar Verma",
+            "id": "sub-ieee-payment",
+            "history": [
+              {
+                "summary": "Subtask created",
+                "updated_by": "u-admin",
+                "version": 1,
+                "updated_at": "2026-04-18T09:00:00.000Z"
+              }
+            ],
+            "parent_record_id": "sub-ieee-2026",
+            "subtask_type": "payment",
+            "status": "pending",
+            "title": "Complete subscription payment",
+            "due_date": "2026-12-15"
+          },
+          {
+            "sequence_order": 2,
+            "responsible_person": "Faculty Assistant",
+            "id": "sub-ieee-receipt",
+            "history": [
+              {
+                "summary": "Subtask created",
+                "updated_by": "u-admin",
+                "version": 1,
+                "updated_at": "2026-04-18T09:00:00.000Z"
+              }
+            ],
+            "parent_record_id": "sub-ieee-2026",
+            "subtask_type": "documentation",
+            "status": "pending",
+            "title": "Archive receipt and membership proof",
+            "due_date": "2026-12-31"
+          }
+        ]
+      }
+    ],
+    "custom_activities": [
+      {
+        "id": "custom-fdp-001",
+        "title": "FDP on responsible AI",
+        "activity_type": "FDP",
+        "collaborators": [
+          "Department AI Cell"
+        ],
+        "organization_or_publisher": "Home Institution",
+        "description_or_abstract": "Faculty development programme planning record.",
+        "status": "planning",
+        "created_by": "u-admin",
+        "updated_by": "u-admin",
+        "timestamps": {
+          "created_at": "2026-04-01T10:00:00.000Z",
+          "updated_at": "2026-04-01T10:00:00.000Z"
+        },
+        "revision_history": [
+          {
+            "version": 1,
+            "summary": "Custom activity created",
+            "updated_by": "u-admin",
+            "updated_at": "2026-04-01T10:00:00.000Z"
+          }
+        ],
+        "academic_year_start": "2025-2026",
+        "academic_year_current": "2025-2026",
+        "category": "custom_activities",
+        "sub_type": "custom_activities",
+        "final_deadline": "2026-05-22",
+        "priority": "medium",
+        "history": [
+          {
+            "version": 1,
+            "summary": "Custom activity created",
+            "updated_by": "u-admin",
+            "updated_at": "2026-04-01T10:00:00.000Z"
+          }
+        ]
+      }
+    ]
+  }
+}

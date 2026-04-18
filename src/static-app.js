@@ -1,5 +1,5 @@
 import { filterBar, subtaskForm } from './components/ui.js';
-import { loadStore } from './data/load.js';
+import { composeStore, loadStore } from './data/load.js';
 import { activitiesPage, activityDetailPage } from './pages/activities.js';
 import { calendarDetailPage, calendarPage } from './pages/calendar.js';
 import { candidateDetailPage, candidatePhasePage, candidatesListPage } from './pages/candidates.js';
@@ -290,7 +290,7 @@ function bindEvents() {
   });
 
   const exportJson = document.getElementById('export-json');
-  if (exportJson) exportJson.addEventListener('click', () => downloadJson('academic-lifecycle-manager-data-export.json', store));
+  if (exportJson) exportJson.addEventListener('click', () => downloadJson('academic-lifecycle-manager-data-export.json', sourceDataBundle()));
 
   const exportDraft = document.getElementById('export-draft');
   if (exportDraft && draft) exportDraft.addEventListener('click', () => downloadJson(`${draft.id || 'draft'}.json`, draft));
@@ -1155,9 +1155,12 @@ function importBundle(event) {
   reader.onload = () => {
     try {
       const parsed = JSON.parse(reader.result);
-      if (!parsed.candidates || !parsed.meetings || !parsed.workbench || !parsed.activities || !parsed.calendar || !parsed.academicLife || !parsed.workflowTemplates) throw new Error('Bundle must include candidates, meetings, workbench, activities, calendar, academicLife, and workflowTemplates.');
-      parsed.mentors = parsed.mentors || { schema: 'academic-lifecycle-manager.mentors.v1', updated_at: nowIso(), records: [] };
-      store = { ...store, ...parsed };
+      const nextStore = parsed.teaching && parsed.publications && parsed.projects && parsed.supervision
+        ? composeStore(parsed)
+        : parsed;
+      if (!nextStore.candidates || !nextStore.meetings || !nextStore.workbench || !nextStore.activities || !nextStore.calendar || !nextStore.academicLife || !nextStore.workflowTemplates) throw new Error('Bundle must include separated module JSON data or the composed app data objects.');
+      nextStore.mentors = nextStore.mentors || { schema: 'academic-lifecycle-manager.mentors.v1', updated_at: nowIso(), records: [] };
+      store = { ...store, ...nextStore };
       error = 'JSON bundle imported into local browser state.';
       render();
     } catch (err) {
@@ -1166,6 +1169,52 @@ function importBundle(event) {
     }
   };
   reader.readAsText(file);
+}
+
+function sourceDataBundle() {
+  const workbenchModules = store.workbench?.modules || {};
+  const academicModules = store.academicLife?.modules || {};
+  return {
+    users: store.users,
+    permissions: store.permissions,
+    workflowTemplates: store.workflowTemplates,
+    teaching: { ...(store.teaching || {}), records: academicModules.teaching || [] },
+    publications: {
+      ...(store.publications || {}),
+      modules: {
+        journal_articles: workbenchModules.journal_articles || [],
+        conference_papers: workbenchModules.conference_papers || [],
+        authored_books: workbenchModules.authored_books || [],
+        edited_books: workbenchModules.edited_books || [],
+        book_chapters: workbenchModules.book_chapters || []
+      }
+    },
+    projects: {
+      ...(store.projects || {}),
+      modules: {
+        projects: workbenchModules.projects || [],
+        consultancy: workbenchModules.consultancy || []
+      }
+    },
+    supervision: {
+      ...(store.supervision || {}),
+      candidates: store.candidates || { records: [] },
+      meetings: store.meetings || { records: [] }
+    },
+    mentors: store.mentors,
+    administration: { ...(store.administration || {}), records: academicModules.admin_work || [] },
+    careerMobility: { ...(store.careerMobility || {}), records: academicModules.career_mobility || [] },
+    miscellaneous: {
+      ...(store.miscellaneous || {}),
+      modules: {
+        external_engagements: academicModules.external_engagements || [],
+        subscriptions: academicModules.subscriptions || [],
+        custom_activities: workbenchModules.custom_activities || []
+      }
+    },
+    activities: store.activities,
+    calendar: store.calendar
+  };
 }
 
 window.addEventListener('hashchange', render);

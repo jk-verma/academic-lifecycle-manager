@@ -38,13 +38,16 @@ Main files:
 - `public/config/users.json`
 - `public/config/permissions.json`
 - `public/config/workflow-templates.json`
-- `public/data/candidates/candidates.json`
+- `public/data/teaching/teaching.json`
+- `public/data/publications/publications.json`
+- `public/data/projects/projects.json`
+- `public/data/supervision/supervision.json`
 - `public/data/mentors/mentors.json`
-- `public/data/meetings/meetings.json`
-- `public/data/workbench/workbench.json`
+- `public/data/administration/administration.json`
+- `public/data/career-mobility/career-mobility.json`
+- `public/data/miscellaneous/miscellaneous.json`
 - `public/data/daily-activities/daily-activities.json`
 - `public/data/calendar/calendar.json`
-- `public/data/academic-life/academic-life.json`
 
 Records are Git-friendly and human-readable. Normal editing uses append-only arrays:
 

@@ -24,5 +24,19 @@ export function dataPage(ctx) {
       ${exchange}
       ${draft}
     </div>
-    ${detailSection('Repository files', ['public/config/users.json', 'public/config/permissions.json', 'public/config/workflow-templates.json', 'public/data/candidates/candidates.json', 'public/data/mentors/mentors.json', 'public/data/meetings/meetings.json', 'public/data/workbench/workbench.json', 'public/data/daily-activities/daily-activities.json', 'public/data/calendar/calendar.json', 'public/data/academic-life/academic-life.json'].map((file) => recordCard({ title: file, meta: 'Git-friendly JSON', body: 'Edit, commit, and push to update the portal.' })).join(''))}`;
+    ${detailSection('Repository files', [
+      'public/config/users.json',
+      'public/config/permissions.json',
+      'public/config/workflow-templates.json',
+      'public/data/teaching/teaching.json',
+      'public/data/publications/publications.json',
+      'public/data/projects/projects.json',
+      'public/data/supervision/supervision.json',
+      'public/data/mentors/mentors.json',
+      'public/data/administration/administration.json',
+      'public/data/career-mobility/career-mobility.json',
+      'public/data/miscellaneous/miscellaneous.json',
+      'public/data/daily-activities/daily-activities.json',
+      'public/data/calendar/calendar.json'
+    ].map((file) => recordCard({ title: file, meta: 'Git-friendly JSON', body: 'Edit, commit, and push to update the portal.' })).join(''))}`;
 }
