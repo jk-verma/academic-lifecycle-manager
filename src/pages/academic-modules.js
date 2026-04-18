@@ -18,14 +18,21 @@ export function researchPage(ctx) {
 export function teachingPage(ctx) {
   const allItems = ctx.visibleAcademicLife().filter((item) => item.module === 'teaching');
   const selectedYear = ctx.filters.teachingYear || currentAcademicYear();
+  const selectedCampus = ctx.filters.teachingCampus || '';
+  const selectedCourseType = ctx.filters.teachingCourseType || '';
+  const filteredItems = allItems
+    .filter((item) => !selectedCampus || (item.campus || '') === selectedCampus)
+    .filter((item) => !selectedCourseType || (item.course_type || '') === selectedCourseType);
   const items = selectedYear === 'all'
-    ? sortTeachingItems(allItems)
-    : sortTeachingItems(allItems.filter((item) => courseAcademicYear(item) === selectedYear));
-  const form = ctx.canWrite() ? academicRecordForm('teaching', 'Teaching', ctx, { hidden: true }) : '<p class="notice">Local data entry is currently unavailable in this view.</p>';
+    ? sortTeachingItems(filteredItems)
+    : sortTeachingItems(filteredItems.filter((item) => courseAcademicYear(item) === selectedYear));
+  const form = ctx.canWrite() ? academicRecordForm('teaching', 'Teaching', ctx, { hidden: true }) : '';
   return `${pageHeader('Teaching', 'Manage course plans, activities, assessments, and teaching deadlines.')}
-    ${teachingRibbon(ctx, allItems, selectedYear)}
-    ${form}
-    ${selectedYear === 'all' ? teachingYearSections(items, ctx) : teachingGrid(items, ctx)}`;
+    ${teachingRibbon(ctx, allItems, selectedYear, selectedCampus, selectedCourseType)}
+    ${form ? `<div class="grid teaching-grid course-form-wrap">${form}</div>` : '<p class="notice">Local data entry is currently unavailable in this view.</p>'}
+    ${selectedYear === 'all'
+      ? teachingYearSections(items, ctx)
+      : teachingYearSection(selectedYear, items, ctx, { hideWhenEmpty: false })}`;
 }
 
 export function supervisionPage(ctx) {
@@ -156,7 +163,9 @@ function academicRecordForm(module, title, ctx, options = {}) {
   const actionLabel = module === 'teaching' ? 'Add Course' : 'Add local record';
   const heading = module === 'teaching' ? 'Course details' : `Add ${title} record`;
   const panelAttrs = options.hidden ? ` id="teaching-course-form" hidden` : '';
-  const panelClass = options.hidden ? 'panel collapsible-panel' : 'panel';
+  const panelClass = module === 'teaching'
+    ? 'card course-form-card collapsible-panel'
+    : (options.hidden ? 'panel collapsible-panel' : 'panel');
   return `<section class="${panelClass}"${panelAttrs}>
     <h3>${escapeHtml(heading)}</h3>
     <form class="record-form" data-academic-module="${escapeHtml(module)}">
@@ -229,7 +238,7 @@ function statusOptions(module) {
   return statuses.map((status) => `<option>${escapeHtml(status)}</option>`).join('');
 }
 
-function teachingRibbon(ctx, records = [], selectedYear = currentAcademicYear()) {
+function teachingRibbon(ctx, records = [], selectedYear = currentAcademicYear(), selectedCampus = '', selectedCourseType = '') {
   const group = teachingGroups[0];
   return `<div class="structure-grid">
     <section class="structure-panel teaching-ribbon">
@@ -237,6 +246,8 @@ function teachingRibbon(ctx, records = [], selectedYear = currentAcademicYear())
         <h3>${escapeHtml(group.title)}</h3>
         <div class="ribbon-actions">
           <label class="ribbon-filter"><span>Academic Year</span>${teachingYearSelect(records, selectedYear)}</label>
+          <label class="ribbon-filter"><span>Campus Wise Teaching</span>${teachingCampusSelect(records, selectedCampus)}</label>
+          <label class="ribbon-filter"><span>Course Type Wise Teaching</span>${teachingCourseTypeSelect(records, selectedCourseType)}</label>
           ${ctx.canWrite() ? '<button data-new-course="true">Add Course</button>' : ''}
           <button class="secondary" data-copy-json="teaching">Copy JSON</button>
           <a class="button-link" href="https://github.com/jk-verma/academic-lifecycle-manager/edit/main/public/data/teaching/teaching.json" target="_blank" rel="noreferrer">Open GitHub Editor</a>
@@ -247,7 +258,7 @@ function teachingRibbon(ctx, records = [], selectedYear = currentAcademicYear())
 }
 
 function teachingGrid(items, ctx) {
-  return `<div class="grid">${items.map((item) => teachingCard(item, ctx)).join('') || emptyState('No records', 'No teaching records are available for the selected academic year.')}</div>`;
+  return `<div class="grid teaching-grid">${items.map((item) => teachingCard(item, ctx)).join('') || emptyState('No records', 'No teaching records are available for the selected filters.')}</div>`;
 }
 
 function teachingYearSections(items, ctx) {
@@ -259,7 +270,16 @@ function teachingYearSections(items, ctx) {
   }, {});
   const years = Object.keys(groups).sort().reverse();
   if (!years.length) return emptyState('No records', 'No teaching records are available yet.');
-  return years.map((year) => `<section class="year-section"><h3>${escapeHtml(year)}</h3>${teachingGrid(groups[year], ctx)}</section>`).join('');
+  return years.map((year) => teachingYearSection(year, groups[year], ctx)).join('');
+}
+
+function teachingYearSection(year, items, ctx, options = {}) {
+  if (!items.length && options.hideWhenEmpty) return '';
+  const totalHours = totalTeachingHours(items);
+  return `<section class="year-section">
+    <h3>${escapeHtml(year)} <span>Total teaching hours: ${escapeHtml(formatHours(totalHours))}</span></h3>
+    ${teachingGrid(items, ctx)}
+  </section>`;
 }
 
 function teachingCard(item, ctx) {
@@ -281,9 +301,10 @@ function teachingCardMeta(item) {
   return `<p class="muted teaching-card-meta">
     <span>${escapeHtml(courseAcademicYear(item))}</span>
     <span>${escapeHtml(item.course_type || 'course')}</span>
-    ${item.programme ? `<span>Programme: ${escapeHtml(item.programme)}</span>` : ''}
-    ${item.batch ? `<span>Batch: ${escapeHtml(item.batch)}</span>` : ''}
-    ${item.section ? `<span>Section: ${escapeHtml(item.section)}</span>` : ''}
+    <span>Programme: ${escapeHtml(item.programme || 'not set')}</span>
+    <span>Batch: ${escapeHtml(item.batch || 'not set')}</span>
+    <span>Section: ${escapeHtml(item.section || 'not set')}</span>
+    <span>Campus: ${escapeHtml(item.campus || 'not set')}</span>
     <span>Participants: ${escapeHtml(item.total_participants || 'not set')}</span>
     <span>Duration: ${escapeHtml(item.total_hours || item.hours || 'not set')}</span>
     <span>${escapeHtml(`${progress.completed}/${progress.total} activities completed`)}</span>
@@ -306,6 +327,7 @@ function teachingInlineEditor(item) {
       <input name="programme" placeholder="Programme" value="${escapeHtml(item.programme || '')}" />
       <input name="batch" placeholder="Batch, e.g. 2025-30" value="${escapeHtml(item.batch || '')}" />
       <input name="section" placeholder="Section" value="${escapeHtml(item.section || '')}" />
+      <input name="campus" placeholder="Campus" value="${escapeHtml(item.campus || '')}" />
       <input name="total_participants" type="number" min="0" placeholder="Total Participants" value="${escapeHtml(item.total_participants || '')}" />
       <input name="total_hours" type="number" min="0" step="0.25" placeholder="Total Hours" value="${escapeHtml(item.total_hours || item.hours || '')}" />
       <input name="lecture_duration" type="number" min="0.1" step="0.1" placeholder="Lecture Hour" value="${escapeHtml(item.lecture_duration || '')}" />
@@ -329,12 +351,30 @@ function teachingYearSelect(records = [], selected = currentAcademicYear()) {
   return `<select id="filter-teachingYear"><option value="all" ${selected === 'all' ? 'selected' : ''}>All years / All Courses</option>${options.map((year) => `<option value="${escapeHtml(year)}" ${selected === year ? 'selected' : ''}>${escapeHtml(year)}</option>`).join('')}</select>`;
 }
 
+function teachingCampusSelect(records = [], selected = '') {
+  const campuses = [...new Set(records.map((item) => item.campus).filter(Boolean))].sort();
+  return `<select id="filter-teachingCampus"><option value="">All campuses</option>${campuses.map((campus) => `<option value="${escapeHtml(campus)}" ${selected === campus ? 'selected' : ''}>${escapeHtml(campus)}</option>`).join('')}</select>`;
+}
+
+function teachingCourseTypeSelect(records = [], selected = '') {
+  const types = [...new Set([...courseTypes(), ...records.map((item) => item.course_type).filter(Boolean)])];
+  return `<select id="filter-teachingCourseType"><option value="">All course types</option>${types.map((type) => `<option value="${escapeHtml(type)}" ${selected === type ? 'selected' : ''}>${escapeHtml(type)}</option>`).join('')}</select>`;
+}
+
 function sortTeachingItems(items = []) {
   return [...items].sort((a, b) => courseAcademicYear(b).localeCompare(courseAcademicYear(a)) || String(a.title || '').localeCompare(String(b.title || '')));
 }
 
 function courseAcademicYear(item = {}) {
   return academicYearForDate(item.course_start_date || item.course_end_date || item.final_deadline || undefined);
+}
+
+function totalTeachingHours(items = []) {
+  return items.reduce((sum, item) => sum + parseCourseNumber(item.total_hours || item.hours), 0);
+}
+
+function formatHours(value) {
+  return Number.isInteger(value) ? String(value) : value.toFixed(2).replace(/\.?0+$/, '');
 }
 
 function currentAcademicYear() {
@@ -415,6 +455,7 @@ function courseSummary(item) {
     ['Programme', item.programme],
     ['Batch', item.batch],
     ['Section', item.section],
+    ['Campus', item.campus],
     ['Total hours', item.total_hours || item.hours],
     ['Total lectures', calculatedLectureCount(item)],
     ['Lecture Hour', item.lecture_duration],
@@ -483,6 +524,7 @@ function courseFields() {
       <input name="programme" placeholder="Programme" />
       <input name="batch" placeholder="Batch, e.g. 2025-30" />
       <input name="section" placeholder="Section" />
+      <input name="campus" placeholder="Campus" />
       <input name="total_participants" type="number" min="0" placeholder="Total Participants" />
       <input name="total_hours" type="number" min="0" step="0.25" placeholder="Total Hours" />
       <input name="lecture_duration" type="number" min="0.1" step="0.1" placeholder="Lecture Hour" />
@@ -496,8 +538,11 @@ function courseFields() {
 }
 
 function courseTypeSelect(selected = '') {
-  const types = ['UG Course', 'PG Course', 'Doctorate Course', 'FDP Course', 'MDP Course', 'Certificate Course'];
-  return `<select name="course_type"><option value="">Course Type</option>${types.map((type) => `<option value="${escapeHtml(type)}" ${selected === type ? 'selected' : ''}>${escapeHtml(type)}</option>`).join('')}</select>`;
+  return `<select name="course_type"><option value="">Course Type</option>${courseTypes().map((type) => `<option value="${escapeHtml(type)}" ${selected === type ? 'selected' : ''}>${escapeHtml(type)}</option>`).join('')}</select>`;
+}
+
+function courseTypes() {
+  return ['UG Course', 'PG Course', 'Doctorate Course', 'Executive Course (Week Days)', 'Executive Course (Weekends)', 'FDP Course', 'MDP Course', 'Certificate Course'];
 }
 
 function assessmentLines(item = {}) {

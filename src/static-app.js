@@ -232,7 +232,7 @@ function render() {
 }
 
 function bindEvents() {
-  ['q', 'programme', 'candidate', 'phase', 'module', 'status', 'priority', 'overdue', 'institution', 'academicYear', 'teachingYear', 'from', 'to'].forEach((key) => {
+  ['q', 'programme', 'candidate', 'phase', 'module', 'status', 'priority', 'overdue', 'institution', 'academicYear', 'teachingYear', 'teachingCampus', 'teachingCourseType', 'from', 'to'].forEach((key) => {
     const el = document.getElementById(`filter-${key}`);
     if (el) {
       el.addEventListener('input', (event) => {
@@ -958,6 +958,7 @@ function prepareTeachingCourseForm(course = null) {
     programme: course.programme,
     batch: course.batch,
     section: course.section,
+    campus: course.campus,
     total_hours: course.total_hours || course.hours,
     lecture_duration: course.lecture_duration,
     total_lectures: course.total_lectures,
@@ -999,6 +1000,7 @@ function applyCourseFields(course, formData) {
   course.programme = formData.get('programme') || course.programme || '';
   course.batch = formData.get('batch') || course.batch || '';
   course.section = formData.get('section') || course.section || '';
+  course.campus = formData.get('campus') || course.campus || '';
   course.total_hours = parseNumber(formData.get('total_hours')) || parseNumber(course.total_hours);
   delete course.hours;
   course.total_participants = formData.get('total_participants') || course.total_participants || '';
