@@ -44,7 +44,7 @@ export function workbenchDetailPage(ctx, module, id) {
   const projectBody = module === 'projects' ? projectDetails(item) : genericDetails(item);
   const attachments = item.attachments || [];
   return `${pageHeader(item.title, moduleLabels[module] || slugLabel(module))}
-    ${printActionBar(`<a class="card-link" href="#/workbench/${module}">Back to module</a>`)}
+    ${printActionBar(`<a class="card-link" href="#/workbench/${module}">${escapeHtml(backLabelForModule(module))}</a>`)}
     <section class="detail printable">
       <div class="metadata">${statusBadge(item.status)} ${visibilityBadge(item.visibility)} ${module === 'projects' && hasOverdueReporting(item) ? statusBadge('overdue_reporting') : ''}</div>
       ${detailSection('Overall task', taskSummary(item))}
@@ -57,6 +57,12 @@ export function workbenchDetailPage(ctx, module, id) {
       ${ctx.canWrite() ? ctx.appendNoteForm('workbench', item.id, module) : ''}
       ${ctx.canArchive() && item.status !== 'archived' ? `<button class="secondary" data-archive-kind="workbench" data-archive-module="${escapeHtml(module)}" data-archive-id="${escapeHtml(item.id)}">Archive record</button>` : ''}
     </section>`;
+}
+
+function backLabelForModule(module) {
+  if (['journal_articles', 'conference_papers', 'authored_books', 'edited_books', 'book_chapters'].includes(module)) return 'Back to Publications';
+  if (['projects', 'consultancy'].includes(module)) return 'Back to Projects';
+  return `Back to ${moduleLabels[module] || 'Module'}`;
 }
 
 function workbenchRecordForm(module, title, ctx) {

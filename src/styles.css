@@ -326,11 +326,13 @@ nav a:hover {
 
 .ribbon-filter {
   display: grid;
+  place-items: center;
   gap: 4px;
   min-width: 170px;
   color: var(--muted);
   font-size: 12px;
   font-weight: 900;
+  text-align: center;
 }
 
 .ribbon-filter select {
@@ -718,10 +720,13 @@ nav a:hover {
 }
 
 .summary-grid article {
+  display: grid;
+  place-items: center;
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 10px 12px;
   background: #f8fbfb;
+  text-align: center;
 }
 
 .summary-grid span {
@@ -729,10 +734,12 @@ nav a:hover {
   margin-bottom: 4px;
   color: var(--muted);
   font-size: 12px;
+  text-align: center;
 }
 
 .summary-grid strong {
   font-size: 14px;
+  text-align: center;
 }
 
 .single-row-summary {
@@ -823,15 +830,20 @@ nav a:hover {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  align-items: center;
 }
 
 .subtask-meta .meta-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 4px 8px;
   background: #f8fbfb;
   color: var(--muted);
   font-size: 12px;
+  text-align: center;
 }
 
 .subtask-meta .due-date-badge,

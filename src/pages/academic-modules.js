@@ -429,12 +429,12 @@ function recordSummary(item) {
 
 function teachingDetailPage(ctx, item) {
   return `${pageHeader(item.title, 'Teaching | Course planner')}
-    ${printActionBar('<button class="secondary" data-copy-json="teaching">Copy JSON</button><a class="button-link" href="https://github.com/jk-verma/academic-lifecycle-manager/edit/main/public/data/teaching/teaching.json" target="_blank" rel="noreferrer">Open GitHub Editor</a><a class="card-link" href="#/teaching">Back</a>')}
+    ${printActionBar('<a class="card-link" href="#/teaching">Back</a>')}
     <section class="detail printable">
       <div class="metadata">${statusBadge(courseDateStatus(item))}</div>
       ${detailSection('Course Details', courseSummary(item))}
       ${detailSection('Assessment Structure', assessmentSummary(item))}
-      ${detailSection('Course Plan', `${ctx.canWrite() ? `<div class="action-bar"><button class="secondary" data-toggle-panel="course-activity-form">Add Activity</button></div>${coursePlanAddForm(item)}` : ''}${subtaskTimeline(item, { kind: 'academic', id: item.id, module: 'teaching' })}`)}
+      ${detailSection('Course Plan', `${ctx.canWrite() ? coursePlanActions(item) : ''}${subtaskTimeline(item, { kind: 'academic', id: item.id, module: 'teaching' })}`)}
     </section>`;
 }
 
@@ -604,6 +604,34 @@ function coursePlanAddForm(item) {
   </section>`;
 }
 
+function courseNoteAddForm(item) {
+  return `<section class="append-panel" id="course-note-form" hidden>
+    <h4>Add Notes / Remark</h4>
+    <form class="record-form" data-add-subtask="academic" data-id="${escapeHtml(item.id)}" data-module="teaching">
+      <input name="subtask_id" type="hidden" />
+      <input name="subtask_type" type="hidden" value="note" />
+      <input name="status" type="hidden" value="pending" />
+      <input name="hierarchy_level" type="hidden" value="0" />
+      <input name="parent_subtask_id" type="hidden" value="" />
+      <input name="sequence_order" type="hidden" value="${escapeHtml(String((item.subtasks || []).length + 1))}" />
+      <input name="title" required placeholder="Notes / Remark Title" value="Notes / Remark" />
+      <textarea name="notes" required placeholder="Notes / Remark"></textarea>
+      <button>Add Notes</button>
+    </form>
+  </section>`;
+}
+
+function coursePlanActions(item) {
+  return `<div class="action-bar">
+    <button class="secondary" data-toggle-panel="course-activity-form">Add Activity</button>
+    <button class="secondary" data-toggle-panel="course-note-form">Add Notes</button>
+    <button class="secondary" data-export-course-sample="${escapeHtml(item.id)}">Export Sample File</button>
+    <label class="upload secondary-upload">Upload Activities CSV<input type="file" accept=".csv,text/csv" data-import-course-activities="${escapeHtml(item.id)}" /></label>
+    <button class="secondary" data-copy-json="teaching">Copy JSON</button>
+    <a class="button-link" href="https://github.com/jk-verma/academic-lifecycle-manager/edit/main/public/data/teaching/teaching.json" target="_blank" rel="noreferrer">Open GitHub Editor</a>
+  </div>${coursePlanAddForm(item)}${courseNoteAddForm(item)}`;
+}
+
 function activityProgress(item = {}) {
   const activities = topLevelActivities(item);
   return {
@@ -619,5 +647,5 @@ function nextPendingActivity(item = {}) {
 }
 
 function topLevelActivities(item = {}) {
-  return [...(item.subtasks || [])].filter((activity) => Number(activity.hierarchy_level || 0) === 0 && !activity.parent_subtask_id);
+  return [...(item.subtasks || [])].filter((activity) => Number(activity.hierarchy_level || 0) === 0 && !activity.parent_subtask_id && activity.subtask_type !== 'note');
 }

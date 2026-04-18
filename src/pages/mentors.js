@@ -22,7 +22,7 @@ export function mentorDetailPage(ctx, id) {
   if (!mentor) return emptyState('Mentor not found', 'This mentor record is unavailable for the selected role.');
   const candidates = assignedCandidates(ctx, mentor);
   return `${pageHeader(mentor.name, `${slugLabel(mentor.mentor_type)} | ${mentor.designation || 'Mentor'}`)}
-    ${printActionBar('<a class="card-link" href="#/mentors">Back to mentors</a>')}
+    ${printActionBar('<a class="card-link" href="#/mentors">Back to Mentors</a>')}
     <section class="detail printable">
       <div class="metadata">${statusBadge(mentor.status)} ${statusBadge(mentor.priority)} ${visibilityBadge(mentor.visibility)}</div>
       ${detailSection('Mentor profile', `<div class="summary-grid">

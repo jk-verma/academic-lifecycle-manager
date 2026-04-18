@@ -346,6 +346,14 @@ function bindEvents() {
     button.addEventListener('click', () => copyJsonSection(button.dataset.copyJson));
   });
 
+  document.querySelectorAll('[data-export-course-sample]').forEach((button) => {
+    button.addEventListener('click', () => exportCourseActivitySample());
+  });
+
+  document.querySelectorAll('[data-import-course-activities]').forEach((input) => {
+    input.addEventListener('change', (event) => importCourseActivities(input.dataset.importCourseActivities, event.target.files?.[0]));
+  });
+
   document.querySelectorAll('[data-inline-json-edit]').forEach((form) => {
     form.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -1173,6 +1181,122 @@ function defaultCourseSubtasks(parentId, totalLectures = 20) {
   add('end-term-answer-script-collection', 'End-Term Answer Script Collection', 'sub_activity', `sub-${parentId}-end-term-process`);
   add('end-term-answer-script-evaluation', 'End-Term Answer Script Evaluation', 'sub_activity', `sub-${parentId}-end-term-process`);
   return renumberSubtasks(items);
+}
+
+function exportCourseActivitySample() {
+  const csv = [
+    ['sequence_order', 'hierarchy_level', 'parent_sequence', 'title', 'subtask_type', 'due_date', 'status', 'responsible_person', 'responsible_contact', 'responsible_email', 'topic_notes_remark'],
+    ['1', '0', '', 'Lecture-1', 'activity', '2026-08-01', 'pending', 'Dr. Jitendra Kumar Verma', '', '', 'Lecture topic or remark'],
+    ['2', '0', '', 'Mid-Term Pre Process', 'activity', '2026-09-01', 'pending', 'Dr. Jitendra Kumar Verma', '', '', ''],
+    ['3', '1', '2', 'Assignment-1', 'sub_activity', '2026-09-02', 'pending', 'Dr. Jitendra Kumar Verma', '', '', 'Assignment details'],
+    ['4', '2', '3', 'Draft question list', 'sub_sub_activity', '2026-09-03', 'pending', 'Dr. Jitendra Kumar Verma', '', '', 'Optional nested item'],
+    ['5', '0', '', 'Notes / Remark', 'note', '', 'pending', '', '', '', 'General note that will not be counted as an activity']
+  ].map((row) => row.map(csvEscape).join(',')).join('\n');
+  downloadText('course-activities-sample.csv', csv);
+}
+
+function importCourseActivities(courseId, file) {
+  if (!file || !canWrite(store, role)) return;
+  const course = store.academicLife.modules.teaching?.find((item) => item.id === courseId);
+  if (!course) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const rows = parseCsv(String(reader.result || ''));
+      if (rows.length < 2) throw new Error('CSV must include a header row and at least one activity row.');
+      const headers = rows[0].map((item) => normalizeHeader(item));
+      const imported = [];
+      const bySequence = new Map();
+      rows.slice(1).forEach((row, index) => {
+        if (!row.some((value) => String(value || '').trim())) return;
+        const entry = Object.fromEntries(headers.map((header, headerIndex) => [header, row[headerIndex] || '']));
+        const sequence = Number(entry.sequence_order || index + 1);
+        const hierarchyLevel = Math.max(0, Math.min(2, Number(entry.hierarchy_level || 0)));
+        const parentSequence = entry.parent_sequence ? Number(entry.parent_sequence) : 0;
+        const parent = parentSequence ? bySequence.get(parentSequence) : null;
+        const noteText = entry.topic_notes_remark || entry.notes || entry.remark || '';
+        const due = entry.due_date || entry.due_datetime || '';
+        const item = {
+          id: uid('subtask'),
+          parent_record_id: course.id,
+          title: entry.title || `Activity ${sequence}`,
+          subtask_type: entry.subtask_type || (entry.type || 'activity'),
+          due_datetime: due,
+          due_date: due ? String(due).slice(0, 10) : '',
+          status: deriveSubtaskStatus(due, '', entry.status || 'pending'),
+          responsible_person: entry.responsible_person || '',
+          responsible_contact: entry.responsible_contact || '',
+          responsible_email: entry.responsible_email || '',
+          hierarchy_level: hierarchyLevel,
+          parent_subtask_id: hierarchyLevel > 0 && parent ? parent.id : '',
+          notes: noteText ? [{ id: uid('note'), text: noteText, created_by: `local-${role.toLowerCase()}`, created_at: nowIso(), visibility: course.visibility || 'open' }] : [],
+          sequence_order: sequence
+        };
+        imported.push(item);
+        bySequence.set(sequence, item);
+      });
+      course.subtasks = renumberSubtasks(imported);
+      course.timestamps = { ...(course.timestamps || {}), updated_at: nowIso() };
+      course.updated_by = `local-${role.toLowerCase()}`;
+      course.history = course.history || [];
+      course.history.push({ version: course.history.length + 1, summary: 'Course activities imported from CSV locally', updated_by: course.updated_by, updated_at: nowIso() });
+      error = 'Course activities imported locally. Export JSON to commit it.';
+      render();
+    } catch (err) {
+      error = err.message;
+      render();
+    }
+  };
+  reader.readAsText(file);
+}
+
+function parseCsv(text) {
+  const rows = [];
+  let row = [];
+  let cell = '';
+  let quoted = false;
+  for (let index = 0; index < text.length; index += 1) {
+    const char = text[index];
+    const next = text[index + 1];
+    if (char === '"' && quoted && next === '"') {
+      cell += '"';
+      index += 1;
+    } else if (char === '"') {
+      quoted = !quoted;
+    } else if (char === ',' && !quoted) {
+      row.push(cell);
+      cell = '';
+    } else if ((char === '\n' || char === '\r') && !quoted) {
+      if (char === '\r' && next === '\n') index += 1;
+      row.push(cell);
+      rows.push(row);
+      row = [];
+      cell = '';
+    } else {
+      cell += char;
+    }
+  }
+  row.push(cell);
+  rows.push(row);
+  return rows.filter((items) => items.some((value) => String(value || '').trim()));
+}
+
+function normalizeHeader(value = '') {
+  return String(value).trim().toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+}
+
+function csvEscape(value = '') {
+  const text = String(value);
+  return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+}
+
+function downloadText(filename, text) {
+  const blob = new Blob([text], { type: 'text/csv;charset=utf-8' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(link.href);
 }
 
 function phaseTemplate(programmeType) {

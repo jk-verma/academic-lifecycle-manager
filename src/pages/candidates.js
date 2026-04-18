@@ -50,7 +50,7 @@ export function candidateDetailPage(ctx, id) {
   const phaseList = templates[candidate.programme_type] || candidate.phase_progress.map((item) => item.phase);
 
   return `${pageHeader(candidate.name, candidate.topic)}
-    ${printActionBar(`<a class="card-link" href="#/candidates">Back</a>`)}
+    ${printActionBar(`<a class="card-link" href="#/supervision">Back to Supervision</a>`)}
     <section class="detail printable">
       <div class="metadata">${statusBadge(candidate.status)} ${visibilityBadge(candidate.visibility)} <span class="programme-badge">${escapeHtml(candidate.programme_type)}</span></div>
       ${detailSection('Overall task', taskSummary(candidate))}
@@ -79,7 +79,7 @@ export function candidatePhasePage(ctx, id, encodedPhase) {
   const meetings = ctx.visibleMeetings().filter((item) => item.candidate_id === id && item.phase === phase);
   const progress = candidate.phase_progress.find((item) => item.phase === phase) || { phase, status: 'not_started' };
   return `${pageHeader(`${candidate.name}: ${phase}`, 'Phase-level view of meetings, actions, notes, and progress.')}
-    ${printActionBar(`<a class="card-link" href="#/candidates/${candidate.id}">Back to candidate</a>`)}
+    ${printActionBar(`<a class="card-link" href="#/candidates/${candidate.id}">Back to Supervision</a>`)}
     <section class="detail printable">
       <div class="metadata">${statusBadge(progress.status)} ${visibilityBadge(candidate.visibility)}</div>
       ${detailSection('Phase progress', `<p>Status: <strong>${escapeHtml(progress.status)}</strong></p><p>Updated: ${escapeHtml(progress.updated_at || '')}</p>`)}

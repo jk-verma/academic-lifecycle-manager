@@ -95,6 +95,7 @@ export function subtaskTimeline(record = {}, options = {}) {
     const notes = (subtask.notes || []).filter((note) => note?.text);
     const remark = notes.map((note) => note.text).join('\n');
     const hierarchyLevel = Math.max(0, Math.min(2, Number(subtask.hierarchy_level || 0)));
+    const isNote = subtask.subtask_type === 'note';
     const dragAttrs = options.kind ? `draggable="true" data-reorder-subtask="true" data-kind="${escapeHtml(options.kind)}" data-id="${escapeHtml(options.id || record.id || '')}" data-module="${escapeHtml(options.module || record.module || '')}" data-subtask-id="${escapeHtml(subtask.id)}"` : '';
     const actions = options.kind ? `<div class="subtask-actions">
           <button class="secondary compact" data-edit-subtask="true" data-kind="${escapeHtml(options.kind)}" data-id="${escapeHtml(options.id || record.id || '')}" data-module="${escapeHtml(options.module || record.module || '')}" data-subtask-id="${escapeHtml(subtask.id)}">Edit</button>
@@ -107,26 +108,26 @@ export function subtaskTimeline(record = {}, options = {}) {
           <input name="hierarchy_level" type="hidden" value="${escapeHtml(String(subtask.hierarchy_level || 0))}" />
           <input name="sequence_order" type="number" min="1" step="1" placeholder="Sequence Number" value="${escapeHtml(String(subtask.sequence_order || ''))}" />
           <input name="title" required placeholder="Activity Name" value="${escapeHtml(subtask.title || '')}" />
-          <input name="due_datetime" type="date" value="${escapeHtml(dateOnly(due))}" />
+          ${isNote ? '' : `<input name="due_datetime" type="date" value="${escapeHtml(dateOnly(due))}" />
           ${subtaskStatusSelect(subtask.status)}
           <input name="responsible_person" placeholder="Responsible" value="${escapeHtml(subtask.responsible_person || '')}" />
           <input name="responsible_contact" placeholder="Responsible Contact" value="${escapeHtml(contact || '')}" />
-          <input name="responsible_email" type="email" placeholder="Responsible Email" value="${escapeHtml(email || '')}" />
+          <input name="responsible_email" type="email" placeholder="Responsible Email" value="${escapeHtml(email || '')}" />`}
           <textarea name="notes" placeholder="Topic / Notes / Remark">${escapeHtml(remark)}</textarea>
-          <button>Update Activity</button>
+          <button>${isNote ? 'Update Notes' : 'Update Activity'}</button>
         </form>` : '';
     const displayOrder = subtask.display_order || subtask.sequence_order || '';
     return `<article class="${overdue ? 'overdue-card' : ''} ${options.kind ? 'draggable-subtask' : ''} hierarchy-level-${hierarchyLevel}" ${dragAttrs}>
       <div class="subtask-marker">${escapeHtml(displayOrder)}</div>
       <div class="subtask-body">
-        <div class="card-head"><strong>${escapeHtml(subtask.title)}</strong><span>${statusBadge(displayStatus)}</span></div>
-        <div class="subtask-meta">
+        <div class="card-head"><strong>${escapeHtml(subtask.title)}</strong><span>${isNote ? statusBadge('note') : statusBadge(displayStatus)}</span></div>
+        ${isNote ? '' : `<div class="subtask-meta">
           <span class="meta-badge due-date-badge"><strong>Due date:</strong> ${escapeHtml(formatDateTime(due) || 'not set')}</span>
           ${completed ? `<span class="meta-badge"><strong>Completed:</strong> ${escapeHtml(formatDateTime(completed))}</span>` : ''}
           <span class="meta-badge responsible-badge"><strong>Responsible:</strong> ${escapeHtml(subtask.responsible_person || 'not assigned')}</span>
           ${contact ? `<span class="meta-badge"><strong>Mobile / Extension:</strong> ${escapeHtml(contact)}</span>` : ''}
           ${email ? `<span class="meta-badge"><strong>Email:</strong> ${escapeHtml(email)}</span>` : ''}
-        </div>
+        </div>`}
         ${notes.length ? `<div class="subtask-notes">${notes.map((note) => `<p>${escapeHtml(note.text)}</p>`).join('')}</div>` : ''}
         ${actions}
         ${inlineEditor}
