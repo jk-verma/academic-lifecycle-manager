@@ -434,7 +434,7 @@ function teachingDetailPage(ctx, item) {
       <div class="metadata">${statusBadge(courseDateStatus(item))}</div>
       ${detailSection('Course details', courseSummary(item))}
       ${detailSection('Assessment structure', assessmentSummary(item))}
-      ${detailSection('Course plan', subtaskTimeline(item, { kind: 'academic', id: item.id, module: 'teaching' }))}
+      ${detailSection('Course plan', `${ctx.canWrite() ? '<div class="action-bar"><button class="secondary" data-toggle-panel="course-activity-form">Add Activity</button></div>' : ''}${subtaskTimeline(item, { kind: 'academic', id: item.id, module: 'teaching' })}`)}
       ${ctx.canWrite() ? coursePlanAddForm(item) : ''}
     </section>`;
 }
@@ -581,42 +581,19 @@ function academicYearStartForToday() {
 }
 
 function coursePlanAddForm(item) {
-  const parents = (item.subtasks || [])
-    .filter((subtask) => Number(subtask.hierarchy_level || 0) < 2)
-    .sort((a, b) => Number(a.sequence_order || 0) - Number(b.sequence_order || 0));
-  const typeOptions = [
-    'course_outline',
-    'lecture',
-    'pre_process',
-    'mid_term_process',
-    'exam',
-    'answer_script_collection',
-    'evaluation',
-    'assignment',
-    'project',
-    'quiz',
-    'question_paper_setting',
-    'note'
-  ];
-  return `<section class="append-panel">
-    <h4>Add activity / sub-activity</h4>
+  return `<section class="append-panel" id="course-activity-form" hidden>
+    <h4>Add Activity</h4>
     <form class="record-form" data-add-subtask="academic" data-id="${escapeHtml(item.id)}" data-module="teaching">
       <input name="subtask_id" type="hidden" />
-      <input name="title" required placeholder="Activity or sub-activity title" />
-      <select name="subtask_type">${typeOptions.map((type) => `<option value="${escapeHtml(type)}">${escapeHtml(slugLabel(type))}</option>`).join('')}</select>
-      <input name="due_datetime" type="datetime-local" />
-      <input name="completed_datetime" type="datetime-local" />
-      <input name="responsible_person" placeholder="Responsible person" value="${escapeHtml(item.supervisor || 'Dr. Jitendra Kumar Verma')}" />
-      <input name="responsible_contact" placeholder="Mobile or extension number" />
-      <input name="insert_after_order" type="number" min="0" step="1" placeholder="Insert after sequence no." />
-      <select name="parent_subtask_id">
-        <option value="">Main activity with fresh numbering</option>
-        ${parents.map((parent) => `<option value="${escapeHtml(parent.id)}">${escapeHtml(parent.display_order || parent.sequence_order || '')}. ${escapeHtml(parent.title)}</option>`).join('')}
-      </select>
-      <select name="hierarchy_level"><option value="0">Activity</option><option value="1">Sub-activity</option><option value="2">Sub-sub-activity</option></select>
-      <select name="status"><option>pending</option><option>completed</option><option>deferred</option><option>cancelled</option></select>
-      <input name="notes" placeholder="Details / append-only note" />
-      <button>Add course plan item</button>
+      <input name="subtask_type" type="hidden" value="activity" />
+      <input name="status" type="hidden" value="pending" />
+      <input name="hierarchy_level" type="hidden" value="0" />
+      <input name="parent_subtask_id" type="hidden" value="" />
+      <input name="title" required placeholder="Activity Name" />
+      <input name="due_datetime" type="date" />
+      <input name="responsible_person" placeholder="Responsible" value="${escapeHtml(item.supervisor || 'Dr. Jitendra Kumar Verma')}" />
+      <input name="notes" placeholder="Topic / Notes / Remark" />
+      <button>Add Activity</button>
     </form>
   </section>`;
 }

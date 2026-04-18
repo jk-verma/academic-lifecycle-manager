@@ -283,7 +283,15 @@ function bindEvents() {
   });
 
   document.querySelectorAll('[data-edit-subtask]').forEach((button) => {
-    button.addEventListener('click', () => fillSubtaskEditForm(button.dataset.kind, button.dataset.id, button.dataset.module || '', button.dataset.subtaskId));
+    button.addEventListener('click', () => {
+      const editor = button.closest('.subtask-body')?.querySelector('[data-inline-subtask-editor]');
+      if (editor) {
+        editor.hidden = !editor.hidden;
+        if (!editor.hidden) editor.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+      }
+      fillSubtaskEditForm(button.dataset.kind, button.dataset.id, button.dataset.module || '', button.dataset.subtaskId);
+    });
   });
 
   document.querySelectorAll('[data-delete-subtask]').forEach((button) => {

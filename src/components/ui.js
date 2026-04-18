@@ -97,6 +97,18 @@ export function subtaskTimeline(record = {}, options = {}) {
           <button class="secondary compact" data-edit-subtask="true" data-kind="${escapeHtml(options.kind)}" data-id="${escapeHtml(options.id || record.id || '')}" data-module="${escapeHtml(options.module || record.module || '')}" data-subtask-id="${escapeHtml(subtask.id)}">Edit</button>
           <button class="secondary compact danger-action" data-delete-subtask="true" data-kind="${escapeHtml(options.kind)}" data-id="${escapeHtml(options.id || record.id || '')}" data-module="${escapeHtml(options.module || record.module || '')}" data-subtask-id="${escapeHtml(subtask.id)}">Delete</button>
         </div>` : '';
+    const inlineEditor = options.kind ? `<form class="record-form inline-subtask-editor" data-inline-subtask-editor hidden data-add-subtask="${escapeHtml(options.kind)}" data-id="${escapeHtml(options.id || record.id || '')}" data-module="${escapeHtml(options.module || record.module || '')}">
+          <input name="subtask_id" type="hidden" value="${escapeHtml(subtask.id)}" />
+          <input name="subtask_type" type="hidden" value="${escapeHtml(subtask.subtask_type || 'activity')}" />
+          <input name="status" type="hidden" value="${escapeHtml(subtask.status || 'pending')}" />
+          <input name="parent_subtask_id" type="hidden" value="${escapeHtml(subtask.parent_subtask_id || '')}" />
+          <input name="hierarchy_level" type="hidden" value="${escapeHtml(String(subtask.hierarchy_level || 0))}" />
+          <input name="title" required placeholder="Activity Name" value="${escapeHtml(subtask.title || '')}" />
+          <input name="due_datetime" type="date" value="${escapeHtml(dateOnly(due))}" />
+          <input name="responsible_person" placeholder="Responsible" value="${escapeHtml(subtask.responsible_person || '')}" />
+          <input name="notes" placeholder="Topic / Notes / Remark" />
+          <button>Update Activity</button>
+        </form>` : '';
     const displayOrder = subtask.display_order || subtask.sequence_order || '';
     return `<article class="${overdue ? 'overdue-card' : ''} ${options.kind ? 'draggable-subtask' : ''} hierarchy-level-${hierarchyLevel}" ${dragAttrs}>
       <div class="subtask-marker">${escapeHtml(displayOrder)}</div>
@@ -110,9 +122,14 @@ export function subtaskTimeline(record = {}, options = {}) {
         </div>
         ${notes.length ? `<div class="subtask-notes">${notes.map((note) => `<p>${escapeHtml(note.text)}</p>`).join('')}</div>` : ''}
         ${actions}
+        ${inlineEditor}
       </div>
     </article>`;
   }).join('')}</div>`;
+}
+
+function dateOnly(value = '') {
+  return value ? String(value).slice(0, 10) : '';
 }
 
 export function subtaskForm(kind, id, module = '') {
