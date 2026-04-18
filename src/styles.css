@@ -374,7 +374,8 @@ nav a:hover {
 }
 
 .teaching-grid {
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 380px));
+  justify-content: start;
 }
 
 .panel,
@@ -980,6 +981,10 @@ nav a:hover {
 @media (max-width: 840px) {
   .app-shell,
   .split {
+    grid-template-columns: 1fr;
+  }
+
+  .teaching-grid {
     grid-template-columns: 1fr;
   }
 
