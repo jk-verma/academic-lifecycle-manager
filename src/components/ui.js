@@ -88,7 +88,7 @@ export function subtaskTimeline(record = {}, options = {}) {
   return `<div class="subtask-timeline">${subtasks.map((subtask) => {
     const due = subtask.due_datetime || subtask.due_date;
     const completed = subtask.completed_datetime || subtask.completed_date;
-    const displayStatus = activityDateStatus(subtask, record);
+    const displayStatus = explicitActivityStatus(subtask.status);
     const overdue = displayStatus === 'overdue';
     const contact = subtask.responsible_contact || subtask.contact_number || subtask.mobile_extension;
     const email = subtask.responsible_email || subtask.email;
@@ -140,16 +140,15 @@ function dateOnly(value = '') {
   return value ? String(value).slice(0, 10) : '';
 }
 
-function activityDateStatus(subtask = {}, record = {}) {
-  const completed = subtask.completed_datetime || subtask.completed_date;
-  const status = String(subtask.status || '').toLowerCase();
-  if (status === 'overdue') return 'overdue';
-  if (completed || ['completed', 'finished'].includes(status)) return 'finished';
-  const due = subtask.due_datetime || subtask.due_date;
-  const dueDate = dateOnly(due);
-  const today = new Date().toISOString().slice(0, 10);
-  if (dueDate && dueDate < today) return 'finished';
+function explicitActivityStatus(status = '') {
+  const normalized = String(status || '').toLowerCase();
+  if (normalized === 'overdue') return 'overdue';
+  if (['completed', 'finished'].includes(normalized)) return 'finished';
   return 'pending';
+}
+
+function activityDateStatus(subtask = {}, record = {}) {
+  return explicitActivityStatus(subtask.status);
 }
 
 function subtaskStatusSelect(selected = 'pending') {

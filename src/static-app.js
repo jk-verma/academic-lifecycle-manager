@@ -547,14 +547,14 @@ function addSubtask(kind, id, formData, module = '') {
 }
 
 function deriveSubtaskStatus(dueDatetime = '', completedDatetime = '', requestedStatus = '') {
-  const manualStatus = String(requestedStatus || '').toLowerCase();
-  if (manualStatus === 'overdue') return 'overdue';
-  if (completedDatetime || ['completed', 'finished'].includes(manualStatus)) return 'finished';
-  if (!dueDatetime) return 'pending';
-  const due = String(dueDatetime);
-  const checkpoint = due.includes('T') ? due.slice(0, 16) : due.slice(0, 10);
-  const now = new Date().toISOString().slice(0, due.includes('T') ? 16 : 10);
-  return checkpoint < now ? 'finished' : 'pending';
+  return normalizeExplicitActivityStatus(requestedStatus);
+}
+
+function normalizeExplicitActivityStatus(status = '') {
+  const normalized = String(status || '').toLowerCase().trim();
+  if (normalized === 'overdue') return 'overdue';
+  if (['completed', 'finished'].includes(normalized)) return 'finished';
+  return 'pending';
 }
 
 function reorderSubtask(source, targetSubtaskId, hierarchyLevel = 0) {
@@ -611,7 +611,7 @@ function fillSubtaskEditForm(kind, id, module, subtaskId) {
   if (form.elements.subtask_type) form.elements.subtask_type.value = subtask.subtask_type || '';
   if (form.elements.due_datetime) form.elements.due_datetime.value = subtask.due_datetime || '';
   if (form.elements.completed_datetime) form.elements.completed_datetime.value = subtask.completed_datetime || '';
-  if (form.elements.status) form.elements.status.value = subtask.status === 'ongoing' ? 'pending' : (subtask.status || 'pending');
+  if (form.elements.status) form.elements.status.value = normalizeExplicitActivityStatus(subtask.status);
   if (form.elements.responsible_person) form.elements.responsible_person.value = subtask.responsible_person || '';
   if (form.elements.responsible_contact) form.elements.responsible_contact.value = subtask.responsible_contact || '';
   if (form.elements.responsible_email) form.elements.responsible_email.value = subtask.responsible_email || '';
@@ -626,9 +626,9 @@ function promptSubtaskEdit(record, subtask) {
   if (!canWrite(store, role)) return;
   const title = prompt('Activity title', subtask.title || '');
   if (title === null) return;
-  const status = prompt('Status: pending, completed, deferred, cancelled', subtask.status === 'ongoing' ? 'pending' : (subtask.status || 'pending'));
+  const status = prompt('Status: pending, overdue, finished', subtask.status === 'ongoing' ? 'pending' : (subtask.status || 'pending'));
   if (status === null) return;
-  const normalized = ['pending', 'completed', 'deferred', 'cancelled'].includes(status.trim()) ? status.trim() : 'pending';
+  const normalized = normalizeExplicitActivityStatus(status);
   const actor = `local-${role.toLowerCase()}`;
   subtask.title = title.trim() || subtask.title;
   subtask.status = normalized;
