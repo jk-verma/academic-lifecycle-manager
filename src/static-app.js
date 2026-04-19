@@ -240,7 +240,7 @@ function render() {
 }
 
 function bindEvents() {
-  ['q', 'programme', 'candidate', 'phase', 'module', 'status', 'priority', 'overdue', 'institution', 'academicYear', 'teachingYear', 'teachingCampus', 'teachingCourseType', 'publicationYear', 'publicationType', 'supervisionCandidate', 'supervisionMentor', 'mentor', 'mentorCandidate', 'from', 'to'].forEach((key) => {
+  ['q', 'programme', 'candidate', 'phase', 'module', 'status', 'priority', 'overdue', 'institution', 'academicYear', 'teachingYear', 'teachingCampus', 'teachingCourseType', 'publicationYear', 'publicationType', 'publicationCandidate', 'publicationMentor', 'supervisionCandidate', 'supervisionMentor', 'mentor', 'mentorCandidate', 'from', 'to'].forEach((key) => {
     const el = document.getElementById(`filter-${key}`);
     if (el) {
       el.addEventListener('input', (event) => {
@@ -1433,6 +1433,8 @@ function addWorkbenchRecord(module, formData) {
   ['type', 'funding_agency', 'PI', 'budget', 'journal', 'conference_name', 'publisher', 'book_title', 'organization', 'platform'].forEach((field) => {
     if (formData.has(field) && formData.get(field)) record[field] = formData.get(field);
   });
+  if (formData.get('linked_candidate_id')) record.assigned_candidate_ids = [formData.get('linked_candidate_id')];
+  if (formData.get('linked_mentor_id')) record.mentor_ids = [formData.get('linked_mentor_id')];
   record.co_investigators = [];
   record.team = [];
   record.reporting_deadlines = [];

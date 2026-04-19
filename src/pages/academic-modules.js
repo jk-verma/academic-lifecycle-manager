@@ -12,12 +12,16 @@ export function researchPage(ctx) {
   const allItems = ctx.visibleWorkbench().filter((item) => researchModules.includes(item.module));
   const selectedYear = ctx.filters.publicationYear || 'all';
   const selectedType = ctx.filters.publicationType || '';
+  const selectedCandidate = ctx.filters.publicationCandidate || '';
+  const selectedMentor = ctx.filters.publicationMentor || '';
   const items = allItems
     .filter((item) => selectedYear === 'all' || publicationAcademicYear(item) === selectedYear)
-    .filter((item) => !selectedType || item.module === selectedType);
-  const form = ctx.canWrite() ? publicationRecordForm() : '';
+    .filter((item) => !selectedType || item.module === selectedType)
+    .filter((item) => publicationMatchesCandidate(ctx, item, selectedCandidate))
+    .filter((item) => publicationMatchesMentor(ctx, item, selectedMentor));
+  const form = ctx.canWrite() ? publicationRecordForm(ctx) : '';
   return `${pageHeader('Research', 'Publications: journal articles, conference papers, books, edited books, and book chapters.')}
-    ${publicationRibbon(ctx, allItems, selectedYear, selectedType)}
+    ${publicationRibbon(ctx, allItems, selectedYear, selectedType, selectedCandidate, selectedMentor)}
     ${form}
     ${moduleListContent(items, (item) => `#/workbench/${item.module}/${item.id}`, (item) => ctx.cardActions('workbench', item.id, item.module))}`;
 }
@@ -270,7 +274,7 @@ function teachingRibbon(ctx, records = [], selectedYear = currentAcademicYear(),
   </div>`;
 }
 
-function publicationRibbon(ctx, records = [], selectedYear = 'all', selectedType = '') {
+function publicationRibbon(ctx, records = [], selectedYear = 'all', selectedType = '', selectedCandidate = '', selectedMentor = '') {
   const group = researchGroups[0];
   return `<div class="structure-grid">
     <section class="structure-panel teaching-ribbon">
@@ -279,6 +283,8 @@ function publicationRibbon(ctx, records = [], selectedYear = 'all', selectedType
         <div class="ribbon-actions">
           <label class="ribbon-filter"><span>Academic Year</span>${publicationYearSelect(records, selectedYear)}</label>
           <label class="ribbon-filter"><span>Publication Type</span>${publicationTypeSelect(selectedType)}</label>
+          <label class="ribbon-filter"><span>Supervising Candidate</span>${publicationCandidateSelect(ctx.visibleCandidates(), selectedCandidate)}</label>
+          <label class="ribbon-filter"><span>Mentor</span>${publicationMentorSelect(ctx.visibleMentors(), selectedMentor)}</label>
           ${ctx.canWrite() ? '<button type="button" data-toggle-panel="publication-details-form">Add Publication</button>' : ''}
           <button type="button" class="secondary" data-copy-json="publications">Copy JSON</button>
           <a class="button-link" href="https://github.com/jk-verma/academic-lifecycle-manager/edit/main/public/data/publications/publications.json" target="_blank" rel="noreferrer">Open GitHub Editor</a>
@@ -289,12 +295,14 @@ function publicationRibbon(ctx, records = [], selectedYear = 'all', selectedType
   </div>`;
 }
 
-function publicationRecordForm() {
+function publicationRecordForm(ctx) {
   return `<section class="panel collapsible-panel" id="publication-details-form" hidden>
     <h3>Publication Details</h3>
     <form class="record-form" data-publication-form="true">
       <input name="title" required placeholder="Publication Title" />
       ${publicationTypeSelect('', 'publication_module')}
+      ${publicationCandidateSelect(ctx.visibleCandidates(), '', 'linked_candidate_id')}
+      ${publicationMentorSelect(ctx.visibleMentors(), '', 'linked_mentor_id')}
       <input name="description_or_abstract" placeholder="Description / abstract / purpose" />
       <input name="organization_or_publisher" placeholder="Journal / conference / publisher / book title" />
       <input name="final_deadline_datetime" type="datetime-local" />
@@ -423,6 +431,18 @@ function publicationTypeSelect(selected = '', name = '') {
   return `<select${attr}>${first}${optionList(researchGroups).map(([value, label]) => `<option value="${escapeHtml(value)}" ${selected === value ? 'selected' : ''}>${escapeHtml(label)}</option>`).join('')}</select>`;
 }
 
+function publicationCandidateSelect(candidates = [], selected = '', name = '') {
+  const attr = name ? ` name="${escapeHtml(name)}"` : ' id="filter-publicationCandidate"';
+  const first = `<option value="">${name ? 'Link supervising candidate' : 'All candidates'}</option>`;
+  return `<select${attr}>${first}${candidates.map((candidate) => `<option value="${escapeHtml(candidate.id)}" ${selected === candidate.id ? 'selected' : ''}>${escapeHtml(candidate.name)}</option>`).join('')}</select>`;
+}
+
+function publicationMentorSelect(mentors = [], selected = '', name = '') {
+  const attr = name ? ` name="${escapeHtml(name)}"` : ' id="filter-publicationMentor"';
+  const first = `<option value="">${name ? 'Link mentor' : 'All mentors'}</option>`;
+  return `<select${attr}>${first}${mentors.map((mentor) => `<option value="${escapeHtml(mentor.id)}" ${selected === mentor.id ? 'selected' : ''}>${escapeHtml(mentor.name)}</option>`).join('')}</select>`;
+}
+
 function dataSectionForAcademicModule(module) {
   if (module === 'admin_work') return 'administration';
   if (module === 'career_mobility') return 'careerMobility';
@@ -455,6 +475,37 @@ function courseAcademicYear(item = {}) {
 
 function publicationAcademicYear(item = {}) {
   return item.academic_year_current || item.academic_year_start || academicYearForDate(item.publication_date || item.acceptance_date || item.submission_date || item.final_deadline || item.final_deadline_datetime?.slice(0, 10) || undefined);
+}
+
+function publicationMatchesCandidate(ctx, item = {}, candidateId = '') {
+  if (!candidateId) return true;
+  const candidate = ctx.visibleCandidates().find((entry) => entry.id === candidateId);
+  if (!candidate) return false;
+  if ((item.assigned_candidate_ids || item.candidate_ids || []).includes(candidateId)) return true;
+  const haystack = publicationSearchText(item);
+  return [candidate.name, candidate.topic].filter(Boolean).some((value) => haystack.includes(String(value).toLowerCase()));
+}
+
+function publicationMatchesMentor(ctx, item = {}, mentorId = '') {
+  if (!mentorId) return true;
+  const mentor = ctx.visibleMentors().find((entry) => entry.id === mentorId);
+  if (!mentor) return false;
+  if ((item.mentor_ids || item.assigned_mentor_ids || []).includes(mentorId)) return true;
+  if ((mentor.assigned_candidate_ids || []).some((candidateId) => publicationMatchesCandidate(ctx, item, candidateId))) return true;
+  const haystack = publicationSearchText(item);
+  return [mentor.name, mentor.specialization, mentor.organization].filter(Boolean).some((value) => haystack.includes(String(value).toLowerCase()));
+}
+
+function publicationSearchText(item = {}) {
+  return JSON.stringify({
+    title: item.title,
+    authors: item.authors,
+    collaborators: item.collaborators,
+    description_or_abstract: item.description_or_abstract,
+    notes: item.notes,
+    notes_append_only: item.notes_append_only,
+    organization_or_publisher: item.organization_or_publisher
+  }).toLowerCase();
 }
 
 function totalTeachingHours(items = []) {
