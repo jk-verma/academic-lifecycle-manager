@@ -2609,33 +2609,49 @@
           "display_order": "26.4"
         },
         {
-          "id": "subtask-1776579101431-d1863a",
+          "id": "subtask-1776579285923-3f03e9",
           "parent_record_id": "teaching-1776527313789-498de3",
-          "title": "Notes / Remark",
-          "subtask_type": "note",
-          "due_datetime": "",
-          "due_date": "",
-          "status": "pending",
-          "responsible_person": "Dr. V. Rajaraman",
-          "responsible_contact": "91-0000000040",
-          "responsible_email": "v-rajaraman@gmail.com",
           "hierarchy_level": 0,
           "parent_subtask_id": "",
           "notes": [
             {
-              "id": "note-1776579101431-870dae",
-              "text": "Lecture topic or remark",
+              "id": "note-1776579285923-0fc355",
+              "text": "Manthan is in black list.\nArpit Ishara is also in blacklist.",
               "created_by": "local-admin",
-              "created_at": "2026-04-19T06:11:41.431Z",
+              "created_at": "2026-04-19T06:14:45.923Z",
               "visibility": "open"
             }
           ],
+          "history": [
+            {
+              "version": 1,
+              "summary": "Subtask added locally",
+              "updated_by": "local-admin",
+              "updated_at": "2026-04-19T06:14:45.923Z"
+            },
+            {
+              "version": 2,
+              "summary": "Subtask updated locally",
+              "updated_by": "local-admin",
+              "updated_at": "2026-04-19T06:15:31.997Z"
+            }
+          ],
           "sequence_order": 45,
+          "title": "Notes / Remark",
+          "subtask_type": "note",
+          "due_datetime": null,
+          "due_date": "",
+          "completed_datetime": "",
+          "completed_date": "",
+          "status": "pending",
+          "responsible_person": null,
+          "responsible_contact": null,
+          "responsible_email": null,
           "display_order": "27"
         }
       ],
       "timestamps": {
-        "updated_at": "2026-04-19T06:11:41.431Z"
+        "updated_at": "2026-04-19T06:15:31.998Z"
       },
       "updated_by": "local-admin",
       "history": [
@@ -2644,6 +2660,24 @@
           "summary": "Course activities imported from CSV locally",
           "updated_by": "local-admin",
           "updated_at": "2026-04-19T06:11:41.432Z"
+        },
+        {
+          "version": 2,
+          "summary": "Subtask added: Notes / Remark",
+          "updated_by": "local-admin",
+          "updated_at": "2026-04-19T06:14:45.924Z"
+        },
+        {
+          "version": 3,
+          "summary": "Activity removed locally: Notes / Remark",
+          "updated_by": "local-admin",
+          "updated_at": "2026-04-19T06:15:00.671Z"
+        },
+        {
+          "version": 4,
+          "summary": "Subtask updated: Notes / Remark",
+          "updated_by": "local-admin",
+          "updated_at": "2026-04-19T06:15:31.998Z"
         }
       ]
     },
