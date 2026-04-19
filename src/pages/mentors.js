@@ -4,9 +4,13 @@ import { escapeHtml, slugLabel } from '../utils/html.js';
 import { structuredFilter } from '../utils/search.js';
 
 export function mentorsPage(ctx) {
-  const mentors = structuredFilter(ctx.visibleMentors(), { ...ctx.filters, module: '' });
+  const selectedMentor = ctx.filters.mentor || '';
+  const selectedCandidate = ctx.filters.mentorCandidate || '';
+  const mentors = structuredFilter(ctx.visibleMentors(), { ...ctx.filters, module: '', candidate: '' })
+    .filter((mentor) => !selectedMentor || mentor.id === selectedMentor)
+    .filter((mentor) => !selectedCandidate || (mentor.assigned_candidate_ids || []).includes(selectedCandidate));
   return `${pageHeader('Mentors', 'Senior students, junior faculty members, and external collaborators who guide selected students.')}
-    ${ctx.renderFilters()}
+    ${mentorRibbon(ctx, mentors, selectedMentor, selectedCandidate)}
     ${ctx.canWrite() ? ctx.dataTools('mentors', 'public/data/mentors/mentors.json') : ''}
     <div class="structure-grid">${mentorGroups.map((group) => `<section class="structure-panel"><h3>${escapeHtml(group.title)}</h3><div class="chip-list">${group.items.map(([, label]) => `<span class="chip">${escapeHtml(label)}</span>`).join('')}</div></section>`).join('')}</div>
     ${ctx.canWrite() ? mentorForm(ctx) : '<p class="notice">Adding mentors is currently unavailable in this view.</p>'}
@@ -18,6 +22,33 @@ export function mentorsPage(ctx) {
       href: `#/mentors/${mentor.id}`,
       actions: ctx.cardActions('mentor', mentor.id)
     })).join('') || emptyState('No mentors', 'No mentor records are visible.')}</div>`;
+}
+
+function mentorRibbon(ctx, visibleMentors = [], selectedMentor = '', selectedCandidate = '') {
+  const mentors = ctx.visibleMentors();
+  const candidates = ctx.visibleCandidates();
+  return `<div class="structure-grid">
+    <section class="structure-panel teaching-ribbon">
+      <div class="ribbon-head">
+        <h3>Mentor Filters</h3>
+        <div class="ribbon-actions">
+          <label class="ribbon-filter"><span>Mentor</span>
+            <select id="filter-mentor">
+              <option value="">All mentors</option>
+              ${mentors.map((mentor) => `<option value="${escapeHtml(mentor.id)}" ${selectedMentor === mentor.id ? 'selected' : ''}>${escapeHtml(mentor.name)}</option>`).join('')}
+            </select>
+          </label>
+          <label class="ribbon-filter"><span>Supervising Candidate</span>
+            <select id="filter-mentorCandidate">
+              <option value="">All candidates</option>
+              ${candidates.map((candidate) => `<option value="${escapeHtml(candidate.id)}" ${selectedCandidate === candidate.id ? 'selected' : ''}>${escapeHtml(candidate.name)}</option>`).join('')}
+            </select>
+          </label>
+          <span class="meta-badge"><strong>Visible:</strong> ${escapeHtml(String(visibleMentors.length))}</span>
+        </div>
+      </div>
+    </section>
+  </div>`;
 }
 
 export function mentorDetailPage(ctx, id) {

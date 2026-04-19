@@ -9,9 +9,14 @@ const templates = {
 };
 
 export function candidatesListPage(ctx) {
-  const candidates = structuredFilter(ctx.visibleCandidates(), { ...ctx.filters, module: '' });
+  const selectedCandidate = ctx.filters.supervisionCandidate || '';
+  const selectedMentor = ctx.filters.supervisionMentor || '';
+  const mentors = ctx.visibleMentors();
+  const candidates = structuredFilter(ctx.visibleCandidates(), { ...ctx.filters, module: '', candidate: '' })
+    .filter((candidate) => !selectedCandidate || candidate.id === selectedCandidate)
+    .filter((candidate) => !selectedMentor || mentors.some((mentor) => mentor.id === selectedMentor && (mentor.assigned_candidate_ids || []).includes(candidate.id)));
   return `${pageHeader('Candidates', 'Research supervision workspaces by programme and phase.')}
-    ${ctx.renderFilters()}
+    ${supervisionRibbon(ctx, candidates, selectedCandidate, selectedMentor)}
     ${ctx.canWrite() ? ctx.dataTools('supervision', 'public/data/supervision/supervision.json') : ''}
     ${ctx.canWrite() ? candidateForm(ctx) : '<p class="notice">Adding candidates is currently unavailable in this view.</p>'}
     <div class="grid">${candidates.map((candidate) => recordCard({
@@ -22,6 +27,33 @@ export function candidatesListPage(ctx) {
       href: `#/candidates/${candidate.id}`,
       actions: ctx.cardActions('candidate', candidate.id)
     })).join('') || emptyState('No candidates', 'No candidates are visible.')}</div>`;
+}
+
+function supervisionRibbon(ctx, visibleCandidates = [], selectedCandidate = '', selectedMentor = '') {
+  const allCandidates = ctx.visibleCandidates();
+  const mentors = ctx.visibleMentors();
+  return `<div class="structure-grid">
+    <section class="structure-panel teaching-ribbon">
+      <div class="ribbon-head">
+        <h3>Supervision Filters</h3>
+        <div class="ribbon-actions">
+          <label class="ribbon-filter"><span>Supervising Candidate</span>
+            <select id="filter-supervisionCandidate">
+              <option value="">All candidates</option>
+              ${allCandidates.map((candidate) => `<option value="${escapeHtml(candidate.id)}" ${selectedCandidate === candidate.id ? 'selected' : ''}>${escapeHtml(candidate.name)}</option>`).join('')}
+            </select>
+          </label>
+          <label class="ribbon-filter"><span>Mentor</span>
+            <select id="filter-supervisionMentor">
+              <option value="">All mentors</option>
+              ${mentors.map((mentor) => `<option value="${escapeHtml(mentor.id)}" ${selectedMentor === mentor.id ? 'selected' : ''}>${escapeHtml(mentor.name)}</option>`).join('')}
+            </select>
+          </label>
+          <span class="meta-badge"><strong>Visible:</strong> ${escapeHtml(String(visibleCandidates.length))}</span>
+        </div>
+      </div>
+    </section>
+  </div>`;
 }
 
 function candidateForm(ctx) {
