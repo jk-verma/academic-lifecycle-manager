@@ -377,7 +377,7 @@ function teachingCardBody(item) {
 }
 
 function teachingInlineEditor(item) {
-  return `<section class="inline-editor" data-inline-editor hidden>
+  return `<section class="inline-editor course-inline-editor" data-inline-editor hidden>
     <h4>Edit Course Details</h4>
     <form class="record-form inline-record-form" data-academic-module="teaching">
       <input name="record_id" type="hidden" value="${escapeHtml(item.id)}" />

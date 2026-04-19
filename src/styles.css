@@ -636,6 +636,12 @@ nav a:hover {
   margin-top: 0;
 }
 
+.teaching-card.editing-course {
+  grid-column: 1 / -1;
+  width: 100%;
+  max-width: none;
+}
+
 .inline-editor {
   margin-top: 14px;
   padding-top: 14px;
@@ -648,6 +654,24 @@ nav a:hover {
 
 .inline-record-form {
   margin-bottom: 0;
+}
+
+.course-inline-editor {
+  display: block;
+  margin-top: 14px;
+}
+
+.course-inline-editor .inline-record-form {
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  align-items: stretch;
+}
+
+.course-inline-editor textarea {
+  min-height: 44px;
+}
+
+.course-inline-editor button {
+  min-height: 44px;
 }
 
 .inline-record-form textarea[name="json"] {

@@ -778,6 +778,7 @@ function editRecord(kind, id, module = '', button = null) {
   const existingEditor = card?.querySelector?.('[data-inline-editor]');
   if (existingEditor) {
     existingEditor.hidden = !existingEditor.hidden;
+    if (module === 'teaching') card?.classList.toggle('editing-course', !existingEditor.hidden);
     if (!existingEditor.hidden) existingEditor.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     return;
   }
