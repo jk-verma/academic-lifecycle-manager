@@ -1,6 +1,6 @@
 import { filterBar, subtaskForm } from './components/ui.js';
 import { composeStore, loadStore } from './data/load.js';
-import { COURSE_ACTIVITY_SAMPLE_CSV } from './data/course-activity-sample.js';
+import { COURSE_ACTIVITY_SAMPLE_CSV, DEFAULT_COURSE_ACTIVITY_SAMPLE_CSV } from './data/course-activity-sample.js';
 import { activitiesPage, activityDetailPage } from './pages/activities.js';
 import { calendarDetailPage, calendarPage } from './pages/calendar.js';
 import { candidateDetailPage, candidatePhasePage, candidatesListPage } from './pages/candidates.js';
@@ -1145,7 +1145,7 @@ function parseAssessmentComponents(value = '') {
 }
 
 function defaultCourseSubtasks(parentId) {
-  const rows = parseCsv(COURSE_ACTIVITY_SAMPLE_CSV);
+  const rows = parseCsv(DEFAULT_COURSE_ACTIVITY_SAMPLE_CSV);
   if (rows.length < 2) return [];
   const headers = rows[0].map((item) => normalizeHeader(item));
   const imported = [];

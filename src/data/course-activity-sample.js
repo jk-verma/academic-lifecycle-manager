@@ -42,3 +42,10 @@ export const COURSE_ACTIVITY_SAMPLE_CSV = `sequence_order,hierarchy_level,parent
 41,1,37,End-Term Answer Script Evaluation,sub_activity,,pending,Dr. V. Rajaraman,91-0000000039,v-rajaraman@gmail.com,Lecture topic or remark
 42,0,,Notes / Remark,note,,pending,Dr. V. Rajaraman,91-0000000040,v-rajaraman@gmail.com,Lecture topic or remark
 `;
+
+export const DEFAULT_COURSE_ACTIVITY_SAMPLE_CSV = `sequence_order,hierarchy_level,parent_sequence,title,subtask_type,due_date,status,responsible_person,responsible_contact,responsible_email,topic_notes_remark
+1,0,,Lecture-1,activity,,pending,Dr. V. Rajaraman,91-0000000000,v-rajaraman@gmail.com,Lecture topic or remark
+2,0,,Mid-Term Pre-Process,activity,,pending,Dr. V. Rajaraman,91-0000000001,v-rajaraman@gmail.com,Sample parent activity
+3,1,2,Assignment-1,sub_activity,,pending,Dr. V. Rajaraman,91-0000000002,v-rajaraman@gmail.com,Sample sub-activity
+4,2,3,Draft question list,sub_sub_activity,,pending,Dr. V. Rajaraman,91-0000000003,v-rajaraman@gmail.com,Sample sub-sub-activity
+`;
