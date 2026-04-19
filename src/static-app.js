@@ -240,7 +240,7 @@ function render() {
 }
 
 function bindEvents() {
-  ['q', 'programme', 'candidate', 'phase', 'module', 'status', 'priority', 'overdue', 'institution', 'academicYear', 'teachingYear', 'teachingCampus', 'teachingCourseType', 'from', 'to'].forEach((key) => {
+  ['q', 'programme', 'candidate', 'phase', 'module', 'status', 'priority', 'overdue', 'institution', 'academicYear', 'teachingYear', 'teachingCampus', 'teachingCourseType', 'publicationYear', 'publicationType', 'from', 'to'].forEach((key) => {
     const el = document.getElementById(`filter-${key}`);
     if (el) {
       el.addEventListener('input', (event) => {
@@ -422,6 +422,13 @@ function bindEvents() {
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       addWorkbenchRecord(form.dataset.workbenchModule, new FormData(form));
+    });
+  });
+
+  document.querySelectorAll('[data-publication-form]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      addPublicationRecord(new FormData(form));
     });
   });
 }
@@ -1434,6 +1441,16 @@ function addWorkbenchRecord(module, formData) {
   store.workbench.modules[module].unshift(record);
   error = 'Workbench activity added locally. Export JSON to commit it.';
   render();
+}
+
+function addPublicationRecord(formData) {
+  const module = formData.get('publication_module') || 'journal_articles';
+  const organization = formData.get('organization_or_publisher') || '';
+  if (module === 'journal_articles') formData.set('journal', organization);
+  if (module === 'conference_papers') formData.set('conference_name', organization);
+  if (['authored_books', 'edited_books'].includes(module)) formData.set('publisher', organization);
+  if (module === 'book_chapters') formData.set('book_title', organization);
+  addWorkbenchRecord(module, formData);
 }
 
 function academicRoute(module) {

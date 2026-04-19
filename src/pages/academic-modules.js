@@ -9,10 +9,16 @@ const researchModules = ['journal_articles', 'conference_papers', 'authored_book
 const projectModules = ['projects', 'consultancy'];
 
 export function researchPage(ctx) {
-  const items = ctx.visibleWorkbench().filter((item) => researchModules.includes(item.module));
+  const allItems = ctx.visibleWorkbench().filter((item) => researchModules.includes(item.module));
+  const selectedYear = ctx.filters.publicationYear || 'all';
+  const selectedType = ctx.filters.publicationType || '';
+  const items = allItems
+    .filter((item) => selectedYear === 'all' || publicationAcademicYear(item) === selectedYear)
+    .filter((item) => !selectedType || item.module === selectedType);
+  const form = ctx.canWrite() ? publicationRecordForm() : '';
   return `${pageHeader('Research', 'Publications: journal articles, conference papers, books, edited books, and book chapters.')}
-    ${structureOverview(researchGroups, (value) => `#/workbench/${value}`)}
-    <div class="quick-actions">${actionLink('Add Publication', '#/workbench/journal_articles')}</div>
+    ${publicationRibbon(ctx, allItems, selectedYear, selectedType)}
+    ${form}
     ${moduleListContent(items, (item) => `#/workbench/${item.module}/${item.id}`, (item) => ctx.cardActions('workbench', item.id, item.module))}`;
 }
 
@@ -264,6 +270,42 @@ function teachingRibbon(ctx, records = [], selectedYear = currentAcademicYear(),
   </div>`;
 }
 
+function publicationRibbon(ctx, records = [], selectedYear = 'all', selectedType = '') {
+  const group = researchGroups[0];
+  return `<div class="structure-grid">
+    <section class="structure-panel teaching-ribbon">
+      <div class="ribbon-head">
+        <h3>${escapeHtml(group.title)}</h3>
+        <div class="ribbon-actions">
+          <label class="ribbon-filter"><span>Academic Year</span>${publicationYearSelect(records, selectedYear)}</label>
+          <label class="ribbon-filter"><span>Publication Type</span>${publicationTypeSelect(selectedType)}</label>
+          ${ctx.canWrite() ? '<button type="button" data-toggle-panel="publication-details-form">Add Publication</button>' : ''}
+          <button type="button" class="secondary" data-copy-json="publications">Copy JSON</button>
+          <a class="button-link" href="https://github.com/jk-verma/academic-lifecycle-manager/edit/main/public/data/publications/publications.json" target="_blank" rel="noreferrer">Open GitHub Editor</a>
+        </div>
+      </div>
+      <div class="chip-list">${group.items.map(([value, label]) => `<a class="chip" href="#/workbench/${escapeHtml(value)}">${escapeHtml(label)}</a>`).join('')}</div>
+    </section>
+  </div>`;
+}
+
+function publicationRecordForm() {
+  return `<section class="panel collapsible-panel" id="publication-details-form" hidden>
+    <h3>Publication Details</h3>
+    <form class="record-form" data-publication-form="true">
+      <input name="title" required placeholder="Publication Title" />
+      ${publicationTypeSelect('', 'publication_module')}
+      <input name="description_or_abstract" placeholder="Description / abstract / purpose" />
+      <input name="organization_or_publisher" placeholder="Journal / conference / publisher / book title" />
+      <input name="final_deadline_datetime" type="datetime-local" />
+      <select name="status"><option>idea</option><option>drafting</option><option>submitted</option><option>under_review</option><option>revision</option><option>accepted</option><option>published</option><option>completed</option></select>
+      <select name="priority"><option>low</option><option>medium</option><option>high</option></select>
+      <input name="note" placeholder="Initial note" />
+      <button>Add Publication</button>
+    </form>
+  </section>`;
+}
+
 function teachingGrid(items, ctx) {
   return `<div class="grid teaching-grid">${items.map((item) => teachingCard(item, ctx)).join('') || emptyState('No records', 'No teaching records are available for the selected filters.')}</div>`;
 }
@@ -368,6 +410,19 @@ function teachingCourseTypeSelect(records = [], selected = '') {
   return `<select id="filter-teachingCourseType"><option value="">All Course Types</option>${types.map((type) => `<option value="${escapeHtml(type)}" ${selected === type ? 'selected' : ''}>${escapeHtml(type)}</option>`).join('')}</select>`;
 }
 
+function publicationYearSelect(records = [], selected = 'all') {
+  const years = new Set(records.map(publicationAcademicYear).filter(Boolean));
+  for (let year = 2011; year <= academicYearStartForToday() + 5; year += 1) years.add(`${year}-${year + 1}`);
+  const options = [...years].sort().reverse();
+  return `<select id="filter-publicationYear"><option value="all" ${selected === 'all' ? 'selected' : ''}>All years</option>${options.map((year) => `<option value="${escapeHtml(year)}" ${selected === year ? 'selected' : ''}>${escapeHtml(year)}</option>`).join('')}</select>`;
+}
+
+function publicationTypeSelect(selected = '', name = '') {
+  const attr = name ? ` name="${escapeHtml(name)}"` : ' id="filter-publicationType"';
+  const first = name ? '' : '<option value="">All Publication Types</option>';
+  return `<select${attr}>${first}${optionList(researchGroups).map(([value, label]) => `<option value="${escapeHtml(value)}" ${selected === value ? 'selected' : ''}>${escapeHtml(label)}</option>`).join('')}</select>`;
+}
+
 function dataSectionForAcademicModule(module) {
   if (module === 'admin_work') return 'administration';
   if (module === 'career_mobility') return 'careerMobility';
@@ -396,6 +451,10 @@ function sortTeachingItems(items = []) {
 
 function courseAcademicYear(item = {}) {
   return academicYearForDate(item.course_start_date || item.course_end_date || item.final_deadline || undefined);
+}
+
+function publicationAcademicYear(item = {}) {
+  return item.academic_year_current || item.academic_year_start || academicYearForDate(item.publication_date || item.acceptance_date || item.submission_date || item.final_deadline || item.final_deadline_datetime?.slice(0, 10) || undefined);
 }
 
 function totalTeachingHours(items = []) {
