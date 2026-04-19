@@ -1,5 +1,6 @@
 import { filterBar, subtaskForm } from './components/ui.js';
 import { composeStore, loadStore } from './data/load.js';
+import { COURSE_ACTIVITY_SAMPLE_CSV } from './data/course-activity-sample.js';
 import { activitiesPage, activityDetailPage } from './pages/activities.js';
 import { calendarDetailPage, calendarPage } from './pages/calendar.js';
 import { candidateDetailPage, candidatePhasePage, candidatesListPage } from './pages/candidates.js';
@@ -976,7 +977,7 @@ function addAcademicLifeRecord(module, formData) {
   };
   if (module === 'teaching') {
     applyCourseFields(record, formData);
-    record.subtasks = defaultCourseSubtasks(record.id, record.total_lectures);
+    record.subtasks = defaultCourseSubtasks(record.id);
     delete record.priority;
   }
   ['institution_name', 'role_title', 'opportunity_type', 'employment_basis', 'place_city', 'place_country', 'application_deadline', 'application_date', 'starting_date', 'ending_date', 'payment', 'payment_status'].forEach((field) => {
@@ -1143,72 +1144,54 @@ function parseAssessmentComponents(value = '') {
   return String(value || '').split(/\r?\n/).map((item) => item.trim()).filter(Boolean);
 }
 
-function defaultCourseSubtasks(parentId, totalLectures = 20) {
-  const items = [];
-  const add = (id, title, type, parentSubtaskId = '') => {
-    const parent = items.find((item) => item.id === parentSubtaskId);
-    items.push({
-      id: `sub-${parentId}-${id}`,
+function defaultCourseSubtasks(parentId) {
+  const rows = parseCsv(COURSE_ACTIVITY_SAMPLE_CSV);
+  if (rows.length < 2) return [];
+  const headers = rows[0].map((item) => normalizeHeader(item));
+  const imported = [];
+  const bySequence = new Map();
+  rows.slice(1).forEach((row, index) => {
+    if (!row.some((value) => String(value || '').trim())) return;
+    const entry = Object.fromEntries(headers.map((header, headerIndex) => [header, row[headerIndex] || '']));
+    const sequence = Number(entry.sequence_order || index + 1);
+    const hierarchyLevel = Math.max(0, Math.min(2, Number(entry.hierarchy_level || 0)));
+    const parentSequence = entry.parent_sequence ? Number(entry.parent_sequence) : 0;
+    const parent = parentSequence ? bySequence.get(parentSequence) : null;
+    const due = normalizeCourseActivityDate(entry.due_date || entry.due_datetime || '');
+    const noteText = entry.topic_notes_remark || entry.notes || entry.remark || '';
+    const id = sampleSubtaskId(parentId, sequence, entry.title);
+    const item = {
+      id,
       parent_record_id: parentId,
-      title,
-      subtask_type: type,
-      due_date: '',
+      title: entry.title || `Activity ${sequence}`,
+      subtask_type: entry.subtask_type || entry.type || 'activity',
+      due_datetime: due,
+      due_date: due,
       completed_date: '',
-      status: 'pending',
-      responsible_person: 'Dr. Jitendra Kumar Verma',
-      parent_subtask_id: parentSubtaskId,
-      hierarchy_level: parent ? Number(parent.hierarchy_level || 0) + 1 : 0,
-      notes: [],
-      sequence_order: items.length + 1
-    });
-  };
-  const count = Math.max(1, Number(totalLectures || 20));
-  const halfCount = Math.max(1, Math.ceil(count / 2));
-  const midPrepAfterLecture = Math.max(1, halfCount - 3);
-  const endPrepAfterLecture = Math.max(1, count - 3);
-  for (let lecture = 1; lecture <= count; lecture += 1) {
-    add(`lecture-${lecture}`, `Lecture-${lecture}`, 'activity');
-    if (lecture === midPrepAfterLecture) {
-      const processParentId = `sub-${parentId}-mid-term-pre-process`;
-      add('mid-term-pre-process', 'Mid-Term Pre Process', 'activity');
-      add('assignment-1', 'Assignment-1', 'sub_activity', processParentId);
-      add('project-1-titles', 'Project-1 Titles', 'sub_activity', processParentId);
-      add('project-groups-mid', 'Project Groups', 'sub_activity', processParentId);
-      add('mid-term-question-paper', 'Mid Term Question Paper Setting', 'sub_activity', processParentId);
-    }
-    if (lecture === halfCount) {
-      const processParentId = `sub-${parentId}-mid-term-process`;
-      add('mid-term-process', 'Mid-Term Process', 'activity');
-      add('mid-term-exam', 'Mid-Term Exam', 'sub_activity', processParentId);
-      add('mid-term-answer-script-collection', 'Mid-Term Answer Script Collection', 'sub_activity', processParentId);
-      add('mid-term-answer-script-evaluation', 'Mid-Term Answer Script Evaluation', 'sub_activity', processParentId);
-    }
-    if (lecture === endPrepAfterLecture) {
-      const processParentId = `sub-${parentId}-end-term-pre-process`;
-      add('end-term-pre-process', 'End-Term Pre Process', 'activity');
-      add('assignment-2', 'Assignment-2', 'sub_activity', processParentId);
-      add('project-2-titles', 'Project-2 Titles', 'sub_activity', processParentId);
-      add('project-groups-end', 'Project Groups', 'sub_activity', processParentId);
-      add('end-term-question-paper', 'End Term Question Paper Setting', 'sub_activity', processParentId);
-    }
-  }
-  add('end-term-process', 'End Term Process', 'activity');
-  add('end-term-exam', 'End-Term Exam', 'sub_activity', `sub-${parentId}-end-term-process`);
-  add('end-term-answer-script-collection', 'End-Term Answer Script Collection', 'sub_activity', `sub-${parentId}-end-term-process`);
-  add('end-term-answer-script-evaluation', 'End-Term Answer Script Evaluation', 'sub_activity', `sub-${parentId}-end-term-process`);
-  return renumberSubtasks(items);
+      completed_datetime: '',
+      status: deriveSubtaskStatus(due, '', entry.status || 'pending'),
+      responsible_person: entry.responsible_person || '',
+      responsible_contact: entry.responsible_contact || '',
+      responsible_email: entry.responsible_email || '',
+      hierarchy_level: hierarchyLevel,
+      parent_subtask_id: hierarchyLevel > 0 && parent ? parent.id : '',
+      notes: noteText ? [{ id: `${id}-note`, text: noteText, created_by: 'sample-template', created_at: nowIso(), visibility: 'open' }] : [],
+      history: [],
+      sequence_order: sequence
+    };
+    imported.push(item);
+    bySequence.set(sequence, item);
+  });
+  return renumberSubtasks(imported);
+}
+
+function sampleSubtaskId(parentId, sequence, title = '') {
+  const slug = String(title || `activity-${sequence}`).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  return `sub-${parentId}-${sequence}-${slug || 'activity'}`;
 }
 
 function exportCourseActivitySample() {
-  const csv = [
-    ['sequence_order', 'hierarchy_level', 'parent_sequence', 'title', 'subtask_type', 'due_date', 'status', 'responsible_person', 'responsible_contact', 'responsible_email', 'topic_notes_remark'],
-    ['1', '0', '', 'Lecture-1', 'activity', '2026-08-01', 'pending', 'Dr. Jitendra Kumar Verma', '', '', 'Lecture topic or remark'],
-    ['2', '0', '', 'Mid-Term Pre Process', 'activity', '2026-09-01', 'pending', 'Dr. Jitendra Kumar Verma', '', '', ''],
-    ['3', '1', '2', 'Assignment-1', 'sub_activity', '2026-09-02', 'pending', 'Dr. Jitendra Kumar Verma', '', '', 'Assignment details'],
-    ['4', '2', '3', 'Draft question list', 'sub_sub_activity', '2026-09-03', 'pending', 'Dr. Jitendra Kumar Verma', '', '', 'Optional nested item'],
-    ['5', '0', '', 'Notes / Remark', 'note', '', 'pending', '', '', '', 'General note that will not be counted as an activity']
-  ].map((row) => row.map(csvEscape).join(',')).join('\n');
-  downloadText('course-activities-sample.csv', csv);
+  downloadText('course-activities-sample.csv', COURSE_ACTIVITY_SAMPLE_CSV.trimEnd() + '\n');
 }
 
 function importCourseActivities(courseId, file) {
@@ -1231,14 +1214,14 @@ function importCourseActivities(courseId, file) {
         const parentSequence = entry.parent_sequence ? Number(entry.parent_sequence) : 0;
         const parent = parentSequence ? bySequence.get(parentSequence) : null;
         const noteText = entry.topic_notes_remark || entry.notes || entry.remark || '';
-        const due = entry.due_date || entry.due_datetime || '';
+        const due = normalizeCourseActivityDate(entry.due_date || entry.due_datetime || '');
         const item = {
           id: uid('subtask'),
           parent_record_id: course.id,
           title: entry.title || `Activity ${sequence}`,
           subtask_type: entry.subtask_type || (entry.type || 'activity'),
           due_datetime: due,
-          due_date: due ? String(due).slice(0, 10) : '',
+          due_date: due,
           status: deriveSubtaskStatus(due, '', entry.status || 'pending'),
           responsible_person: entry.responsible_person || '',
           responsible_contact: entry.responsible_contact || '',
@@ -1301,9 +1284,12 @@ function normalizeHeader(value = '') {
   return String(value).trim().toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
 }
 
-function csvEscape(value = '') {
-  const text = String(value);
-  return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+function normalizeCourseActivityDate(value = '') {
+  const text = String(value || '').trim();
+  const match = text.match(/^(\d{1,2})-(\d{1,2})-(\d{4})(.*)$/);
+  if (!match) return text;
+  const [, day, month, year, rest] = match;
+  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}${rest || ''}`;
 }
 
 function downloadText(filename, text) {

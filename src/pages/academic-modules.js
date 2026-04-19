@@ -762,10 +762,10 @@ function courseNoteAddForm(item) {
 
 function coursePlanActions(item) {
   return `<div class="action-bar">
-    <button class="secondary" data-toggle-panel="course-activity-form">Add Activity</button>
-    <button class="secondary" data-toggle-panel="course-note-form">Add Notes</button>
     <button class="secondary" data-export-course-sample="${escapeHtml(item.id)}">Export Sample File</button>
     <label class="upload secondary-upload">Upload Activities CSV<input type="file" accept=".csv,text/csv" data-import-course-activities="${escapeHtml(item.id)}" /></label>
+    <button class="secondary" data-toggle-panel="course-activity-form">Add Activity</button>
+    <button class="secondary" data-toggle-panel="course-note-form">Add Notes</button>
     <button class="secondary" data-copy-json="teaching">Copy JSON</button>
     <a class="button-link" href="https://github.com/jk-verma/academic-lifecycle-manager/edit/main/public/data/teaching/teaching.json" target="_blank" rel="noreferrer">Open GitHub Editor</a>
   </div>${coursePlanAddForm(item)}${courseNoteAddForm(item)}`;
