@@ -122,7 +122,7 @@ export function subtaskTimeline(record = {}, options = {}) {
       <div class="subtask-body">
         <div class="card-head"><strong>${escapeHtml(subtask.title)}</strong><span>${isNote ? statusBadge('note') : statusBadge(displayStatus)}</span></div>
         ${isNote ? '' : `<div class="subtask-meta">
-          <span class="meta-badge due-date-badge"><strong>Due date:</strong> ${escapeHtml(formatDateTime(due) || 'not set')}</span>
+          <span class="meta-badge due-date-badge"><strong>Due Date:</strong> ${escapeHtml(formatDateTime(due) || 'not set')}</span>
           ${completed ? `<span class="meta-badge"><strong>Completed:</strong> ${escapeHtml(formatDateTime(completed))}</span>` : ''}
           <span class="meta-badge responsible-badge"><strong>Responsible:</strong> ${escapeHtml(subtask.responsible_person || 'not assigned')}</span>
           ${contact ? `<span class="meta-badge"><strong>Mobile / Extension:</strong> ${escapeHtml(contact)}</span>` : ''}
