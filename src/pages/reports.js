@@ -72,6 +72,10 @@ function reportWindowBar(from, to, moduleOptions, selectedModules) {
       <button class="secondary" data-export-report-pdf="true">Export PDF</button>
       <button class="secondary" data-reset-report-window="true">Reset Window</button>
     </div>
+    <div class="action-bar">
+      <button class="secondary" data-report-modules-all="true">All</button>
+      <button class="secondary" data-report-modules-none="true">None</button>
+    </div>
     <div class="chip-list">${moduleOptions.map((moduleKey) => {
       const checked = !selectedModules.length || selectedModules.includes(moduleKey) ? 'checked' : '';
       return `<label class="chip"><input type="checkbox" data-report-module="${escapeHtml(moduleKey)}" ${checked} /> ${escapeHtml(slugLabel(moduleKey))}</label>`;
@@ -102,7 +106,9 @@ function reportModuleKey(item) {
 }
 
 function parseReportModules(value = '') {
-  return String(value || '').split(',').map((item) => item.trim()).filter(Boolean);
+  const parsed = String(value || '').split(',').map((item) => item.trim()).filter(Boolean);
+  if (parsed.includes('__none__')) return ['__none__'];
+  return parsed;
 }
 
 function reportCard(item) {

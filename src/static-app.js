@@ -377,6 +377,20 @@ function bindEvents() {
     });
   });
 
+  document.querySelectorAll('[data-report-modules-all]').forEach((button) => {
+    button.addEventListener('click', () => {
+      delete filters.reportModules;
+      render();
+    });
+  });
+
+  document.querySelectorAll('[data-report-modules-none]').forEach((button) => {
+    button.addEventListener('click', () => {
+      filters.reportModules = '__none__';
+      render();
+    });
+  });
+
   document.querySelectorAll('[data-export-report-csv]').forEach((button) => {
     button.addEventListener('click', () => exportFilteredReportCsv());
   });
