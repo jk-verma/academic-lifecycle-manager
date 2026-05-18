@@ -1,10 +1,15 @@
 import { emptyState, pageHeader, recordCard, statusBadge, visibilityBadge } from '../components/ui.js';
 import { inDateRange, isOverdue } from '../utils/date.js';
+import { escapeHtml, slugLabel } from '../utils/html.js';
 
 export function reportsPage(ctx) {
   const from = ctx.filters.from || '';
   const to = ctx.filters.to || '';
-  const records = ctx.allRecords().filter((item) => inDateRange(reportDate(item), from, to));
+  const selectedModules = parseReportModules(ctx.filters.reportModules);
+  const records = ctx.allRecords()
+    .filter((item) => inDateRange(reportDate(item), from, to))
+    .filter((item) => !selectedModules.length || selectedModules.includes(reportModuleKey(item)));
+  const moduleOptions = [...new Set(ctx.allRecords().map(reportModuleKey).filter(Boolean))].sort();
   const completed = records.filter((item) => ['completed', 'finished', 'published', 'accepted', 'closed'].includes(String(item.status).toLowerCase()));
   const pending = records.filter((item) => !['completed', 'finished', 'published', 'accepted', 'closed', 'archived'].includes(String(item.status).toLowerCase()));
   const overdue = records.filter((item) => isOverdue(item.due_date || item.final_deadline || item.application_deadline || item.ending_date || item.next_action_date || item.next_meeting_date, item.status));
@@ -17,7 +22,7 @@ export function reportsPage(ctx) {
   const career = records.filter((item) => item.module === 'career_mobility');
   const subscriptions = records.filter((item) => item.module === 'subscriptions');
   return `${pageHeader('Reports', 'Completed vs pending, overdue items, and academic-year summaries.')}
-    ${reportWindowBar(from, to)}
+    ${reportWindowBar(from, to, moduleOptions, selectedModules)}
     <p class="muted">Window: ${from || 'start'} to ${to || 'end'} | Records in window: ${records.length}</p>
     <div class="metrics report-metrics">
       ${metric('Completed', completed.length)}
@@ -53,14 +58,24 @@ export function reportsPage(ctx) {
     </div>`;
 }
 
-function reportWindowBar(from, to) {
+function reportWindowBar(from, to, moduleOptions, selectedModules) {
   return `<section class="panel">
     <h3>Report Window</h3>
     <div class="filters">
       <input id="filter-from" type="date" value="${from}" />
       <input id="filter-to" type="date" value="${to}" />
+      <button class="secondary" data-report-preset="today">Today</button>
+      <button class="secondary" data-report-preset="last_7_days">Last 7 Days</button>
+      <button class="secondary" data-report-preset="this_month">This Month</button>
+      <button class="secondary" data-report-preset="academic_year">Academic Year</button>
+      <button class="secondary" data-export-report-csv="true">Export CSV</button>
+      <button class="secondary" data-export-report-pdf="true">Export PDF</button>
       <button class="secondary" data-reset-report-window="true">Reset Window</button>
     </div>
+    <div class="chip-list">${moduleOptions.map((moduleKey) => {
+      const checked = !selectedModules.length || selectedModules.includes(moduleKey) ? 'checked' : '';
+      return `<label class="chip"><input type="checkbox" data-report-module="${escapeHtml(moduleKey)}" ${checked} /> ${escapeHtml(slugLabel(moduleKey))}</label>`;
+    }).join('')}</div>
   </section>`;
 }
 
@@ -76,6 +91,18 @@ function reportDate(item) {
     || item.course_start_date
     || item.timestamps?.updated_at?.slice(0, 10)
     || '';
+}
+
+function reportModuleKey(item) {
+  if (item.module) return item.module;
+  if (item.programme_type && !item.candidate_id) return 'supervision';
+  if (item.mentor_type) return 'mentors';
+  if (item.candidate_id || item.meeting_id) return 'meetings';
+  return item.category || item.kind || 'miscellaneous';
+}
+
+function parseReportModules(value = '') {
+  return String(value || '').split(',').map((item) => item.trim()).filter(Boolean);
 }
 
 function reportCard(item) {

@@ -355,8 +355,34 @@ function bindEvents() {
     button.addEventListener('click', () => {
       delete filters.from;
       delete filters.to;
+      delete filters.reportModules;
       render();
     });
+  });
+
+  document.querySelectorAll('[data-report-preset]').forEach((button) => {
+    button.addEventListener('click', () => {
+      applyReportPreset(button.dataset.reportPreset || '');
+      render();
+    });
+  });
+
+  document.querySelectorAll('[data-report-module]').forEach((input) => {
+    input.addEventListener('change', () => {
+      const selected = [...document.querySelectorAll('[data-report-module]')].filter((item) => item.checked).map((item) => item.dataset.reportModule).filter(Boolean);
+      const total = document.querySelectorAll('[data-report-module]').length;
+      if (!selected.length || selected.length === total) delete filters.reportModules;
+      else filters.reportModules = selected.join(',');
+      render();
+    });
+  });
+
+  document.querySelectorAll('[data-export-report-csv]').forEach((button) => {
+    button.addEventListener('click', () => exportFilteredReportCsv());
+  });
+
+  document.querySelectorAll('[data-export-report-pdf]').forEach((button) => {
+    button.addEventListener('click', () => window.print());
   });
 
   document.querySelectorAll('[data-copy-json]').forEach((button) => {
@@ -866,6 +892,106 @@ function fallbackCopy(text, done) {
   document.execCommand('copy');
   area.remove();
   done();
+}
+
+function applyReportPreset(preset) {
+  const today = localDateIso();
+  if (preset === 'today') {
+    filters.from = today;
+    filters.to = today;
+    return;
+  }
+  if (preset === 'last_7_days') {
+    const end = new Date();
+    const start = new Date();
+    start.setDate(start.getDate() - 6);
+    filters.from = toLocalDate(start);
+    filters.to = toLocalDate(end);
+    return;
+  }
+  if (preset === 'this_month') {
+    const now = new Date();
+    const start = new Date(now.getFullYear(), now.getMonth(), 1);
+    const end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    filters.from = toLocalDate(start);
+    filters.to = toLocalDate(end);
+    return;
+  }
+  if (preset === 'academic_year') {
+    const now = new Date();
+    const startYear = (now.getMonth() + 1) >= 7 ? now.getFullYear() : now.getFullYear() - 1;
+    const start = new Date(startYear, 6, 1);
+    const end = new Date(startYear + 1, 5, 30);
+    filters.from = toLocalDate(start);
+    filters.to = toLocalDate(end);
+  }
+}
+
+function toLocalDate(date) {
+  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  return local.toISOString().slice(0, 10);
+}
+
+function reportRecordDate(item = {}) {
+  return item.date
+    || item.due_date
+    || item.final_deadline
+    || item.application_deadline
+    || item.ending_date
+    || item.next_action_date
+    || item.next_meeting_date
+    || item.course_end_date
+    || item.course_start_date
+    || item.timestamps?.updated_at?.slice(0, 10)
+    || '';
+}
+
+function reportModuleKey(item = {}) {
+  if (item.module) return item.module;
+  if (item.programme_type && !item.candidate_id) return 'supervision';
+  if (item.mentor_type) return 'mentors';
+  if (item.candidate_id || item.meeting_id) return 'meetings';
+  return item.category || item.kind || 'miscellaneous';
+}
+
+function filteredReportRecords() {
+  const from = filters.from || '';
+  const to = filters.to || '';
+  const selected = String(filters.reportModules || '').split(',').map((item) => item.trim()).filter(Boolean);
+  return allRecords()
+    .filter((item) => {
+      const date = reportRecordDate(item);
+      if (date && from && date < from) return false;
+      if (date && to && date > to) return false;
+      if (!date && (from || to)) return false;
+      return true;
+    })
+    .filter((item) => !selected.length || selected.includes(reportModuleKey(item)));
+}
+
+function exportFilteredReportCsv() {
+  const rows = [
+    ['title', 'module', 'status', 'date', 'academic_year_current', 'academic_year_start', 'priority', 'route']
+  ];
+  filteredReportRecords().forEach((item) => {
+    rows.push([
+      item.name || item.title || '',
+      reportModuleKey(item),
+      item.status || '',
+      reportRecordDate(item),
+      item.academic_year_current || '',
+      item.academic_year_start || '',
+      item.priority || '',
+      item.route || ''
+    ]);
+  });
+  const csv = rows.map((row) => row.map(csvCell).join(',')).join('\n');
+  downloadText(`report-window-${localDateIso()}.csv`, csv);
+}
+
+function csvCell(value = '') {
+  const text = String(value || '');
+  return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
 }
 
 function findEditableRecord(kind, id, module = '') {
