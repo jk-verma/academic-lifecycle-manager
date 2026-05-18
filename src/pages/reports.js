@@ -1,8 +1,10 @@
 import { emptyState, pageHeader, recordCard, statusBadge, visibilityBadge } from '../components/ui.js';
-import { isOverdue } from '../utils/date.js';
+import { inDateRange, isOverdue } from '../utils/date.js';
 
 export function reportsPage(ctx) {
-  const records = ctx.allRecords();
+  const from = ctx.filters.from || '';
+  const to = ctx.filters.to || '';
+  const records = ctx.allRecords().filter((item) => inDateRange(reportDate(item), from, to));
   const completed = records.filter((item) => ['completed', 'finished', 'published', 'accepted', 'closed'].includes(String(item.status).toLowerCase()));
   const pending = records.filter((item) => !['completed', 'finished', 'published', 'accepted', 'closed', 'archived'].includes(String(item.status).toLowerCase()));
   const overdue = records.filter((item) => isOverdue(item.due_date || item.final_deadline || item.application_deadline || item.ending_date || item.next_action_date || item.next_meeting_date, item.status));
@@ -15,6 +17,8 @@ export function reportsPage(ctx) {
   const career = records.filter((item) => item.module === 'career_mobility');
   const subscriptions = records.filter((item) => item.module === 'subscriptions');
   return `${pageHeader('Reports', 'Completed vs pending, overdue items, and academic-year summaries.')}
+    ${reportWindowBar(from, to)}
+    <p class="muted">Window: ${from || 'start'} to ${to || 'end'} | Records in window: ${records.length}</p>
     <div class="metrics report-metrics">
       ${metric('Completed', completed.length)}
       ${metric('Pending', pending.length)}
@@ -47,6 +51,31 @@ export function reportsPage(ctx) {
         });
       }).join('')}</section>
     </div>`;
+}
+
+function reportWindowBar(from, to) {
+  return `<section class="panel">
+    <h3>Report Window</h3>
+    <div class="filters">
+      <input id="filter-from" type="date" value="${from}" />
+      <input id="filter-to" type="date" value="${to}" />
+      <button class="secondary" data-reset-report-window="true">Reset Window</button>
+    </div>
+  </section>`;
+}
+
+function reportDate(item) {
+  return item.date
+    || item.due_date
+    || item.final_deadline
+    || item.application_deadline
+    || item.ending_date
+    || item.next_action_date
+    || item.next_meeting_date
+    || item.course_end_date
+    || item.course_start_date
+    || item.timestamps?.updated_at?.slice(0, 10)
+    || '';
 }
 
 function reportCard(item) {

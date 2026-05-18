@@ -351,6 +351,14 @@ function bindEvents() {
     });
   });
 
+  document.querySelectorAll('[data-reset-report-window]').forEach((button) => {
+    button.addEventListener('click', () => {
+      delete filters.from;
+      delete filters.to;
+      render();
+    });
+  });
+
   document.querySelectorAll('[data-copy-json]').forEach((button) => {
     button.addEventListener('click', () => copyJsonSection(button.dataset.copyJson));
   });
